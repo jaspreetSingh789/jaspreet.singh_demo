@@ -4,13 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule as ValidationRule;
 
 class UserController extends Controller
 {
     public function index()
     {
-        $users = User::get();
+        $users = User::where('id', '!=', Auth::id())->get();
         return view('users.index', [
             'users' => $users
         ]);
@@ -38,10 +39,8 @@ class UserController extends Controller
 
     public function edit(User $user)
     {
-        $users = User::find($user);
-
         return view('users.edit', [
-            'users' => $users
+            'users' => $user
         ]);
     }
 
@@ -50,7 +49,7 @@ class UserController extends Controller
         $attributes =  request()->validate([
             'name' => 'required|max:255',
             'email' => ['required', ValidationRule::unique('users', 'email')->ignore($user->id)],
-            'phone_no' => 'required|max:10|min:10',
+            'phone_no' => 'required|min:10',
             'city' => 'required|max:255|',
             'password' => 'required|min:6'
         ]);

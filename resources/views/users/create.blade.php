@@ -12,7 +12,7 @@
         <main class="main max-w-lg mx-auto mt-10 border border-gray-200 p-6 bg-gray-100 rounded-xl">
             <h1 class="font-bold text-xl text-center">Register</h1>
 
-            <form method="post" action="/users/store" class="mt-10">
+            <form method="post" action="{{ route('users.store') }}" class="mt-10">
                 @csrf
 
                 <div class="inputs-container mb-6">

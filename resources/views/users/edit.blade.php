@@ -12,7 +12,7 @@
             <h1 class="font-bold text-xl text-center">Update</h1>
 
             @foreach($users as $user)
-            <form method="post" action="/users/{{ $user->id }}/update" class="mt-10">
+            <form method="post" action="{{ route('users.update') }}" class="mt-10">
                 @csrf
 
                 <div class="inputs-container mb-6">

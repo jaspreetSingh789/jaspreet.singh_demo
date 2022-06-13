@@ -7,7 +7,7 @@
 
     @include('layouts.sidebar')
     <div class="ml-80">
-        <a class="create-button" href="/users/create">Create New User</a>
+        <a class="create-button" href="{{ route('users.create')}}">Create New User</a>
     </div>
     <?php $number = 1 ?>
 
