@@ -47,8 +47,6 @@
                             @endforeach
                     </select>
 
-
-
                 </div>
 
                 <div class="mb-6">

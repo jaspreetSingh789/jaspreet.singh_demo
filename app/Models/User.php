@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
@@ -45,14 +46,24 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public function scopeUsersList($query)
+    {
+        return  $query->where('created_by', Auth::id())
+            ->orWhere('role_id', '>', Auth::user()->role_id);
+    }
+
     public function setPasswordAttribute($password)
     {
-
         $this->attributes['password'] = bcrypt($password);
     }
 
     public function role()
     {
         return $this->belongsTo(Role::class);
+    }
+
+    public function scopeVisibleTo($query)
+    {
+        $query->where('id', '!=', Auth::id());
     }
 }

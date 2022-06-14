@@ -1,3 +1,10 @@
+<?php
+
+use App\Models\User;
+
+$users1 = User::UsersList()->get(); ?>
+
+
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
@@ -22,26 +29,24 @@
                     <th>Phone</th>
                     <th>City</th>
                     <th>Role</th>
+                    <th>Created By</th>
                     <th colspan="2">action</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach($users as $user)
-
-                @if(auth()->user()->role_id <= $user->role_id)
-                    <tr class="">
-                        <td class="m-10">{{ $number++ }}</td>
-                        <td>{{ $user->name }}</td>
-                        <td>{{ $user->email }}</td>
-                        <td>{{ $user->phone_no}}</td>
-                        <td>{{ $user->city }}</td>
-                        <td>{{ $user->role->name }}</td>
-                        <td><a class="bg-green-400" href=" {{ route('users.delete',$user) }}">Delete</a></td>
-                        <td><a class="bg-red-400" href="{{ route('users.edit',$user) }}">Edit</a></td>
-                    </tr>
-                    @endif
-
-                    @endforeach
+                @foreach($users1 as $user)
+                <tr class="">
+                    <td class="m-10">{{ $number++ }}</td>
+                    <td>{{ $user->first_name ." ". $user->last_name }}</td>
+                    <td>{{ $user->email }}</td>
+                    <td>{{ $user->phone_no}}</td>
+                    <td>{{ $user->city }}</td>
+                    <td>{{ $user->role->name }}</td>
+                    <td>{{ $user->created_by }}</td>
+                    <td><a class="bg-green-400" href=" {{ route('users.delete', $user) }}">Delete</a></td>
+                    <td><a class="bg-red-400" href="{{ route('users.edit', $user) }}">Edit</a></td>
+                </tr>
+                @endforeach
             </tbody>
         </table>
     </div>

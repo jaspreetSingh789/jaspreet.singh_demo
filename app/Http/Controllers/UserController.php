@@ -13,7 +13,7 @@ class UserController extends Controller
     // returns view that shows the lists of users
     public function index()
     {
-        $users = User::where('id', '!=', Auth::id())->get();
+        $users = User::visibleTo()->get();
         return view('users.index', [
             'users' => $users
         ]);
@@ -42,21 +42,20 @@ class UserController extends Controller
             'role_id' => 'required'
         ]);
 
-        $user = User::create($attributes);
+        User::create($attributes);
         return redirect()->route('dashboard')->with('succes', __('User stored sucessfully'));
     }
 
     //returns a editable form of user to update 
     public function edit(User $user)
     {
-        $roles = Role::get();
         return view('users.edit', [
             'user' => $user,
-            'roles' => $roles
+            'roles' => Role::get()
         ]);
     }
 
-    //To update the existing user's delaits
+    //To update the existing user's details
     public function update(User $user)
     {
         $attributes =  request()->validate([

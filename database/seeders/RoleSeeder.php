@@ -16,22 +16,22 @@ class RoleSeeder extends Seeder
     public function run()
     {
         \App\Models\Role::create([
-            'name' => 'admin',
+            'name' => 'Admin',
             'slug' => 'admin',
         ]);
 
         \App\Models\Role::create([
-            'name' => 'sub_admin',
+            'name' => 'Subadmin',
             'slug' => 'sub_admin',
         ]);
 
         \App\Models\Role::create([
-            'name' => 'trainer',
+            'name' => 'Trainer',
             'slug' => 'trainer',
         ]);
 
         \App\Models\Role::create([
-            'name' => 'user',
+            'name' => 'User',
             'slug' => 'user',
         ]);
     }
