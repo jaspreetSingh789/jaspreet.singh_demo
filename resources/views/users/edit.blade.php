@@ -10,11 +10,8 @@
     <section class="px-6 py-8">
         <main class="main max-w-lg mx-auto mt-10 border border-gray-200 p-6 bg-gray-100 rounded-xl">
             <h1 class="font-bold text-xl text-center">Update</h1>
-
-            @foreach($users as $user)
-            <form method="post" action="{{ route('users.update') }}" class="mt-10">
+            <form method="post" action="{{ route('users.update', $user) }}" class="mt-10">
                 @csrf
-
                 <div class="inputs-container mb-6">
 
                     <label class="mb-2 text-xs uppercase block font-bold text-gray-700" for="name">Name</label>
@@ -41,6 +38,16 @@
                     <label class="mb-2 text-xs uppercase block font-bold text-gray-700" for="password">Password</label>
                     <input class="border border-grey-400 p-2 w-full mb-2" type="password" name="password" id="password" value="" required>
 
+                    <label class="mb-2 text-xs uppercase block font-bold text-gray-700" for="role_id">Role</label>
+                    <select name="role_id" id="">
+                        @foreach($roles as $role)
+                        @if(auth()->user()->role_id <= $role->id)
+                            <option value="{{ $role->id}}">{{ $role->name }}</option>
+                            @endif
+                            @endforeach
+                    </select>
+
+
 
                 </div>
 
@@ -52,7 +59,6 @@
 
             </form>
 
-            @endforeach
             @foreach($errors->all() as $error)
             <li class="text-red-500 text-xs mt-1"> {{ $error }}</li>
             @endforeach

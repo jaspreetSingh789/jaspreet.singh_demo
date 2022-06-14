@@ -40,10 +40,19 @@
                     <label class="mb-2 text-xs uppercase block font-bold text-gray-700" for="password">Password</label>
                     <input class="border border-grey-400 p-2 w-full mb-2" type="password" name="password" id="password" value="" required>
 
+                    <label class="mb-2 text-xs uppercase block font-bold text-gray-700" for="role_id">Role</label>
+                    <select name="role_id" id="lang">
+                        @foreach($roles as $role)
+                        @if(auth()->user()->role_id <= $role->id)
+                            <option value="{{ $role->id}}">{{ $role->name }}</option>
+                            @endif
+                            @endforeach
+                    </select>
+
                 </div>
 
                 <div class="mb-6">
-                    <button type="submit" class="bg-blue-400 text-white rounded px-4 py-2 hover:bg-blue-500">
+                    <button type="submit" class=" bg-blue-400 text-white rounded px-4 py-2 hover:bg-blue-500 ">
                         Submit
                     </button>
                 </div>
