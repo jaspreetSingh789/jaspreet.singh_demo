@@ -13,7 +13,10 @@ class UserController extends Controller
     // returns view that shows the lists of users
     public function index()
     {
-        $users = User::visibleTo()->get();
+        $users = User::UsersList()->get();
+
+        // $users = User::Where('creater_id', Auth::user()->id)->get();
+
         return view('users.index', [
             'users' => $users
         ]);
@@ -22,9 +25,8 @@ class UserController extends Controller
     // returns view to add a new user
     public function create()
     {
-        $roles = Role::get();
         return view('users.create', [
-            'roles' => $roles
+            'roles' => Role::get()
         ]);
     }
 
@@ -32,6 +34,13 @@ class UserController extends Controller
     // and returns to users page
     public function store()
     {
+        if (Auth::user()->role_id == Role::TRAINER) {
+            $ids = '4';
+        } elseif (Auth::user()->role_id == 2) {
+            $ids = '3,4';
+        } else {
+            $ids = '1,2,3';
+        }
         $attributes =  request()->validate([
             'name' => 'required|max:255',
             'role_id' => 'required',
@@ -39,7 +48,7 @@ class UserController extends Controller
             'phone_no' => 'required|max:10|min:10',
             'city' => 'required|max:255|',
             'password' => 'required|min:6',
-            'role_id' => 'required'
+            'role_id' => 'required|in:' . $ids
         ]);
 
         User::create($attributes);
@@ -67,6 +76,8 @@ class UserController extends Controller
             'password' => 'required|min:6',
             'role_id' => 'required'
         ]);
+
+        $attributes['created_by'] = Auth::id();
 
         $user->update($attributes);
         return redirect()->route('dashboard')->with('succes', __('User updated sucessfully'));

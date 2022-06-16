@@ -19,11 +19,12 @@ return new class extends Migration
             $table->string('first_name');
             $table->string('last_name');
             $table->string('email')->unique();
-            $table->bigInteger('phone_no')->unique();
-            $table->string('city');
+            $table->boolean('email_status');
+            $table->boolean('status');
             $table->string('password');
             $table->integer('created_by');
             $table->timestamp('email_verified_at')->nullable();
+            $table->softDeletes();
             $table->rememberToken();
             $table->timestamps();
         });

@@ -4,22 +4,14 @@
             {{ __('Dashboard') }}
         </h2>
     </x-slot>
-    @include('layouts.sidebar')
-
-    @if (Auth::user()->role = 'admin')
-    <h1 class="ml-500">Welcome To admin page</h1>
-    @endif
-
-    @if (Auth::user()->role == 'subadmin')
-    <h1 class="ml-500">Welcome to subadmin page</h1>
-    @endif
-
-    @if (Auth::user()->role == 'trainer')
-    <h1 class="ml-500">Welcome to trainer page</h1>
-    @endif
-
-    @if (Auth::user()->role == 'user')
-    <h1 class="ml-500">Welcome to user page</h1>
-    @endif
-
+    <div class="" flex>
+        <div display="flex">
+            @can('trainer')
+            @include('layouts.sidebar')
+            @endcan
+            <div class="w-full h-20 bg-gray-200">
+                <h1 class="uppercase inline-block w-200">Welcome To {{ Auth::user()->role->name }} page</h1>
+            </div>
+        </div>
+    </div>
 </x-app-layout>

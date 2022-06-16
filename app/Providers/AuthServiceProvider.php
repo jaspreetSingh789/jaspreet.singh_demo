@@ -28,6 +28,17 @@ class AuthServiceProvider extends ServiceProvider
 
         // Gate::define(ability: 'admin', fn (User $user) => $user->role->name);
         // Gate::define(ability: 'tasks_create', function(User $user) { return $user->role->name });
+        Gate::define('admin', function (User $user) {
+            return in_array($user->role_id, [1]);
+        });
 
+        Gate::define('subadmin', function (User $user) {
+            return in_array($user->role_id, [1,2]);
+        });
+
+        Gate::define('trainer', function (User $user) {
+            return in_array($user->role_id, [1,2,3]);
+        });
+        
     }
 }

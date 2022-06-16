@@ -22,7 +22,7 @@ class RoleSeeder extends Seeder
 
         \App\Models\Role::create([
             'name' => 'Subadmin',
-            'slug' => 'sub_admin',
+            'slug' => 'sub-admin',
         ]);
 
         \App\Models\Role::create([
