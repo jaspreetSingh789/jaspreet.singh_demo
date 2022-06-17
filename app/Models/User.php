@@ -12,8 +12,7 @@ use Illuminate\database\Eloquent\SoftDeletes;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
-    use SoftDeletes;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -21,14 +20,21 @@ class User extends Authenticatable
      * @var array<int, string>
      */
 
-    // protected $fillable = [
-    //     'name',
-    //     'email',
-    //     'password',
-    // ];
+    protected $fillable = [
+        'first_name',
+        'last_name',
+        'role_id',
+        'email',
+        'email_status',
+        'status',
+        'password',
+        'created_by'
+    ];
 
     protected $guarded = [];
-    protected $dates = ['deleted_at'];
+
+    const ACTIVE = 1;
+    const INACTIVE = 0;
 
     /**
      * The attributes that should be hidden for serialization.
@@ -55,10 +61,10 @@ class User extends Authenticatable
             ->orWhere('role_id', '>', Auth::user()->role_id);
     }
 
-    public function setPasswordAttribute($password)
-    {
-        $this->attributes['password'] = bcrypt($password);
-    }
+    // public function setPasswordAttribute($password)
+    // {
+    //     $this->attributes['password'] = bcrypt($password);
+    // }
 
     public function role()
     {

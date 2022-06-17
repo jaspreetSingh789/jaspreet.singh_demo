@@ -7,8 +7,8 @@
     <div class="" flex>
         <div display="flex">
             @can('trainer')
-            @include('layouts.sidebar')
             @endcan
+            @include('layouts.sidebar')
             <div class="w-full h-20 bg-gray-200">
                 <h1 class="uppercase inline-block w-200">Welcome To {{ Auth::user()->role->name }} page</h1>
             </div>

@@ -23,7 +23,7 @@
                         <th>Status</th>
                         <th>Role</th>
                         <th>Created By</th>
-                        <th colspan="2">action</th>
+                        <th colspan="4">action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -36,8 +36,9 @@
                         <td>{{ $user->status }}</td>
                         <td>{{ $user->role->name }}</td>
                         <td>{{ $user->created_by }}</td>
-                        <td><a class="bg-green-400" href=" {{ route('users.delete', $user) }}">Delete</a></td>
-                        <td><a class="bg-red-400" href="{{ route('users.edit', $user) }}">Edit</a></td>
+                        <td><a class="bg-red-800" href=" {{ route('users.delete', $user) }}">Delete</a></td>
+                        <td><a class="bg-green-400" href=" {{ route('users.status.update', $user) }}">{{ $user->status == 1 ? 'Inactive' : 'Active'}}</a></td>
+                        <td><a class="bg-blue-800" href="{{ route('users.edit', $user) }}">Edit</a></td>
                     </tr>
                     @endforeach
                 </tbody>
