@@ -4,7 +4,7 @@
             {{ __('Dashboard') }}
         </h2>
     </x-slot>
-    <div class="flex">
+    <div class="flex h-screen">
 
         @include('layouts.sidebar')
         <div class="w-3/4">
@@ -22,7 +22,6 @@
                         <th>Email Status</th>
                         <th>Status</th>
                         <th>Role</th>
-                        <th>Created By</th>
                         <th colspan="4">action</th>
                     </tr>
                 </thead>
@@ -32,13 +31,13 @@
                         <td class="p-5">{{ $number++ }}</td>
                         <td>{{ $user->first_name ." ". $user->last_name }}</td>
                         <td>{{ $user->email }}</td>
-                        <td>{{ $user->email_status}}</td>
-                        <td>{{ $user->status }}</td>
+                        <td>{{ $user->email_status == 1 ? 'Active' : 'Inactive'}}</td>
+                        <td>{{ $user->status == 1 ? 'Active' : 'Inactive'}}</td>
                         <td>{{ $user->role->name }}</td>
-                        <td>{{ $user->created_by }}</td>
-                        <td><a class="bg-red-800" href=" {{ route('users.delete', $user) }}">Delete</a></td>
-                        <td><a class="bg-green-400" href=" {{ route('users.status.update', $user) }}">{{ $user->status == 1 ? 'Inactive' : 'Active'}}</a></td>
-                        <td><a class="bg-blue-800" href="{{ route('users.edit', $user) }}">Edit</a></td>
+                        <td><a class="bg-red-700 p-1 rounded-xl" href=" {{ route('users.delete', $user) }}">Delete</a></td>
+                        <td><a class="bg-green-600 p-1 rounded-xl" href=" {{ route('users.status.update', $user) }}">{{ $user->status == 1 ? 'Inactive' : 'Active'}}</a></td>
+                        <td><a class="bg-blue-700 p-1 rounded-xl" href="{{ route('users.edit', $user) }}">Edit</a></td>
+                        <td><a class="bg-yellow-400 p-1 rounded-xl" href="{{ route('users.resetpassword', $user) }}">Reset Password</a></td>
                     </tr>
                     @endforeach
                 </tbody>
@@ -47,9 +46,11 @@
 
     </div>
 
-    @if(session()->has('sucess'))
-    <p class="fixed bg-blue-500 text-white py-2 px-4  rounded-xl bottom-3 right-3 text-sm">
-        {{ session('success') }}
-    </p>
+    @if(session()->has('success'))
+    <div x-data="{ show:true }" x-init="setTimeout(()=>show = false,4000)" x-show="show" class="fixed bg-blue-500 text-white py-2 px-4  rounded-xl bottom-3 right-3 text-sm">
+        <p>
+            {{ session('success') }}
+        </p>
+    </div>
     @endif
 </x-app-layout>

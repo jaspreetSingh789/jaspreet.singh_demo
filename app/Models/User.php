@@ -71,6 +71,12 @@ class User extends Authenticatable
         return $this->belongsTo(Role::class);
     }
 
+    public function categories()
+    {
+
+        return $this->hasMany(Category::class);
+    }
+
     public function scopeVisibleTo($query)
     {
         $query->where('id', '!=', Auth::id());

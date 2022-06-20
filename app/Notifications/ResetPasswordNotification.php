@@ -8,7 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class MyWelcomeNotification extends Notification
+class ResetPasswordNotification extends Notification
 {
     use Queueable;
 
@@ -32,7 +32,7 @@ class MyWelcomeNotification extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail', 'database'];
+        return ['mail'];
     }
 
     /**
@@ -44,10 +44,9 @@ class MyWelcomeNotification extends Notification
     public function toMail($user)
     {
         return (new MailMessage)
-            ->line('Your account has been created successfuly.')
-            ->line('To generate new password click the button below.')
-            ->action('Click to set password', url(route('users.welcome', $user)))
-            ->line('Thank you for using our application!');
+            ->line('Your password was reseted by admin.')
+            ->action('Notification Action', url(route('users.welcome', $user)))
+            ->line('You can change your password by clicking on this button.');
     }
 
     /**

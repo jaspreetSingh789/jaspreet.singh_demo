@@ -31,8 +31,8 @@ class RoleSeeder extends Seeder
         ]);
 
         \App\Models\Role::create([
-            'name' => 'User',
-            'slug' => 'user',
+            'name' => 'Employ',
+            'slug' => 'employ',
         ]);
     }
 }

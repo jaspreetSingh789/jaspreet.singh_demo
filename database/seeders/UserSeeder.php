@@ -25,7 +25,6 @@ class UserSeeder extends Seeder
             'email_status' => 0,
             'status' => 0,
             'created_by' => 1,
-            'password' => Hash::make('00000000'),
         ]);
 
         User::create([
@@ -36,7 +35,6 @@ class UserSeeder extends Seeder
             'email_status' => 0,
             'status' => 0,
             'created_by' => 1,
-            'password' => Hash::make('00000000'),
         ]);
 
         User::create([
@@ -47,7 +45,6 @@ class UserSeeder extends Seeder
             'email_status' => 0,
             'status' => 0,
             'created_by' => 1,
-            'password' => Hash::make('00000000'),
         ]);
 
 
@@ -59,7 +56,6 @@ class UserSeeder extends Seeder
             'email_status' => 0,
             'status' => 0,
             'created_by' => 1,
-            'password' => Hash::make('00000000'),
         ]);
 
         User::create([
@@ -70,7 +66,6 @@ class UserSeeder extends Seeder
             'email_status' => 0,
             'status' => 0,
             'created_by' => 2,
-            'password' => Hash::make('00000000'),
         ]);
 
         User::create([
@@ -81,7 +76,6 @@ class UserSeeder extends Seeder
             'email_status' => 0,
             'status' => 0,
             'created_by' => 3,
-            'password' => Hash::make('00000000'),
         ]);
 
         User::create([
@@ -92,7 +86,6 @@ class UserSeeder extends Seeder
             'email_status' => 0,
             'status' => 0,
             'created_by' => 4,
-            'password' => Hash::make('00000000'),
         ]);
 
         User::create([
@@ -103,7 +96,6 @@ class UserSeeder extends Seeder
             'email_status' => 0,
             'status' => 0,
             'created_by' => 4,
-            'password' => Hash::make('00000000'),
         ]);
 
         User::create([
@@ -114,7 +106,6 @@ class UserSeeder extends Seeder
             'email_status' => 0,
             'status' => 0,
             'created_by' => 5,
-            'password' => Hash::make('00000000'),
         ]);
     }
 }

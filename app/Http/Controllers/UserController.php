@@ -18,7 +18,6 @@ class UserController extends Controller
     {
         $users = User::UsersList()->get();
 
-        // $users = User::Where('creater_id', Auth::user()->id)->get();
         return view('users.index', [
             'users' => $users
         ]);
@@ -32,8 +31,7 @@ class UserController extends Controller
         ]);
     }
 
-    // To store user
-    // and returns to users page
+    // To store user and returns to users page
     public function store(Request $request)
     {
         $user = User::where('email', $request->email)->withTrashed()->first();
@@ -47,9 +45,11 @@ class UserController extends Controller
                     'last_name' => $request->last_name,
                     'role_id' => $request->role_id
                 ]);
+
                 return back()->with('success', __('user updated successfully'));
             }
         }
+
 
         if (Auth::user()->role_id == Role::TRAINER) {
             $ids = '4';
@@ -62,9 +62,8 @@ class UserController extends Controller
         $roles = Role::where('slug', '!=', 'admin')->pluck('id')->toArray();
 
 
-
         if (!in_array($request->role_id, $roles)) {
-            return redirect()->route('dashboard')->with('error', __('roles does not exist'));
+            return redirect()->route('users.index')->with('error', __('roles does not exist'));
         }
 
         $attributes =  request()->validate([
@@ -72,7 +71,6 @@ class UserController extends Controller
             'last_name' => 'required|max:255',
             'role_id' => 'required',
             'email' => 'required|max:255|email|unique:users,email',
-            'password' => 'required|min:6',
             'role_id' => 'required|in:' . $ids
         ]);
 
@@ -82,8 +80,8 @@ class UserController extends Controller
 
         $user = User::create($attributes);
 
-        Notification::send($user, new MyWelcomeNotification(Auth::user(), $user->id));
-        return redirect()->route('dashboard')->with('succes', __('User stored sucessfully'));
+        Notification::send($user, new MyWelcomeNotification(Auth::user()));
+        return redirect()->route('users.index')->with('success', __('User stored sucessfully'));
     }
 
     //returns a editable form of user to update 
@@ -102,24 +100,18 @@ class UserController extends Controller
             'first_name' => 'required|max:255',
             'last_name' => 'required|max:255',
             'role_id' => 'required',
-            'email' => ['required', ValidationRule::unique('users', 'email')->ignore($user->id)],
-            'phone_no' => 'required|min:10',
-            'city' => 'required|max:255|',
-            'password' => 'required|min:6',
-            'role_id' => 'required'
         ]);
 
         $attributes['created_by'] = Auth::id();
 
         $user->update($attributes);
-        return redirect()->route('dashboard')->with('succes', __('User updated sucessfully'));
+        return redirect()->route('users.index')->with('success', __('User updated sucessfully'));
     }
 
-    // To delete user 
-    // and returns to users listing page
+    // To delete user and returns to users listing page
     public function delete(User $user)
     {
         $user->delete();
-        return redirect()->route('dashboard')->with('succes', __('User deleted sucessfully'));
+        return redirect()->route('users.index')->with('success', __('User deleted sucessfully'));
     }
 }

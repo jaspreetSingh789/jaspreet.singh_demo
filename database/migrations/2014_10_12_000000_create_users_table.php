@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->boolean('email_status')->default(0);
             $table->boolean('status')->default(0);
-            $table->string('password');
+            $table->string('password')->nullable();
             $table->integer('created_by');
             $table->timestamp('email_verified_at')->nullable();
             $table->softDeletes();

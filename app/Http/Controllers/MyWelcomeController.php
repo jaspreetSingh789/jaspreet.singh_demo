@@ -17,10 +17,11 @@ class MyWelcomeController extends Controller
     public function savePassword(User $user)
     {
         $attributes = request()->validate([
-            'password' => 'required'
+            'password' => 'required',
+            'password' => 'required|same:password'
         ]);
         $user->update($attributes);
 
-        return redirect()->route('login');
+        return redirect()->route('login')->with('success', __('Sign up successful'));
     }
 }

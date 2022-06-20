@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\MyWelcomeController;
+use App\Http\Controllers\ResetPasswordController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\StudentController;
@@ -20,21 +22,28 @@ use App\Http\Controllers\UserStatusController;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/dashboard', function () {
-    return view('dashboard');
-});
 
 Route::get('/users/{user}/status/update', [UserStatusController::class, 'update'])->name('users.status.update');
 
-Route::get('users/{user}/welcome', [MyWelcomeController::class, 'showWelcomePage'])->name('users.welcome');
+Route::get('users/{user}/welcome', [MyWelcomeController::class, 'showWelcomePage'])->name('users.welcome')->middleware('guest');
 
-Route::post('users/{user}/savepassword', [MyWelcomeController::class, 'savePassword'])->name('users.savepassword');
+Route::post('users/{user}/savepassword', [MyWelcomeController::class, 'savePassword'])->name('users.savepassword')->middleware('guest');
+
+
 
 Route::middleware(['auth'])->group(function () {
 
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
+
+    Route::get('users/{user}/resetpassword', [ResetPasswordController::class, 'resetPassword'])->name('users.resetpassword');
+
+    Route::post('users/{user}/saveresetpassword', [ResetPasswordController::class, 'saveResetPassword'])->name('users.saveresetpassword');
+
     Route::controller(UserController::class)->group(function () {
 
-        Route::get('/users', 'index')->name('dashboard');
+        Route::get('/users', 'index')->name('users.index');
 
         Route::get('/users/create', 'create')->name('users.create');
 
@@ -46,7 +55,14 @@ Route::middleware(['auth'])->group(function () {
 
         Route::get('/users/{user}/delete', 'delete')->name('users.delete');
 
-        // Route::get(/restore/{id}','restore')->name('users.restore')
+        Route::controller(CategoryController::class)->group(function () {
+
+            Route::get('/categories', 'index')->name('categories.index');
+
+            Route::get('/categories/create', 'create')->name('categories.create');
+
+            Route::post('/categories/store', 'store')->name('categories.store');
+        });
     });
 });
 

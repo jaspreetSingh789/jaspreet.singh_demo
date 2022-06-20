@@ -26,12 +26,6 @@
                         <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                         @enderror
 
-                        <label class="mb-2 text-xs uppercase block font-bold text-gray-700" for="password">Password</label>
-                        <input class="border border-grey-400 p-2 w-full mb-2" type="password" name="password" id="password" value="">
-                        @error('password')
-                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                        @enderror
-
                         <label class="mb-2 text-xs uppercase block font-bold text-gray-700" for="role_id">Role</label>
                         <select class="border border-grey-400 p-2 w-full mb-2" name="role_id" id="lang">
                             @foreach($roles as $role)
@@ -46,7 +40,7 @@
                         <button type="submit" class=" bg-blue-400 text-white rounded px-4 py-2 hover:bg-blue-500 ">
                             Submit
                         </button>
-                        <a class=" bg-blue-400 text-white rounded px-4 py-2 hover:bg-blue-500 " href="{{ route('dashboard') }}">Cancel</a>
+                        <a class=" bg-blue-400 text-white rounded px-4 py-2 hover:bg-blue-500 " href="{{ route('users.index') }}">Cancel</a>
 
                     </div>
                 </form>

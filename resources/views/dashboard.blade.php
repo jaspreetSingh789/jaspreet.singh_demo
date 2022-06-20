@@ -4,14 +4,12 @@
             {{ __('Dashboard') }}
         </h2>
     </x-slot>
-    <div class="" flex>
-        <div display="flex">
-            @can('trainer')
-            @endcan
-            @include('layouts.sidebar')
-            <div class="w-full h-20 bg-gray-200">
-                <h1 class="uppercase inline-block w-200">Welcome To {{ Auth::user()->role->name }} page</h1>
-            </div>
+    <div class="flex items-stretch h-screen">
+        @include('layouts.sidebar')
+        <div class="h-20 mx-auto bg-blue-300 mt-20 rounded-xl p-5">
+            <h1 class="uppercase inline-block font-black text-5xl">Welcome To {{ Auth::user()->role->name }} page</h1>
         </div>
     </div>
+    @can('trainer')
+    @endcan
 </x-app-layout>
