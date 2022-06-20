@@ -61,7 +61,6 @@ class UserController extends Controller
 
         $roles = Role::where('slug', '!=', 'admin')->pluck('id')->toArray();
 
-
         if (!in_array($request->role_id, $roles)) {
             return redirect()->route('users.index')->with('error', __('roles does not exist'));
         }

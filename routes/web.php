@@ -62,6 +62,12 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/categories/create', 'create')->name('categories.create');
 
             Route::post('/categories/store', 'store')->name('categories.store');
+
+            Route::get('/categories/{category}/edit', 'edit')->name('categories.edit');
+
+            Route::post('/categories/{category}/update', 'update')->name('categories.update');
+
+            Route::get('/categories/{category}/delete', 'delete')->name('categories.delete');
         });
     });
 });

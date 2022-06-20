@@ -73,7 +73,6 @@ class User extends Authenticatable
 
     public function categories()
     {
-
         return $this->hasMany(Category::class);
     }
 
