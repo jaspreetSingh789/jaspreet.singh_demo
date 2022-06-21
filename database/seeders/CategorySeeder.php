@@ -18,29 +18,25 @@ class CategorySeeder extends Seeder
         Category::create([
             'user_id' => 1,
             'name' => 'category 1',
-            'slug' => 'category-1',
-            'status' => 0
+            'slug' => 'category-1'
         ]);
 
         Category::create([
             'user_id' => 1,
             'name' => 'category 2',
-            'slug' => 'category-2',
-            'status' => 0
+            'slug' => 'category-2'
         ]);
 
         Category::create([
             'user_id' => 1,
             'name' => 'category 3',
-            'slug' => 'category-3',
-            'status' => 0
+            'slug' => 'category-3'
         ]);
 
         Category::create([
             'user_id' => 1,
             'name' => 'category 4',
-            'slug' => 'category-4',
-            'status' => 0
+            'slug' => 'category-4'
         ]);
     }
 }

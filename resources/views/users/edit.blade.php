@@ -37,10 +37,10 @@
                         </select>
                     </div>
                     <div class="mb-6">
-                        <button type="submit" class="bg-blue-400 text-white rounded px-4 py-2 hover:bg-blue-500">
+                        <button type="submit" class="bg-gray-400 text-white rounded px-4 py-2 hover:bg-gray-500">
                             Update User
                         </button>
-                        <a class=" bg-blue-400 text-white rounded px-4 py-2 hover:bg-blue-500 " href="{{ route('users.index') }}">Cancel</a>
+                        <a class=" bg-slate-400 text-white rounded px-4 py-2 hover:bg-slate-300" href="{{ route('users.index') }}">Cancel</a>
                     </div>
                 </form>
             </main>

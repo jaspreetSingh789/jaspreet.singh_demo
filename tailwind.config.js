@@ -9,14 +9,14 @@ module.exports = {
 
     theme: {
         extend: {
-            colors:{
-                'sky': '#075985',
+            colors: {
+                'sky': '#1e3a8a',
             },
             fontFamily: {
                 sans: ['Nunito', ...defaultTheme.fontFamily.sans],
             },
         },
-        
+
     },
 
     plugins: [require('@tailwindcss/forms')],

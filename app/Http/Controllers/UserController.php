@@ -7,9 +7,8 @@ use App\Models\User;
 use App\Notifications\MyWelcomeNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Notification;
-use Illuminate\Validation\Rule as ValidationRule;
-use phpDocumentor\Reflection\Types\Null_;
 
 class UserController extends Controller
 {
@@ -50,7 +49,6 @@ class UserController extends Controller
             }
         }
 
-
         if (Auth::user()->role_id == Role::TRAINER) {
             $ids = '4';
         } elseif (Auth::user()->role_id == Role::SUB_ADMIN) {
@@ -80,37 +78,53 @@ class UserController extends Controller
         $user = User::create($attributes);
 
         Notification::send($user, new MyWelcomeNotification(Auth::user()));
-        return redirect()->route('users.index')->with('success', __('User stored sucessfully'));
+
+        switch ($request->action) {
+            case 'create':
+                return redirect()->route('users.index')
+                    ->with('success', __('User stored sucessfully'));
+                break;
+            case 'create_another':
+                return redirect()->route('users.create')
+                    ->with('success', 'Users stored successfully');
+                break;
+        }
     }
 
     //returns a editable form of user to update 
     public function edit(User $user)
     {
-        return view('users.edit', [
-            'user' => $user,
-            'roles' => Role::get()
-        ]);
+        if (Gate::allows('admin') || $this->authorize('update', $user)) {
+            return view('users.edit', [
+                'user' => $user,
+                'roles' => Role::get()
+            ]);
+        }
     }
 
     //To update the existing user's details
     public function update(User $user)
     {
-        $attributes =  request()->validate([
-            'first_name' => 'required|max:255',
-            'last_name' => 'required|max:255',
-            'role_id' => 'required',
-        ]);
+        if (Gate::allows('admin') || $this->authorize('update', $user)) {
+            $attributes =  request()->validate([
+                'first_name' => 'required|max:255',
+                'last_name' => 'required|max:255',
+                'role_id' => 'required',
+            ]);
 
-        $attributes['created_by'] = Auth::id();
+            $attributes['created_by'] = Auth::id();
 
-        $user->update($attributes);
-        return redirect()->route('users.index')->with('success', __('User updated sucessfully'));
+            $user->update($attributes);
+            return redirect()->route('users.index')->with('success', __('User updated sucessfully'));
+        }
     }
 
     // To delete user and returns to users listing page
     public function delete(User $user)
     {
-        $user->delete();
-        return redirect()->route('users.index')->with('success', __('User deleted sucessfully'));
+        if (Gate::allows('admin') || $this->authorize('delete', $user)) {
+            $user->delete();
+            return redirect()->route('users.index')->with('success', __('User deleted sucessfully'));
+        }
     }
 }

@@ -2,12 +2,15 @@
     <div class="flex">
         @include('layouts.sidebar')
         <section class="px-6 py-8 flex-auto h-screen">
+            <div class="pt-10 pl-10">
+                <a class=" text-blue-800 font-bold text-xl" href="{{ route('users.index') }}">Users</a><strong class="px-2 font-bold text-xl ">></strong><span class="font-bold text-xl">{{ $user->email }}</span><strong class="px-2 font-bold text-xl ">></strong><span class="font-bold text-xl">Reset password</span>
+            </div>
             <main class="main w-3/5 mx-auto mt-10 border border-gray-200 p-6 bg-gray-200 rounded-xl">
                 <h1 class="font-bold text-xl text-center">Reset Password</h1>
                 <form method="post" action="{{ route('users.saveresetpassword',$user) }}" class="mt-10">
                     @csrf
                     <div class="inputs-container mb-6">
-
+                        <div class="py-5">Email: {{ $user->email }}</div>
                         <label class="mb-2 text-xs uppercase block font-bold text-gray-700" for="password">Password</label>
                         <input class="border border-grey-400 p-2 w-full mb-2" type="password" name="password" id="password" value="">
                         @error('password')

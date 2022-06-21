@@ -35,6 +35,6 @@ class ResetPasswordController extends Controller
         Notification::send($user, new ResetPasswordNotification(Auth::user(), $user->id));
         $user->update($attributes);
 
-        return redirect()->route('users.index');
+        return redirect()->route('users.index')->with('success', __('password reseted sucessfully'));;
     }
 }

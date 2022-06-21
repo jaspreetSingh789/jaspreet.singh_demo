@@ -17,6 +17,6 @@ class UserStatusController extends Controller
 
         $user->update($attribute);
 
-        return redirect()->route('dashboard')->with('success', __('Status updated sucessfully'));
+        return redirect()->route('users.index')->with('success', __('Status updated sucessfully'));
     }
 }

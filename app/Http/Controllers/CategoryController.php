@@ -24,45 +24,64 @@ class CategoryController extends Controller
 
     public function store(Request $request)
     {
+        $category = Category::where('name', $request->name)->onlyTrashed()->first();
+
+        if ($category) {
+            $category->restore();
+            return redirect()->route('categories.index')->with('success', 'Category restored successfully');
+        }
+
         $request->validate([
             'name' => 'required',
-            'slug' => 'required'
         ]);
-
 
         Category::create([
             'name' => $request->name,
-            'slug' => $request->slug,
             'user_id' => Auth::id()
         ]);
 
-
-        return redirect()->route('categories.index')->with('success', 'Category added successfully');
+        switch ($request->action) {
+            case 'create':
+                return redirect()->route('categories.index')
+                    ->with('success', 'Category added successfully');
+                break;
+            case 'create_another':
+                return redirect()->route('categories.create')
+                    ->with('success', 'Category added successfully');
+                break;
+        }
     }
 
     public function edit(Category $category)
     {
-        return view('categories.edit', [
+        $this->authorize('edit', $category);
 
+        return view('categories.edit', [
             'category' => $category
         ]);
     }
 
     public function update(Category $category, Request $request)
     {
+        $this->authorize('update', $category);
+
         $attribute = $request->validate([
             'name' => 'required',
         ]);
 
         $category->update($attribute);
 
-        return redirect()->route('categories.index')->with('success', 'Categoy updated successfully');
+        return redirect()->route('categories.index')
+            ->with('success', 'category updated successfully');
     }
 
     public function delete(Category $category)
     {
+        $this->authorize('delete', $category);
+
         $category->delete();
 
-        return redirect()->route('categories.index')->with('success', 'Categoy deleted successfully');
+        return redirect()->route('categories.index')
+            ->with('success', 'category deleted successfully');
     }
 }

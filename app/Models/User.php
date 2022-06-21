@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -9,10 +10,12 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Hash;
 
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
+    use Sluggable;
 
     /**
      * The attributes that are mass assignable.
@@ -36,6 +39,16 @@ class User extends Authenticatable
     const ACTIVE = 1;
     const INACTIVE = 0;
 
+
+    public function sluggable(): array
+    {
+        return [
+            'slug' => [
+                'source' => 'first_name'
+            ]
+        ];
+    }
+
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -58,13 +71,13 @@ class User extends Authenticatable
     public function scopeUsersList($query)
     {
         return  $query->where('created_by', Auth::id())
-            ->orWhere('role_id', '>', Auth::user()->role_id);
+            ->Where('role_id', '>', Auth::user()->role_id);
     }
 
-    // public function setPasswordAttribute($password)
-    // {
-    //     $this->attributes['password'] = bcrypt($password);
-    // }
+    public function setPasswordAttribute($password)
+    {
+        $this->attributes['password'] = Hash::make($password);
+    }
 
     public function role()
     {

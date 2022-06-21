@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CategoryStatusController;
 use App\Http\Controllers\MyWelcomeController;
 use App\Http\Controllers\ResetPasswordController;
 use Illuminate\Support\Facades\Route;
@@ -49,11 +50,11 @@ Route::middleware(['auth'])->group(function () {
 
         Route::post('users/store', 'store')->name('users.store');
 
-        Route::get('/users/{user}/edit', 'edit')->name('users.edit');
+        Route::get('/users/{user:slug}/edit', 'edit')->name('users.edit');
 
-        Route::post('/users/{user}/update', 'update')->name('users.update');
+        Route::post('/users/{user:slug}/update', 'update')->name('users.update');
 
-        Route::get('/users/{user}/delete', 'delete')->name('users.delete');
+        Route::get('/users/{user:slug}/delete', 'delete')->name('users.delete');
 
         Route::controller(CategoryController::class)->group(function () {
 
@@ -63,12 +64,14 @@ Route::middleware(['auth'])->group(function () {
 
             Route::post('/categories/store', 'store')->name('categories.store');
 
-            Route::get('/categories/{category}/edit', 'edit')->name('categories.edit');
+            Route::get('/categories/{category:slug}/edit', 'edit')->name('categories.edit');
 
             Route::post('/categories/{category}/update', 'update')->name('categories.update');
 
-            Route::get('/categories/{category}/delete', 'delete')->name('categories.delete');
+            Route::get('/categories/{category:slug}/delete', 'delete')->name('categories.delete');
         });
+
+        Route::get('/categories/{category:slug}/status/update', [CategoryStatusController::class, 'update'])->name('categories.status.update');
     });
 });
 

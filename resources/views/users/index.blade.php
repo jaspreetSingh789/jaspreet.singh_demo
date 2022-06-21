@@ -10,14 +10,14 @@
         <div class="w-3/4">
             <div class="flex justify-between p-5">
                 <span class="text-blue-800 uppercase text-3xl font-black">Users</span>
-                <a class="px-3 py-3 bg-blue-500 rounded-xl text-white shadow-md" href="{{ route('users.create')}}">Create New User</a>
+                <a class="px-4 py-2 bg-blue-500 rounded text-white shadow-md" href="{{ route('users.create')}}">Create User</a>
             </div>
-            <table class="mt-5 text-center uppercase ml-20 w-full shadow-md">
-                <thead>
-                    <tr class="bg-blue-300 p-10">
+            <table class="text-center ml-20 w-full shadow-md">
+                <thead class="uppercase">
+                    <tr class="bg-blue-100 p-10">
                         <?php $number = 1 ?>
                         <th class="p-5">S.no</th>
-                        <th>Name</th>
+                        <th>User Name</th>
                         <th>Email</th>
                         <th>Email Status</th>
                         <th>Status</th>
@@ -27,7 +27,7 @@
                 </thead>
                 <tbody>
                     @foreach($users as $user)
-                    <tr class="bg-blue-50 border border-b-1 border-black-700">
+                    <tr class="border border-b-2 border-black-700">
                         <td class="p-5">{{ $number++ }}</td>
                         <td>{{ $user->first_name ." ". $user->last_name }}</td>
                         <td>{{ $user->email }}</td>
@@ -43,7 +43,6 @@
                 </tbody>
             </table>
         </div>
-
     </div>
 
     @if(session()->has('success'))

@@ -45,8 +45,8 @@ class ResetPasswordNotification extends Notification
     {
         return (new MailMessage)
             ->line('Your password was reseted by admin.')
-            ->action('Notification Action', url(route('users.welcome', $user)))
-            ->line('You can change your password by clicking on this button.');
+            ->action('login here', url(route('login', $user)))
+            ->line('You new password is:' . " " . $user->password);
     }
 
     /**

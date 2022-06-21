@@ -10,12 +10,13 @@
         <div class="w-3/4">
             <div class="flex justify-between p-5">
                 <span class="text-blue-800 uppercase text-3xl font-black">Categories</span>
-                <a class="px-3 py-3 bg-blue-500 rounded-xl text-white shadow-md" href="{{ route('categories.create')}}">Create New Category</a>
+                <a class="px-3 py-2 bg-blue-500 rounded text-white shadow-md" href="{{ route('categories.create')}}">Create New Category</a>
             </div>
-            <table class="mt-5 text-center uppercase ml-20 w-full shadow-md">
-                <thead>
-                    <tr class="bg-blue-300 p-10">
+            <table class="text-center ml-20 w-full shadow-md">
+                <thead class="uppercase">
+                    <tr class="bg-blue-100 p-10">
                         <?php $number = 1 ?>
+                        <?php $courses = 0 ?>
                         <th class="p-5">S.no</th>
                         <th>NAME</th>
                         <th>CREATED BY</th>
@@ -27,15 +28,15 @@
                 </thead>
                 <tbody>
                     @foreach($categories as $category)
-                    <tr class="bg-blue-50 border border-b-1 border-black-700">
+                    <tr class="border border-b-1 border-black-700">
                         <td class="p-5">{{ $number++ }}</td>
                         <td>{{ $category->name }}</td>
                         <td>{{ $category->user_id }}</td>
-                        <td>{{ $category->course }}</td>
+                        <td>{{ $courses }}</td>
                         <td>{{ $category->created_at }}</td>
                         <td>{{ $category->status == 1 ? 'Active' : 'Inactive'}}</td>
                         <td><a class="bg-red-700 p-1 rounded-xl" href=" {{ route('categories.delete', $category) }}">Delete</a></td>
-                        <td><a class="bg-green-600 p-1 rounded-xl" href=""></a></td>
+                        <td><a class="bg-green-600 p-1 rounded-xl" href="{{ route('categories.status.update',$category) }}">{{ $category->status == 1 ? 'Deactivate' : 'Activate' }}</a></td>
                         <td><a class="bg-blue-700 p-1 rounded-xl" href="{{ route('categories.edit', $category) }}">Edit</a></td>
                     </tr>
                     @endforeach

@@ -2,7 +2,10 @@
 
 namespace App\Providers;
 
+use App\Models\Category;
 use App\Models\User;
+use App\Policies\CategoryPolicy;
+use App\Policies\UserPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 
@@ -14,7 +17,8 @@ class AuthServiceProvider extends ServiceProvider
      * @var array<class-string, class-string>
      */
     protected $policies = [
-        // 'App\Models\Model' => 'App\Policies\ModelPolicy',
+        Category::class => CategoryPolicy::class,
+        User::class => UserPolicy::class
     ];
 
     /**
@@ -33,12 +37,11 @@ class AuthServiceProvider extends ServiceProvider
         });
 
         Gate::define('subadmin', function (User $user) {
-            return in_array($user->role_id, [1,2]);
+            return in_array($user->role_id, [1, 2]);
         });
 
         Gate::define('trainer', function (User $user) {
-            return in_array($user->role_id, [1,2,3]);
+            return in_array($user->role_id, [1, 2, 3]);
         });
-        
     }
 }
