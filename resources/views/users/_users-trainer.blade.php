@@ -21,7 +21,8 @@
                     </div>
                 </div>
             </div>
-            @include('users.tabs')
+            <x-tabs :trainer=$trainer />
+
             <table class="text-center ml-20 w-2/5 shadow-md">
                 <thead class="uppercase">
                     <tr class="bg-blue-100 p-10">

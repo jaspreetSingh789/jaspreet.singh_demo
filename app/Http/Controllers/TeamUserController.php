@@ -5,14 +5,17 @@ namespace App\Http\Controllers;
 use App\Models\Role;
 use App\Models\Team;
 use App\Models\User;
+use App\Notifications\AssignedToTrainer;
+use App\Notifications\AssignedUserNotification;
+use App\Notifications\MyWelcomeNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
 class TeamUserController extends Controller
 {
-
     public function index(User $trainer)
     {
         $this->authorize(('view'), $trainer);
@@ -53,7 +56,10 @@ class TeamUserController extends Controller
 
         $assignees = User::VisibleTo(Auth::user())->findMany($validated['employees']);
 
+
         $trainer->assignedUsers()->attach($assignees);
+        Notification::send($trainer, new AssignedUserNotification(Auth::user()));
+        Notification::send($assignees, new AssignedToTrainer(Auth::user()));
 
         return redirect()->route('teams.users.index', $trainer)->with('success', 'users assigned successfully');
     }
@@ -72,7 +78,7 @@ class TeamUserController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return back()->with('success', 'please select at least one user!');
+            return back()->with('success', 'please select valid user!');
         }
         $validated = $validator->validated();
 

@@ -16,7 +16,7 @@ class UserController extends Controller
     // returns view that shows the lists of users
     public function index()
     {
-        $users = User::UsersList()->get();
+        $users = User::UsersList()->paginate(5);
 
         return view('users.index', [
             'users' => $users
@@ -133,7 +133,7 @@ class UserController extends Controller
     {
         if (Gate::allows('admin') || $this->authorize('delete', $user)) {
             $user->delete();
-            return redirect()->route('users.index')->with('success', __('User deleted sucessfully'));
+            return redirect()->route('users.index')->with('error', __('User deleted sucessfully'));
         }
     }
 }

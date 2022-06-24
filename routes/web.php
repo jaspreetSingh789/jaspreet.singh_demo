@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CategoryStatusController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MyWelcomeController;
 use App\Http\Controllers\ResetPasswordController;
 use Illuminate\Support\Facades\Route;
@@ -36,9 +37,7 @@ Route::post('users/{user}/savepassword', [MyWelcomeController::class, 'savePassw
 
 Route::middleware(['auth'])->group(function () {
 
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::get('users/{user}/resetpassword', [ResetPasswordController::class, 'resetPassword'])->name('users.resetpassword');
 
@@ -87,11 +86,11 @@ Route::middleware(['auth'])->group(function () {
 
     Route::controller(UserTeamController::class)->group(function () {
 
-        Route::get('/users/{employee:slug}/teams', 'index')->name('users.teams.index');
+        Route::get('/users/{user:slug}/teams', 'index')->name('users.teams.index');
 
-        Route::post('/users/{employee:slug}/store', 'store')->name('users.teams.store');
+        Route::post('/users/{user}/store', 'store')->name('users.teams.store');
 
-        Route::post('/users/{employee:slug}/teams', 'destroy')->name('users.teams.destroy');
+        Route::post('/users/{user}/teams', 'destroy')->name('users.teams.destroy');
     });
 });
 

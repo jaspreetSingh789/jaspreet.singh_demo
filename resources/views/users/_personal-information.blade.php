@@ -6,7 +6,18 @@
             <div class="mt-20 ml-20">
                 <a class=" text-blue-800 font-bold text-xl" href="{{ route('users.index') }}">Users</a><strong class="px-2 font-bold text-xl ">></strong><span class="font-bold text-xl">{{ $user->first_name}}</span>
             </div>
-            @include('users.tabs')
+
+            <div class="w-200 h-10 bg-gray-400">
+                <a class="pl-20" href="">Personal information</a>
+                @if($user->role_id == 3)
+                <a class="pl-20" href="{{ route('teams.users.index',$user) }}">Employees</a>
+                @endif
+
+                @if($user->role_id == 4)
+                <a class="pl-20" href="{{ route('users.teams.index',$user) }}">Trainers</a>
+                @endif
+            </div>
+
             <main class="w-3/5 ml-20 mt-5 border border-gray-200 p-6 bg-gray-50 rounded-xl">
                 <form method="post" action="{{ route('users.update', $user) }}" class="mt-10">
                     @csrf
@@ -23,7 +34,6 @@
                         @error('last_name')
                         <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                         @enderror
-
 
                         <div class="py-5">Email: {{ $user->email }}</div>
 

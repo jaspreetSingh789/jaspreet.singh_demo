@@ -6,12 +6,17 @@
     </x-slot>
     <div class="flex h-screen">
 
+        <!-- Sidebar -->
         @include('layouts.sidebar')
+        <!-- create user button  -->
         <div class="w-3/4">
             <div class="flex justify-between p-5 ml-16">
                 <span class="text-blue-800 uppercase text-3xl font-black">{{__('Users')}}</span>
                 <a class="px-4 py-2 bg-blue-500 rounded text-white shadow-md" href="{{ route('users.create')}}">{{__('Create User')}}</a>
             </div>
+            <!-- filters -->
+
+            <!-- Table of users -->
             <table class="text-center ml-20 w-full shadow-md">
                 <thead class="uppercase">
                     <tr class="bg-blue-100 p-10">
@@ -21,7 +26,7 @@
                         <th>{{__('Email')}}</th>
                         <th>{{__('Email Status')}}</th>
                         <th>{{__('Status')}}</th>
-                        <th>{{__('Role')}}</th>
+                        <th>{{__('User type')}}</th>
                         <th>{{__('action')}}</th>
                     </tr>
                 </thead>
@@ -54,11 +59,22 @@
             </table>
         </div>
     </div>
+    <!-- pagination -->
+    {{ $users->links() }}
 
+    <!-- flash messages -->
     @if(session()->has('success'))
-    <div x-data="{ show:true }" x-init="setTimeout(()=>show = false,4000)" x-show="show" class="fixed bg-blue-500 text-white py-2 px-4  rounded-xl bottom-3 right-3 text-sm">
+    <div x-data="{ show:true }" x-init="setTimeout(()=>show = false,4000)" x-show="show" class="fixed bg-green-300 text-white py-5 px-10 rounded-xl top-5 left-1/2 text-md">
         <p>
             {{ session('success') }}
+        </p>
+    </div>
+    @endif
+
+    @if(session()->has('error'))
+    <div x-data="{ show:true }" x-init="setTimeout(()=>show = false,4000)" x-show="show" class="fixed bg-red-300 text-white py-5 px-10 rounded-xl top-5 left-1/2 text-md">
+        <p>
+            {{ session('error') }}
         </p>
     </div>
     @endif

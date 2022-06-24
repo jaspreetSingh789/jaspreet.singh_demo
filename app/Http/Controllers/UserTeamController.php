@@ -11,23 +11,24 @@ use Illuminate\Support\Facades\Validator;
 
 class UserTeamController extends Controller
 {
-    public function index(User $employee)
+    public function index(User $user)
     {
+        $this->authorize(('view'), $user);
         $trainers = User::active()->Trainer()
-            ->whereDoesnthave('assignedUsers', function ($query) use ($employee) {
-                $query->where('user_id', $employee->id);
+            ->whereDoesnthave('assignedUsers', function ($query) use ($user) {
+                $query->where('user_id', $user->id);
             })->get();
 
         return view('users._team-assigned', [
             'trainers' => $trainers,
-            'employee' => $employee,
-            'assignedtrainers' => $employee->trainers()->get()
+            'user' => $user,
+            'assignedtrainers' => $user->trainers()->get()
         ]);
     }
 
-    public function store(User $employee, Request $request)
+    public function store(User $user, Request $request)
     {
-        // dd($request->all());
+        $this->authorize(('view'), $user);
         $validator = Validator::make($request->all(), [
             'trainerIds' => [
                 'required',
@@ -37,20 +38,22 @@ class UserTeamController extends Controller
                 }),
             ]
         ]);
-        // dd($validator);
+
         if ($validator->fails()) {
             return back()->with('success', 'please select at least one trainer!');
         }
 
         $validated = $validator->validated();
         $assignees = User::VisibleTo(Auth::user())->findMany($validated['trainerIds']);
-        $employee->trainers()->attach($assignees);
+        $user->trainers()->attach($assignees);
 
-        return back()->with('success', 'users assign successfully');
+        return back()->with('success', 'trainer assign successfully');
     }
 
-    public function destroy(Request $request, User $employee)
+    public function destroy(Request $request, User $user)
     {
+        $this->authorize(('delete'), $user);
+
         $validator = Validator::make($request->all(), [
             'trainerId' => [
                 'required',
@@ -62,11 +65,11 @@ class UserTeamController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return back()->with('success', 'please select at least one trainer!');
+            return back()->with('success', 'please select a valid trainer !');
         }
         $validated = $validator->validated();
 
-        $employee->assignedUsers()->detach($validated['trainerId']);
+        $user->assignedUsers()->detach($validated['trainerId']);
 
         return back()->with('success', 'trainer unassign successfully');
     }
