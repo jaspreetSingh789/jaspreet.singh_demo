@@ -25,7 +25,7 @@ class UserSeeder extends Seeder
             'email' => 'admin@gmail.com',
             'password' => 'admin123',
             'email_status' => 0,
-            'status' => 0,
+            'status' => 1,
             'created_by' => 1,
         ]);
 
@@ -37,7 +37,7 @@ class UserSeeder extends Seeder
             'email' => 'subadmin1@gmail.com',
             'password' => 'subadmin123',
             'email_status' => 0,
-            'status' => 0,
+            'status' => 1,
             'created_by' => 1,
         ]);
 
@@ -49,7 +49,7 @@ class UserSeeder extends Seeder
             'email' => 'subadmin2@gmail.com',
             'password' => 'subadmin123',
             'email_status' => 0,
-            'status' => 0,
+            'status' => 1,
             'created_by' => 1,
         ]);
 
@@ -62,7 +62,7 @@ class UserSeeder extends Seeder
             'email' => 'trainer1@gmail.com',
             'password' => 'trainer123',
             'email_status' => 0,
-            'status' => 0,
+            'status' => 1,
             'created_by' => 1,
         ]);
 
@@ -74,7 +74,7 @@ class UserSeeder extends Seeder
             'email' => 'trainer2@gmail.com',
             'password' => 'trainer123',
             'email_status' => 0,
-            'status' => 0,
+            'status' => 1,
             'created_by' => 2,
         ]);
 
@@ -86,7 +86,7 @@ class UserSeeder extends Seeder
             'email' => 'trainer3@gmail.com',
             'password' => 'trainer123',
             'email_status' => 0,
-            'status' => 0,
+            'status' => 1,
             'created_by' => 3,
         ]);
 
@@ -98,8 +98,8 @@ class UserSeeder extends Seeder
             'email' => 'employ1@gmail.com',
             'password' => 'employee123',
             'email_status' => 0,
-            'status' => 0,
-            'created_by' => 4,
+            'status' => 1,
+            'created_by' => 1,
         ]);
 
         User::create([
@@ -110,8 +110,8 @@ class UserSeeder extends Seeder
             'email' => 'employ2@gmail.com',
             'password' => 'employee123',
             'email_status' => 0,
-            'status' => 0,
-            'created_by' => 4,
+            'status' => 1,
+            'created_by' => 1,
         ]);
 
         User::create([
@@ -122,8 +122,20 @@ class UserSeeder extends Seeder
             'email' => 'employ3@gmail.com',
             'password' => 'employee123',
             'email_status' => 0,
-            'status' => 0,
-            'created_by' => 5,
+            'status' => 1,
+            'created_by' => 1,
+        ]);
+
+        User::create([
+            'role_id' => 4,
+            'first_name' => 'employ',
+            'last_name' => '4',
+            'slug' => 'employ-4',
+            'email' => 'employ4@gmail.com',
+            'password' => 'employee123',
+            'email_status' => 0,
+            'status' => 1,
+            'created_by' => 1,
         ]);
     }
 }

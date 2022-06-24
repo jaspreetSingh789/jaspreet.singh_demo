@@ -8,21 +8,21 @@
 
         @include('layouts.sidebar')
         <div class="w-3/4">
-            <div class="flex justify-between p-5">
-                <span class="text-blue-800 uppercase text-3xl font-black">Users</span>
-                <a class="px-4 py-2 bg-blue-500 rounded text-white shadow-md" href="{{ route('users.create')}}">Create User</a>
+            <div class="flex justify-between p-5 ml-16">
+                <span class="text-blue-800 uppercase text-3xl font-black">{{__('Users')}}</span>
+                <a class="px-4 py-2 bg-blue-500 rounded text-white shadow-md" href="{{ route('users.create')}}">{{__('Create User')}}</a>
             </div>
             <table class="text-center ml-20 w-full shadow-md">
                 <thead class="uppercase">
                     <tr class="bg-blue-100 p-10">
                         <?php $number = 1 ?>
-                        <th class="p-5">S.no</th>
-                        <th>User Name</th>
-                        <th>Email</th>
-                        <th>Email Status</th>
-                        <th>Status</th>
-                        <th>Role</th>
-                        <th colspan="4">action</th>
+                        <th class="py-5">{{__('S.no')}}</th>
+                        <th>{{__('User Name')}}</th>
+                        <th>{{__('Email')}}</th>
+                        <th>{{__('Email Status')}}</th>
+                        <th>{{__('Status')}}</th>
+                        <th>{{__('Role')}}</th>
+                        <th>{{__('action')}}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -34,11 +34,21 @@
                         <td>{{ $user->email_status == 1 ? 'Active' : 'Inactive'}}</td>
                         <td>{{ $user->status == 1 ? 'Active' : 'Inactive'}}</td>
                         <td>{{ $user->role->name }}</td>
-                        <td><a class="bg-red-700 p-1 rounded-xl" href=" {{ route('users.delete', $user) }}">Delete</a></td>
-                        <td><a class="bg-green-600 p-1 rounded-xl" href=" {{ route('users.status.update', $user) }}">{{ $user->status == 1 ? 'Inactive' : 'Active'}}</a></td>
-                        <td><a class="bg-blue-700 p-1 rounded-xl" href="{{ route('users.edit', $user) }}">Edit</a></td>
-                        <td><a class="bg-yellow-400 p-1 rounded-xl" href="{{ route('users.resetpassword', $user) }}">Reset Password</a></td>
+                        <td>
+                            <div x-data="{ show:false}" @click.away="show = false">
+                                <button @click="show = !show">
+                                    <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor">
+                                        <path d="M144,192a16,16,0,1,1-16-16A16,16,0,0,1,144,192ZM128,80a16,16,0,1,0-16-16A16,16,0,0,0,128,80Zm0,32a16,16,0,1,0,16,16A16,16,0,0,0,128,112Z"></path>
+                                    </svg></button>
+                                <div x-show="show" class="absolute border-2 border-black-600 w-50">
+                                    <a class="bg-gray-100 hover:bg-gray-400 block text-left px-3 leading-7" href=" {{ route('users.delete', $user) }}">{{ __('Delete') }}</a>
+                                    <a class="bg-gray-100 hover:bg-gray-400 block text-left px-3 leading-7" href="{{ route('users.edit', $user) }}">{{__('Edit')}}</a>
+                                    <a class="bg-gray-100 hover:bg-gray-400 block text-left px-3 leading-7" href=" {{ route('users.status.update', $user) }}">{{ $user->status == 1 ? 'Inactive' : 'Active'}}</a>
+                                    <a class="bg-gray-100 hover:bg-gray-400 block text-left px-3 leading-7" href="{{ route('users.resetpassword', $user) }}">{{__('Reset Password')}}</a>
+                                </div>
+                            </div>
                     </tr>
+                    </td>
                     @endforeach
                 </tbody>
             </table>

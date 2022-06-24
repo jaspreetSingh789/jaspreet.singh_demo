@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Role;
+use App\Models\Team;
 use App\Models\User;
 use App\Notifications\MyWelcomeNotification;
 use Illuminate\Http\Request;
@@ -54,7 +55,7 @@ class UserController extends Controller
         } elseif (Auth::user()->role_id == Role::SUB_ADMIN) {
             $ids = '3,4';
         } else {
-            $ids = '1,2,3';
+            $ids = '2,3,4';
         }
 
         $roles = Role::where('slug', '!=', 'admin')->pluck('id')->toArray();
@@ -77,6 +78,14 @@ class UserController extends Controller
 
         $user = User::create($attributes);
 
+        if ($user->role_id != Role::SUB_ADMIN) {
+
+            Team::create([
+                'team_id' => Auth::id(),
+                'user_id' => $user->id,
+            ]);
+        }
+
         Notification::send($user, new MyWelcomeNotification(Auth::user()));
 
         switch ($request->action) {
@@ -95,7 +104,7 @@ class UserController extends Controller
     public function edit(User $user)
     {
         if (Gate::allows('admin') || $this->authorize('update', $user)) {
-            return view('users.edit', [
+            return view('users._personal-information', [
                 'user' => $user,
                 'roles' => Role::get()
             ]);

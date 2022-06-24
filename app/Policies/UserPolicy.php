@@ -29,7 +29,8 @@ class UserPolicy
      */
     public function view(User $user, User $model)
     {
-        //
+        if ($user->can('admin') || $model->created_by == $user->id)
+            return true;
     }
 
     /**
@@ -40,7 +41,6 @@ class UserPolicy
      */
     public function create(User $user)
     {
-        //
     }
 
     /**
@@ -52,7 +52,8 @@ class UserPolicy
      */
     public function edit(User $user, User $model)
     {
-        return $user->id === $model->created_by;
+        if ($user->can('admin') || $model->created_by == $user->id)
+            return true;
     }
 
     /**
@@ -64,7 +65,8 @@ class UserPolicy
      */
     public function update(User $user, User $model)
     {
-        return $user->id === $model->created_by;
+        if ($user->can('admin') || $model->created_by == $user->id)
+            return true;
     }
 
     /**
@@ -76,7 +78,8 @@ class UserPolicy
      */
     public function delete(User $user, User $model)
     {
-        return $user->id === $model->created_by;
+        if ($user->can('admin') || $model->created_by == $user->id)
+            return true;
     }
 
     /**
@@ -88,7 +91,8 @@ class UserPolicy
      */
     public function restore(User $user, User $model)
     {
-        //
+        if ($user->can('admin') || $model->created_by == $user->id)
+            return true;
     }
 
     /**

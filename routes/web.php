@@ -7,7 +7,9 @@ use App\Http\Controllers\ResetPasswordController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\TeamUserController;
 use App\Http\Controllers\UserStatusController;
+use App\Http\Controllers\UserTeamController;
 
 /*
 |--------------------------------------------------------------------------
@@ -55,23 +57,41 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/users/{user:slug}/update', 'update')->name('users.update');
 
         Route::get('/users/{user:slug}/delete', 'delete')->name('users.delete');
+    });
 
-        Route::controller(CategoryController::class)->group(function () {
+    Route::controller(CategoryController::class)->group(function () {
 
-            Route::get('/categories', 'index')->name('categories.index');
+        Route::get('/categories', 'index')->name('categories.index');
 
-            Route::get('/categories/create', 'create')->name('categories.create');
+        Route::get('/categories/create', 'create')->name('categories.create');
 
-            Route::post('/categories/store', 'store')->name('categories.store');
+        Route::post('/categories/store', 'store')->name('categories.store');
 
-            Route::get('/categories/{category:slug}/edit', 'edit')->name('categories.edit');
+        Route::get('/categories/{category:slug}/edit', 'edit')->name('categories.edit');
 
-            Route::post('/categories/{category}/update', 'update')->name('categories.update');
+        Route::post('/categories/{category}/update', 'update')->name('categories.update');
 
-            Route::get('/categories/{category:slug}/delete', 'delete')->name('categories.delete');
-        });
+        Route::get('/categories/{category:slug}/delete', 'delete')->name('categories.delete');
+    });
+    Route::get('/categories/{category:slug}/status/update', [CategoryStatusController::class, 'update'])->name('categories.status.update');
 
-        Route::get('/categories/{category:slug}/status/update', [CategoryStatusController::class, 'update'])->name('categories.status.update');
+
+    Route::controller(TeamUserController::class)->group(function () {
+
+        Route::get('/teams/{trainer:slug}/users', 'index')->name('teams.users.index');
+
+        Route::post('/teams/{trainer}/users', 'store')->name('teams.users.store');
+
+        Route::post('/teams/{trainer}/destroy', 'destroy')->name('teams.users.destroy');
+    });
+
+    Route::controller(UserTeamController::class)->group(function () {
+
+        Route::get('/users/{employee:slug}/teams', 'index')->name('users.teams.index');
+
+        Route::post('/users/{employee:slug}/store', 'store')->name('users.teams.store');
+
+        Route::post('/users/{employee:slug}/teams', 'destroy')->name('users.teams.destroy');
     });
 });
 

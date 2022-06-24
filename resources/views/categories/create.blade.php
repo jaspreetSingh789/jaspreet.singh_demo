@@ -12,7 +12,7 @@
                     @csrf
                     <div class="inputs-container mb-6">
 
-                        <label class="mb-2 text-xs uppercase block font-bold text-gray-700" for="name">Name<sup class="text-red-500 text-sm">*</sup></label>
+                        <label class="mb-2 text-xs uppercase block font-bold text-gray-700" for="name">Name<font class="text-red-500 pl-2">*</font></label>
                         <input class="border border-grey-400 p-2 w-3/4 mb-2 rounded-md" type="text" name="name" value="{{ old('name')}}" placeholder="Name">
                         @error('name')
                         <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
