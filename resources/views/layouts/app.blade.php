@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="h-full">
 
 <head>
     <meta charset="utf-8">
@@ -22,15 +22,31 @@
     <script src="{{ asset('js/app.js') }}" defer></script>
 </head>
 
-<body class="font-sans antialiased">
-    <div class="min-h-screen bg-gray-100">
-        @include('layouts.navigation')
+<body class="font-sans antialiased h-full">
+    @include('layouts.navigation')
 
-        <!-- Page Content -->
-        <main>
-            {{ $slot }}
-        </main>
+    <!-- Page Content -->
+    <main class="flex h-full">
+        @include('layouts.sidebar')
+        {{ $slot }}
+    </main>
+
+    <!-- flash messages -->
+    @if(session()->has('success'))
+    <div x-data="{ show:true }" x-init="setTimeout(()=>show = false,4000)" x-show="show" class="fixed bg-green-300 text-white py-5 px-10 rounded-xl top-5 left-1/2 text-md">
+        <p>
+            {{ session('success') }}
+        </p>
     </div>
+    @endif
+
+    @if(session()->has('error'))
+    <div x-data="{ show:true }" x-init="setTimeout(()=>show = false,4000)" x-show="show" class="fixed bg-red-300 text-white py-5 px-10 rounded-xl top-5 left-1/2 text-md">
+        <p>
+            {{ session('error') }}
+        </p>
+    </div>
+    @endif
 </body>
 
 </html>

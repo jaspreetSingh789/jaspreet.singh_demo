@@ -8,6 +8,8 @@ use App\Models\User;
 use App\Notifications\AssignedToTrainer;
 use App\Notifications\AssignedUserNotification;
 use App\Notifications\MyWelcomeNotification;
+use App\Notifications\UnassignedFromTrainerNotification;
+use App\Notifications\UnassignedUserNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Notification;
@@ -18,6 +20,8 @@ class TeamUserController extends Controller
 {
     public function index(User $trainer)
     {
+        // dd($trainer->trainers()->get());
+        // dd($trainer->assignedUsers()->get());
         $this->authorize(('view'), $trainer);
         $employees = User::CreatedByAdmin()
             ->active()
@@ -35,7 +39,6 @@ class TeamUserController extends Controller
 
     public function store(Request $request, User $trainer)
     {
-
         $this->authorize(('edit'), $trainer);
 
         // which user Ids we have from frontend exits in db or not.
@@ -48,18 +51,18 @@ class TeamUserController extends Controller
                 }),
             ],
         ]);
+
         if ($validator->fails()) {
-            return back()->with('success', 'please select at least one user!');
+            return back()->with('error', 'please select at least one user!');
         }
 
         $validated = $validator->validated();
-
         $assignees = User::VisibleTo(Auth::user())->findMany($validated['employees']);
 
-
         $trainer->assignedUsers()->attach($assignees);
-        Notification::send($trainer, new AssignedUserNotification(Auth::user()));
-        Notification::send($assignees, new AssignedToTrainer(Auth::user()));
+
+        Notification::send($trainer, new AssignedUserNotification(Auth::user(), $assignees));
+        Notification::send($assignees, new AssignedToTrainer(Auth::user(), $trainer));
 
         return redirect()->route('teams.users.index', $trainer)->with('success', 'users assigned successfully');
     }
@@ -78,11 +81,16 @@ class TeamUserController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return back()->with('success', 'please select valid user!');
+            return back()->with('error', 'please select valid user!');
         }
         $validated = $validator->validated();
 
         $trainer->assignedUsers()->detach($validated['userId']);
+
+        $assignee = User::VisibleTo(Auth::user())->find($validated['userId']);
+
+        Notification::send($trainer, new UnassignedUserNotification(Auth::user(), $assignee));
+        Notification::send($assignee, new UnassignedFromTrainerNotification(Auth::user(), $trainer));
 
         return redirect()->route('teams.users.index', $trainer)->with('success', 'users unassigned successfully');
     }

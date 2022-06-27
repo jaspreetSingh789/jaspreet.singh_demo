@@ -13,17 +13,20 @@ use Illuminate\Support\Facades\Notification;
 
 class UserController extends Controller
 {
-    // returns view that shows the lists of users
+    // Collects users from users table and returns to view that shows lists of those users
     public function index()
     {
-        $users = User::UsersList()->paginate(5);
-
+        // if (request('search')) {
+        //     return view('users.index', [
+        //         'users' => User::where('first_name', 'like', '%' . request('search') . '%')->paginate(5)
+        //     ]);
+        // }
         return view('users.index', [
-            'users' => $users
+            'users' => User::filter(request(['user_type', 'date_filter', 'search']))->paginate(5)
         ]);
     }
 
-    // returns view to add a new user
+    // Returns a view which shows a form to create new user
     public function create()
     {
         return view('users.create', [
@@ -31,9 +34,10 @@ class UserController extends Controller
         ]);
     }
 
-    // To store user and returns to users page
+    // Collects the data from request, validate it and returns back
     public function store(Request $request)
     {
+        // Restores the user if the email sent from request already exits in table 
         $user = User::where('email', $request->email)->withTrashed()->first();
         if ($user) {
             if (!$user->deleted_at) {
@@ -50,6 +54,7 @@ class UserController extends Controller
             }
         }
 
+        // To check that the role coming from requist is valid or not
         if (Auth::user()->role_id == Role::TRAINER) {
             $ids = '4';
         } elseif (Auth::user()->role_id == Role::SUB_ADMIN) {
@@ -59,11 +64,11 @@ class UserController extends Controller
         }
 
         $roles = Role::where('slug', '!=', 'admin')->pluck('id')->toArray();
-
         if (!in_array($request->role_id, $roles)) {
-            return redirect()->route('users.index')->with('error', __('roles does not exist'));
+            return redirect()->route('users.index')->with('error', __('entered role does not exist'));
         }
 
+        // Validate the data from request
         $attributes =  request()->validate([
             'first_name' => 'required|max:255',
             'last_name' => 'required|max:255',
@@ -72,22 +77,26 @@ class UserController extends Controller
             'role_id' => 'required|in:' . $ids
         ]);
 
+        // adding created by id of auth user to attributes 
         $attributes += [
             'created_by' => Auth::id(),
         ];
 
+        // If every is validated user will be created 
         $user = User::create($attributes);
 
+        // To create team 
         if ($user->role_id != Role::SUB_ADMIN) {
-
             Team::create([
                 'team_id' => Auth::id(),
                 'user_id' => $user->id,
             ]);
         }
 
+        // sends notification to user to invite him to the application and set his password
         Notification::send($user, new MyWelcomeNotification(Auth::user()));
 
+        //   Return page according to the button which was clicked during submitting request
         switch ($request->action) {
             case 'create':
                 return redirect()->route('users.index')

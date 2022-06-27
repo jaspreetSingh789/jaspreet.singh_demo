@@ -1,32 +1,38 @@
 <x-app-layout>
-    <div class="flex">
-        @include('layouts.sidebar')
-        <section class="flex-auto h-screen">
+    <section class="flex-auto h-screen">
+        <div class="mt-20 flex justify-between mx-20 my-5">
 
-            <div class="mt-20 ml-20 flex space-x-96">
-                <div>
-                    <a class=" text-blue-800 font-bold text-xl" href="{{ route('users.index',$trainer) }}">Users</a><strong class="px-2 font-bold text-xl ">></strong><span class="font-bold text-xl">user->first_name</span>
-                </div>
-                <div x-data="{ show:false}" @click.away="show = false">
-                    <button @click="show = !show" class="px-5 py-3 bg-gray-300">Add employees</button>
-                    <div x-show=" show" class="absolute border-2 border-black-600 bg-gray-200">
-                        <form action="{{ route('teams.users.store', $trainer) }}" method="post">
-                            @csrf
-                            @foreach($employees as $employee)
-                            <input type="checkbox" name="employees[]" value="{{ $employee->id }}">
-                            <label for="employee"> {{ $employee->id.' '.$employee->first_name .' '. $employee->last_name }}</label><br>
-                            @endforeach
-                            <button type="submit">Assign</button>
-                        </form>
-                    </div>
+            <!-- links -->
+            <div>
+                <a class=" text-blue-800 font-bold text-xl" href="{{ route('users.index',$trainer) }}">Users</a><strong class="px-2 font-bold text-xl ">></strong><span class="font-bold text-xl">user->first_name</span>
+            </div>
+
+            <!-- dropdown to add employees -->
+            <div x-data="{ show:false}" @click.away="show = false">
+                <button @click="show = !show" class="px-5 py-2 bg-gray-500 text-white rounded w-40">Add employees</button>
+                <div x-show=" show" class="absolute border-2 border-black-600 bg-gray-200">
+                    <form action="{{ route('teams.users.store', $trainer) }}" method="post">
+                        @csrf
+                        @foreach($employees as $employee)
+                        <input class="py-4 inline-block" type="checkbox" name="employees[]" value="{{ $employee->id }}">
+                        <label class="bg-gray-100 w-10/12 inline-block hover:bg-gray-400 text-left px-3 py-1" for="employee"> {{ $employee->id.' '.$employee->first_name .' '. $employee->last_name }}</label><br>
+                        @endforeach
+                        <button class="bg-gray-100 w-full hover:bg-gray-400 text-left px-3 py-1" type="submit">Assign</button>
+                    </form>
                 </div>
             </div>
+        </div>
+
+        <div class="w-11/12 ml-10">
+
+            <!-- tabs -->
             <x-tabs :trainer=$trainer />
 
-            <table class="text-center ml-20 w-2/5 shadow-md">
+            <!-- table to list assigned employees-->
+            <table class="text-center w-full shadow-md">
                 <thead class="uppercase">
                     <tr class="bg-blue-100 p-10">
-                        <th>{{__('User Name')}}</th>
+                        <th class="py-5">{{__('User Name')}}</th>
                         <th>{{__('id')}}</th>
                         <th>{{__('Email')}}</th>
                         <th>{{__('User Type')}}</th>
@@ -50,16 +56,8 @@
                     @endforeach
                 </tbody>
             </table>
-    </div>
-
-    @if(session()->has('success'))
-    <div x-data="{ show:true }" x-init="setTimeout(()=>show = false,4000)" x-show="show" class="fixed bg-blue-500 text-white py-2 px-4  rounded-xl bottom-3 right-3 text-sm">
-        <p>
-            {{ session('success') }}
-        </p>
-    </div>
-    @endif
+        </div>
+        </div>
 
     </section>
-    </div>
 </x-app-layout>

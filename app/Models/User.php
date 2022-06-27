@@ -74,6 +74,30 @@ class User extends Authenticatable
             ->Where('role_id', '!=', Role::ADMIN);
     }
 
+    public function scopeFilter($query, array $filters)
+    {
+
+        $query->when($filters['user_type'] ?? false, function ($query, $user_type) {
+            $query->where('role_id', $user_type);
+        });
+
+        $query->when($filters['date_filter'] ?? false, function ($query, $date_filter) {
+
+            if ($date_filter == 'A-Z') {
+                $query->orderBy('first_name', 'ASC');
+            } elseif ($date_filter == 'Z-A') {
+                $query->orderBy('first_name', 'DESC');
+            } else {
+                $query->orderBy('created_at', $date_filter);
+            }
+        });
+
+        $query->when($filters['search'] ?? false, function ($query, $search) {
+            $query->where('first_name', 'like', '%' . $search . '%')
+                ->orwhere('email', 'like', '%' . $search . '%');
+        });
+    }
+
     public function setPasswordAttribute($password)
     {
         $this->attributes['password'] = Hash::make($password);
@@ -95,11 +119,6 @@ class User extends Authenticatable
             ->withTimestamps();
     }
 
-    public function employees()
-    {
-        return $this->belongsTomany(User::class, 'teams', 'team_id', 'user_id');
-    }
-
     public function assignedUsers()
     {
         return $this->belongsToMany(User::class, 'teams', 'team_id', 'user_id')
@@ -114,7 +133,6 @@ class User extends Authenticatable
             return $query->where('role_id', '>', Auth::user()->role_id)
                 ->where('created_by', Auth::id());
         }
-        // $query->where('id', '!=', Auth::id());
     }
 
     public function scopeCreatedByAdmin($query)

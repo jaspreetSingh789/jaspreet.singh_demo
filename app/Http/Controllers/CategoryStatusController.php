@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 
 class CategoryStatusController extends Controller
 {
+    // Changes the status of category according to the input received
     public function update(Category $category)
     {
         $this->authorize('update', $category);

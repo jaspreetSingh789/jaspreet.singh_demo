@@ -8,7 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class AssignedToTrainer extends Notification
+class UnAssignedTeamUserNotification extends Notification
 {
     use Queueable;
 
@@ -17,12 +17,12 @@ class AssignedToTrainer extends Notification
      *
      * @return void
      */
-    public $assignees;
-    public $trainer;
-    public function __construct(User $assignees, $trainer)
+    public $assignee;
+    public $user;
+    public function __construct(User $assignee, $user)
     {
-        $this->assignes = $assignees;
-        $this->trainer = $trainer;
+        $this->assignee = $assignee;
+        $this->user = $user;
     }
 
     /**
@@ -46,8 +46,7 @@ class AssignedToTrainer extends Notification
     {
         return (new MailMessage)
             ->line('Hello ' . $notifiable->first_name)
-            ->line('This is to inform you that you have been assigned to ' . $this->trainer->first_name)
-            ->line('Thank you for using our application!');
+            ->line('This is to inform you that ' . $this->user->first_name . ' have been unassigned from you.  ');
     }
 
     /**

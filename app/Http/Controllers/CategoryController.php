@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 
 class CategoryController extends Controller
 {
+    // Collects categories and return view to list categories 
     public function index()
     {
         $categories = Category::where('user_id', Auth::id())->paginate(3);
@@ -17,18 +18,21 @@ class CategoryController extends Controller
         ]);
     }
 
+    // return view to create new category
     public function create()
     {
         return view('categories.create');
     }
 
+    // collects data from request validate it and stores it to table
     public function store(Request $request)
     {
         $category = Category::where('name', $request->name)->onlyTrashed()->first();
 
         if ($category) {
             $category->restore();
-            return redirect()->route('categories.index')->with('success', 'Category restored successfully');
+            return redirect()->route('categories.index')
+                ->with('success', 'Category restored successfully');
         }
 
         $request->validate([
@@ -52,6 +56,7 @@ class CategoryController extends Controller
         }
     }
 
+    // return a view with a editable form of the selected category 
     public function edit(Category $category)
     {
         $this->authorize('edit', $category);
@@ -61,6 +66,7 @@ class CategoryController extends Controller
         ]);
     }
 
+    // Collects the data of category from request , validate it then updates it
     public function update(Category $category, Request $request)
     {
         $this->authorize('update', $category);
@@ -75,6 +81,7 @@ class CategoryController extends Controller
             ->with('success', 'category updated successfully');
     }
 
+    // Deletes the seleted categry 
     public function delete(Category $category)
     {
         $this->authorize('delete', $category);

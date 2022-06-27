@@ -18,9 +18,11 @@ class AssignedUserNotification extends Notification
      * @return void
      */
     public $trainer;
-    public function __construct(User $trainer)
+    public $assignees;
+    public function __construct(User $trainer, $assignees)
     {
         $this->trainer = $trainer;
+        $this->assignees = $assignees;
     }
 
     /**
@@ -43,8 +45,10 @@ class AssignedUserNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->line('This email is sent you to inform that')
-            ->line('you have been assigned users .' . $notifiable->first_name);
+            ->line('Hello, ' . $notifiable->first_name)
+            ->line('This is to inform you that,')
+            ->line($this->assignees->pluck('first_name')->join(', ', ', and ') . 'have been assigned to you.')
+            ->line('Thank you');
     }
 
     /**

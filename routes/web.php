@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CategoryStatusController;
+use App\Http\Controllers\CourseController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MyWelcomeController;
 use App\Http\Controllers\ResetPasswordController;
@@ -38,38 +39,25 @@ Route::post('users/{user}/savepassword', [MyWelcomeController::class, 'savePassw
 Route::middleware(['auth'])->group(function () {
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-
     Route::get('users/{user}/resetpassword', [ResetPasswordController::class, 'resetPassword'])->name('users.resetpassword');
-
     Route::post('users/{user}/saveresetpassword', [ResetPasswordController::class, 'saveResetPassword'])->name('users.saveresetpassword');
 
     Route::controller(UserController::class)->group(function () {
-
         Route::get('/users', 'index')->name('users.index');
-
         Route::get('/users/create', 'create')->name('users.create');
-
         Route::post('users/store', 'store')->name('users.store');
-
         Route::get('/users/{user:slug}/edit', 'edit')->name('users.edit');
-
         Route::post('/users/{user:slug}/update', 'update')->name('users.update');
-
         Route::get('/users/{user:slug}/delete', 'delete')->name('users.delete');
     });
 
     Route::controller(CategoryController::class)->group(function () {
 
         Route::get('/categories', 'index')->name('categories.index');
-
         Route::get('/categories/create', 'create')->name('categories.create');
-
         Route::post('/categories/store', 'store')->name('categories.store');
-
         Route::get('/categories/{category:slug}/edit', 'edit')->name('categories.edit');
-
         Route::post('/categories/{category}/update', 'update')->name('categories.update');
-
         Route::get('/categories/{category:slug}/delete', 'delete')->name('categories.delete');
     });
     Route::get('/categories/{category:slug}/status/update', [CategoryStatusController::class, 'update'])->name('categories.status.update');
@@ -78,19 +66,24 @@ Route::middleware(['auth'])->group(function () {
     Route::controller(TeamUserController::class)->group(function () {
 
         Route::get('/teams/{trainer:slug}/users', 'index')->name('teams.users.index');
-
         Route::post('/teams/{trainer}/users', 'store')->name('teams.users.store');
-
         Route::post('/teams/{trainer}/destroy', 'destroy')->name('teams.users.destroy');
     });
 
     Route::controller(UserTeamController::class)->group(function () {
-
         Route::get('/users/{user:slug}/teams', 'index')->name('users.teams.index');
-
         Route::post('/users/{user}/store', 'store')->name('users.teams.store');
-
         Route::post('/users/{user}/teams', 'destroy')->name('users.teams.destroy');
+    });
+
+    Route::controller(CourseController::class)->group(function () {
+
+        Route::get('/courses', 'index')->name('courses.index');
+        Route::get('/courses/create', 'create')->name('courses.create');
+        Route::post('/courses/store', 'store')->name('courses.store');
+        Route::get('/courses/{course:slug}/edit', 'edit')->name('courses.edit');
+        Route::post('/courses/{course}/update', 'update')->name('courses.update');
+        Route::post('/courses/{course}/destroy', 'destroy')->name('courses.destroy');
     });
 });
 
