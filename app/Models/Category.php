@@ -31,4 +31,22 @@ class Category extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function scopeFilter($query, array $filters)
+    {
+        $query->when($filters['sort_by'] ?? false, function ($query, $sort_by) {
+
+            if ($sort_by == 'A-Z') {
+                $query->orderBy('name', 'ASC');
+            } elseif ($sort_by == 'Z-A') {
+                $query->orderBy('name', 'DESC');
+            } else {
+                $query->orderBy('created_at', $sort_by);
+            }
+        });
+
+        $query->when($filters['search'] ?? false, function ($query, $search) {
+            $query->where('name', 'like', '%' . $search . '%');
+        });
+    }
 }

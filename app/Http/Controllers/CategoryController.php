@@ -11,10 +11,9 @@ class CategoryController extends Controller
     // Collects categories and return view to list categories 
     public function index()
     {
-        $categories = Category::where('user_id', Auth::id())->paginate(3);
-
         return view('categories.index', [
-            'categories' => $categories
+            'categories' => Category::where('user_id', Auth::id())
+                ->filter(request(['sort_by', 'search']))->paginate(3)
         ]);
     }
 

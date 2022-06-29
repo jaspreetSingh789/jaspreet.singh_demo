@@ -2,13 +2,12 @@
 
 namespace App\Notifications;
 
-use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class AssignedTeamUserNotification extends Notification
+class UserUnenrollNotification extends Notification
 {
     use Queueable;
 
@@ -17,12 +16,12 @@ class AssignedTeamUserNotification extends Notification
      *
      * @return void
      */
-    public $assignees;
     public $user;
-    public function __construct(User $assignees, $user)
+    public $course;
+    public function __construct($user, $course)
     {
-        $this->assignees = $assignees;
         $this->user = $user;
+        $this->course = $course;
     }
 
     /**
@@ -45,9 +44,8 @@ class AssignedTeamUserNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->line('Hello ' . $notifiable->first_name)
-            ->line('This is to inform you that ')
-            ->line('you have been assigned ' . $this->user->first_name);
+            ->line('Hello ' . $notifiable->full_name)
+            ->line('This is to inform you that you have been unenrolled from ' . $this->course->title);
     }
 
     /**

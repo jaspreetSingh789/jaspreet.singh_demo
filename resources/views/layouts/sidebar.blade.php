@@ -1,5 +1,5 @@
  <!-- sidebar -->
- <nav class="w-1/5 bg-sky shadow-md flex flex-row pt-10 items-stretch ">
+ <nav class="w-1/6 bg-sky shadow-md flex flex-row pt-10 items-stretch ">
      <ul class="w-full text-white">
          <li class="hover:bg-white hover:text-sky p-3 ">
              <svg class="w-6 h-6 inline" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15 15" fill="currentColor">

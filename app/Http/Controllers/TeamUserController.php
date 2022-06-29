@@ -20,8 +20,6 @@ class TeamUserController extends Controller
 {
     public function index(User $trainer)
     {
-        // dd($trainer->trainers()->get());
-        // dd($trainer->assignedUsers()->get());
         $this->authorize(('view'), $trainer);
         $employees = User::CreatedByAdmin()
             ->active()

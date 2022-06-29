@@ -26,7 +26,7 @@
     @include('layouts.navigation')
 
     <!-- Page Content -->
-    <main class="flex h-full">
+    <main class="flex h-full bg-gray-100">
         @include('layouts.sidebar')
         {{ $slot }}
     </main>

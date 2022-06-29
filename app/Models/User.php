@@ -68,6 +68,47 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+
+    // Attributes
+    public function setPasswordAttribute($password)
+    {
+        $this->attributes['password'] = Hash::make($password);
+    }
+
+    public function getFullNameAttribute()
+    {
+        return $this->first_name . ' ' . $this->last_name;
+    }
+
+    // Relationships
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
+    }
+
+    public function categories()
+    {
+        return $this->hasMany(Category::class);
+    }
+
+    public function trainers()
+    {
+        return $this->belongsTomany(User::class, 'teams', 'user_id', 'team_id')
+            ->withTimestamps();
+    }
+
+    public function assignedUsers()
+    {
+        return $this->belongsToMany(User::class, 'teams', 'team_id', 'user_id')
+            ->withTimestamps();
+    }
+
+    public function courses()
+    {
+        return $this->belongsToMany(Course::class, 'course_user', 'user_id', 'course_id');
+    }
+
+    // Scopes
     public function scopeUsersList($query)
     {
         return  $query->where('created_by', Auth::id())
@@ -96,33 +137,6 @@ class User extends Authenticatable
             $query->where('first_name', 'like', '%' . $search . '%')
                 ->orwhere('email', 'like', '%' . $search . '%');
         });
-    }
-
-    public function setPasswordAttribute($password)
-    {
-        $this->attributes['password'] = Hash::make($password);
-    }
-
-    public function role()
-    {
-        return $this->belongsTo(Role::class);
-    }
-
-    public function categories()
-    {
-        return $this->hasMany(Category::class);
-    }
-
-    public function trainers()
-    {
-        return $this->belongsTomany(User::class, 'teams', 'user_id', 'team_id')
-            ->withTimestamps();
-    }
-
-    public function assignedUsers()
-    {
-        return $this->belongsToMany(User::class, 'teams', 'team_id', 'user_id')
-            ->withTimestamps();
     }
 
     public function scopeVisibleTo($query)

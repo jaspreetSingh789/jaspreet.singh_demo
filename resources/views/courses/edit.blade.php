@@ -1,13 +1,18 @@
 <x-app-layout>
-    <section class="flex-auto bg-gray-200">
+    <section class="flex-auto m-5">
 
         <!-- links -->
-        <div class="pt-5 ml-10">
-            <a class=" text-blue-800 font-bold text-xl" href="{{ route('users.index') }}">Courses</a><strong class="px-2 font-bold text-xl ">></strong><span class="font-bold text-xl">Create Course</span>
+        <div class="flex justify-between mb-5">
+            <div>
+                <a class="text-blue-800 font-bold text-xl" href="{{ route('courses.index') }}">Courses</a><strong class="px-2 font-bold text-xl ">></strong><span class="font-bold text-xl">Update Course</span>
+            </div>
+            <a class="px-4 py-2 bg-blue-500 rounded text-white shadow-md" href="{{ route('courses.show',$course) }}">{{__('Go to Course Content')}}</a>
         </div>
+        <!-- tabs for courses -->
+        <x-courses-tabs :course=$course />
 
         <!-- form to create users -->
-        <main class="main w-11/12 ml-10 mt-5 border border-gray-50 p-6 rounded-xl bg-white">
+        <main class="main border border-gray-50 p-6 bg-white">
             <form method="post" action="{{ route('courses.update',$course) }}" class="mt-5">
                 @csrf
                 <div class="inputs-container mb-6">

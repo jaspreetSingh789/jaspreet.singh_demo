@@ -4,12 +4,14 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CategoryStatusController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\EnrollUserController;
 use App\Http\Controllers\MyWelcomeController;
 use App\Http\Controllers\ResetPasswordController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeamUserController;
+use App\Http\Controllers\UnitController;
 use App\Http\Controllers\UserStatusController;
 use App\Http\Controllers\UserTeamController;
 
@@ -79,11 +81,26 @@ Route::middleware(['auth'])->group(function () {
     Route::controller(CourseController::class)->group(function () {
 
         Route::get('/courses', 'index')->name('courses.index');
+        Route::get('/courses/{course}/show', 'show')->name('courses.show');
         Route::get('/courses/create', 'create')->name('courses.create');
         Route::post('/courses/store', 'store')->name('courses.store');
         Route::get('/courses/{course:slug}/edit', 'edit')->name('courses.edit');
         Route::post('/courses/{course}/update', 'update')->name('courses.update');
-        Route::post('/courses/{course}/destroy', 'destroy')->name('courses.destroy');
+        Route::get('/courses/{course}/destroy', 'destroy')->name('courses.destroy');
+    });
+
+    Route::controller(EnrollUserController::class)->group(function () {
+        Route::get('/courses/{course}/enroll', 'index')->name('courses.enroll.index');
+        Route::post('/courses/{course}/store', 'store')->name('courses.enroll.store');
+        Route::post('/courses/{course}/destroy', 'destroy')->name('courses.user.destroy');
+    });
+
+    Route::controller(UnitController::class)->group(function () {
+        Route::get('/units/create', 'create')->name('units.create');
+        Route::post('/units/store', 'store')->name('units.store');
+        Route::get('/units/{unit}edit', 'edit')->name('units.edit');
+        Route::post('/units/{unit}/update', 'update')->name('units.update');
+        Route::get('/unit/{unit}/destroy', 'destroy')->name('units.destroy');
     });
 });
 

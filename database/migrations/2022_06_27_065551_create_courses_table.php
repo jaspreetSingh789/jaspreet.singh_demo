@@ -18,10 +18,11 @@ return new class extends Migration
             $table->string('slug')->unique();
             $table->string('title');
             $table->text('description');
-            $table->boolean('certificate');
+            $table->boolean('certificate')->default(0);
             $table->foreignId('user_id')->constrained();
             $table->foreignId('category_id')->constrained();
             $table->foreignId('level_id')->constrained();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

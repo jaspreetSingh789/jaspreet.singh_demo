@@ -1,22 +1,30 @@
 <x-app-layout>
-
     <!-- button to create user  -->
-    <div class="w-4/5">
-        <div class="flex justify-between p-5 ml-16">
+    <div class="w-4/5 m-5">
+        <div class="flex justify-between">
             <span class="text-blue-800 uppercase text-3xl font-black">{{__('Users')}}</span>
             <a class="px-4 py-2 bg-blue-500 rounded text-white shadow-md" href="{{ route('users.create')}}">{{__('Create User')}}</a>
         </div>
         <!-- filters -->
-        <div class="flex justify-between mx-10 my-5">
+        <div class="flex justify-between my-5">
             <div>
                 <form action="" method="get">
-                    <input class="px-10 py-3" name="search" type="text" value="{{ request('search') }}" placeholder="Search by Name or Email">
+                    <input class="w-80 rounded" name="search" type="text" value="{{ request('search') }}" placeholder="Search by Name or Email">
                 </form>
             </div>
             <div class="flex">
                 <div x-data="{ show:false}" @click.away="show = false">
                     <button @click="show = !show" class="border-2 px-5 py-2 w-40">
-                        User type</button>
+                        @if(request('user_type') == '2')
+                        Sub Admins
+                        @elseif(request('user_type') == '3')
+                        Trainers
+                        @elseif(request('user_type') == '4')
+                        Employees
+                        @else
+                        All User Type
+                        @endif
+                    </button>
                     <div x-show="show" class="absolute border-2 border-black-600 w-40">
                         <form action="{{ route('users.index') }}" method="get">
                             @if(request('date_filter'))
@@ -31,41 +39,48 @@
                 </div>
 
                 <div x-data="{ show:false}" @click.away="show = false" class="ml-5">
-                    <button @click="show = !show" class="border-2 px-5 py-2 w-40">
-                        Date filter</button>
-                    <div x-show="show" class="absolute border-2 border-black-600 w-40">
+                    <button @click="show = !show" class="border-2 px-5 py-2 w-52">
+                        @if(request('date_filter') == 'DESC')
+                        Oldest Created Date
+                        @elseif(request('date_filter') == 'A-Z')
+                        Name A TO Z
+                        @elseif(request('date_filter') == 'Z-A')
+                        Name Z TO A
+                        @else
+                        Latest Created Date
+                        @endif
+                    </button>
+                    <div x-show="show" class="absolute border-2 border-black-600 w-52">
                         <form action="{{ route('users.index') }}" method="get">
                             @if(request('user_type'))
                             <input type="hidden" name="user_type" value="{{ request('user_type') }}">
                             @endif
-                            <button class="bg-gray-100 w-full hover:bg-gray-400 text-left px-3 py-2" type="submit" name="date_filter" value="ASC">latest</button>
-                            <button class="bg-gray-100 w-full hover:bg-gray-400 text-left px-3 py-2" type="submit" name="date_filter" value="DESC">oldest</button>
-                            <button class="bg-gray-100 w-full hover:bg-gray-400 text-left px-3 py-2" type="submit" name="date_filter" value="A-Z">A to Z</button>
-                            <button class="bg-gray-100 w-full hover:bg-gray-400 text-left px-3 py-2" type="submit" name="date_filter" value="Z-A">Z to A</button>
+                            <button class="bg-gray-100 w-full hover:bg-gray-400 text-left px-3 py-2" type="submit" name="date_filter" value="ASC">Latest Created Date</button>
+                            <button class="bg-gray-100 w-full hover:bg-gray-400 text-left px-3 py-2" type="submit" name="date_filter" value="DESC"> Oldest Created Date</button>
+                            <button class="bg-gray-100 w-full hover:bg-gray-400 text-left px-3 py-2" type="submit" name="date_filter" value="A-Z">Name A to Z</button>
+                            <button class="bg-gray-100 w-full hover:bg-gray-400 text-left px-3 py-2" type="submit" name="date_filter" value="Z-A">Name Z to A</button>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
         <!-- Table to list users -->
-        <table class="text-center ml-20 w-11/12 shadow-md">
+        <table class="text-center w-full shadow-md">
             <thead class="uppercase">
                 <tr class="bg-blue-100 p-10">
-                    <?php $number = 1 ?>
-                    <th class="py-5">{{__('S.no')}}</th>
-                    <th>{{__('User Name')}}</th>
-                    <th>{{__('Email')}}</th>
-                    <th>{{__('Status')}}</th>
+                    <th class="py-5">{{__('User Name')}}</th>
                     <th>{{__('User type')}}</th>
+                    <th>{{__('Status')}}</th>
                     <th>{{__('action')}}</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach($users as $user)
                 <tr class="border border-b-2 border-black-700">
-                    <td class="p-5">{{ $number++ }}</td>
-                    <td>{{ $user->first_name ." ". $user->last_name }}</td>
-                    <td>{{ $user->email }}</td>
+                    <td class="py-5">
+                        <div>{{ $user->full_name }}</div>
+                        <div class="text-xs text-gray-700">{{ $user->email }}</div>
+                    </td>
                     <td>{{ $user->status == 1 ? 'Active' : 'Inactive'}}</td>
                     <td>{{ $user->role->name }}</td>
                     <td>

@@ -17,6 +17,8 @@ class UnAssignedFromTeamNotification extends Notification
      *
      * @return void
      */
+    public $user;
+    public $assignee;
     public function __construct(User $user, $assignee)
     {
         $this->user = $user;

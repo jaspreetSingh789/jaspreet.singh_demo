@@ -13,13 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('units', function (Blueprint $table) {
+        Schema::create('images', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->text('description');
-            $table->integer('duration')->nullable();
-            $table->integer('lessons_count')->default(0);
-            $table->softDeletes();
+            $table->foreignId('course_id')->constrained();
+            $table->string('image_path');
             $table->timestamps();
         });
     }
@@ -31,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('units');
+        Schema::dropIfExists('images');
     }
 };

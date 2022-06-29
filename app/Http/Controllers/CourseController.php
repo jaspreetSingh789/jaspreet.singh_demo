@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Course;
+use App\Models\Image;
 use App\Models\Level;
+use App\Models\Unit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use PHPUnit\Framework\Constraint\Count;
@@ -14,7 +16,9 @@ class CourseController extends Controller
     public function index()
     {
         return view('courses.index', [
-            'courses' => Course::all(),
+            'courses' => Course::filter(request(['category', 'level', 'search', 'sort_by']))->get(),
+            'levels' => Level::all(),
+            'categories' => Category::all()
         ]);
     }
 
@@ -26,22 +30,42 @@ class CourseController extends Controller
         ]);
     }
 
+    public function show(Course $course)
+    {
+        return view('courses.show', [
+            'course' => $course,
+            'units' => Unit::all()
+        ]);
+    }
+
     public function store(Request $request)
     {
         $attributes = $request->validate([
-            'title' => 'required|min:3|max:50',
-            'description' => 'required|min:5',
+            'title' => ['required', 'min:3', 'max:50'],
+            'description' => ['required', 'min:5', 'max:255'],
             'certificate' => '',
-            'category_id' => 'required',
-            'level_id' => 'required',
+            'category_id' => ['required', 'exists:App\Models\Category,id'],
+            'level_id' => ['required', 'exists:App\Models\Level,id'],
+            'image'  => ['required', 'mimes:jpg,png,jpeg,gif,svg']
         ]);
         $attributes += [
             'user_id' => Auth::id(),
         ];
 
-        Course::create($attributes);
+        $course =  Course::create($attributes);
 
-        return redirect()->route('courses.index')->with('success', 'Course created successfully');
+
+        if (request()->file('image')) {
+
+            $path = $request->file('image')->store('public/images');
+
+            Image::create([
+                'image_path' => $path,
+                'course_id' => $course->id
+            ]);
+        }
+
+        return redirect()->route('courses.create')->with('success', 'Course created successfully');
     }
 
     public function edit(Course $course)
@@ -57,11 +81,11 @@ class CourseController extends Controller
     public function update(Request $request, Course $course)
     {
         $attributes = $request->validate([
-            'title' => 'required|min:3|max:50',
-            'description' => 'required|min:5',
+            'title' => ['required', 'min:3', 'max:50'],
+            'description' => ['required', 'min:5', 'max:255'],
             'certificate' => '',
-            'category_id' => 'required',
-            'level_id' => 'required',
+            'category_id' => ['required', 'exists:App\Models\Category,id'],
+            'level_id' => ['required', 'exists:App\Models\Level,id'],
         ]);
 
         $course->update($attributes);
@@ -72,5 +96,7 @@ class CourseController extends Controller
     public function destroy(Course $course)
     {
         $course->delete();
+
+        return redirect()->route('courses.index')->with('success', 'course deleted successfully');
     }
 }

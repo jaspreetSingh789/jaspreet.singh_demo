@@ -1,102 +1,112 @@
 <x-app-layout>
 
-    <!-- button to create user  -->
-    <div class="w-4/5">
+    <!-- button to create course  -->
+    <div class="w-4/5 bg-gray-100 m-5">
         <div class="flex justify-between p-5 ml-16">
             <span class="text-blue-800 uppercase text-3xl font-black">{{__('Courses')}}</span>
             <a class="px-4 py-2 bg-blue-500 rounded text-white shadow-md" href="{{ route('courses.create') }}">{{__('Create Course')}}</a>
         </div>
         <!-- filters -->
-        <div class="flex justify-between mx-10 my-5">
-            <div>
-                <form action="" method="get">
-                    <input class="px-10 py-3" type="text">
-                </form>
-            </div>
+        <div class="flex justify-between my-5">
             <div class="flex">
-                <div x-data="{ show:false}" @click.away="show = false">
-                    <button @click="show = !show" class="border-2 px-5 py-2 w-40">
-                        User type</button>
-                    <div x-show="show" class="absolute border-2 border-black-600 w-40">
+                <!-- search -->
+                <div>
+                    <form action="" method="get">
+                        <input class="px-10 py-3" type="text">
+                    </form>
+                </div>
+                <!-- category filter -->
+                <div x-data="{ show:false}" @click.away="show = false" class="ml-5">
+                    <button @click="show = !show" class="border-2 px-5 py-2 w-40 bg-white">
+                        Category</button>
+                    <div x-show="show" class="absolute border-2 border-black-600 w-40 z-10">
                         <form action="" method="get">
                             @if(request('date_filter'))
                             <input type="hidden" name="date_filter" value="">
                             @endif
-                            <button class="bg-gray-100 w-full hover:bg-gray-400 text-left px-3 py-2" type="submit" name="user_type" value="2">Sub-admins</button>
-                            <button class="bg-gray-100 w-full hover:bg-gray-400 text-left px-3 py-2" type="submit" name="user_type" value="3">Trainers</button>
-                            <button class="bg-gray-100 w-full hover:bg-gray-400 text-left px-3 py-2" type="submit" name="user_type" value="4">Users</button>
+                            @foreach($categories as $category)
+                            <button class="bg-gray-100 w-full hover:bg-gray-400 text-left px-3 py-2" type="submit" name="category" value="{{ $category->id }}">{{ $category->name }}</button>
+                            @endforeach
                         </form>
                     </div>
                 </div>
 
+                <!-- level filter -->
                 <div x-data="{ show:false}" @click.away="show = false" class="ml-5">
-                    <button @click="show = !show" class="border-2 px-5 py-2 w-40">
-                        Date filter</button>
-                    <div x-show="show" class="absolute border-2 border-black-600 w-40">
+                    <button @click="show = !show" class="border-2 px-5 py-2 w-40 bg-white">
+                        Level</button>
+                    <div x-show="show" class="absolute border-2 border-black-600 w-40 z-10">
                         <form action="" method="get">
-                            @if(request('user_type'))
-                            <input type="hidden" name="user_type" value="">
+                            @if(request('date_filter'))
+                            <input type="hidden" name="date_filter" value="">
                             @endif
-                            <button class="bg-gray-100 w-full hover:bg-gray-400 text-left px-3 py-2" type="submit" name="date_filter" value="ASC">latest</button>
-                            <button class="bg-gray-100 w-full hover:bg-gray-400 text-left px-3 py-2" type="submit" name="date_filter" value="DESC">oldest</button>
+
+                            @foreach($levels as $level)
+                            <button class="bg-gray-100 w-full hover:bg-gray-400 text-left px-3 py-2" type="submit" name="level" value="{{ $level->id }}">{{ $level->name }}</button>
+                            @endforeach
                         </form>
                     </div>
                 </div>
             </div>
+
+            <!-- sort by  -->
+            <div x-data="{ show:false}" @click.away="show = false" class="ml-5">
+                <button @click="show = !show" class="border-2 px-5 py-2 w-52 bg-white">
+                    @if(request('date_filter') == 'DESC')
+                    Oldest Created Date
+                    @elseif(request('date_filter') == 'A-Z')
+                    Name A TO Z
+                    @elseif(request('date_filter') == 'Z-A')
+                    Name Z TO A
+                    @else
+                    Latest Created Date
+                    @endif
+                </button>
+                <div x-show="show" class="absolute border-2 border-black-600 w-52 z-10">
+                    <form action="{{ route('users.index') }}" method="get">
+                        @if(request('user_type'))
+                        <input type="hidden" name="user_type" value="{{ request('user_type') }}">
+                        @endif
+                        <button class="bg-gray-100 w-full hover:bg-gray-400 text-left px-3 py-2" type="submit" name="sort_by" value="ASC">Latest Created Date</button>
+                        <button class="bg-gray-100 w-full hover:bg-gray-400 text-left px-3 py-2" type="submit" name="sort_by" value="DESC"> Oldest Created Date</button>
+                        <button class="bg-gray-100 w-full hover:bg-gray-400 text-left px-3 py-2" type="submit" name="sort_by" value="A-Z">Name A to Z</button>
+                        <button class="bg-gray-100 w-full hover:bg-gray-400 text-left px-3 py-2" type="submit" name="sort_by" value="Z-A">Name Z to A</button>
+                    </form>
+                </div>
+            </div>
+
         </div>
 
         <!-- courses list -->
         @foreach($courses as $course)
-        <div class="bg-gray-300 w-full flex mb-2 h-40">
-            <div class="w-3/12 bg-red-100">picture</div>
-            <div>
-                <div>{{ $course->category->name }}</div>
-                <div>{{ $course->title }}</div>
-                <div>Created by:{{ $course->user->first_name }} Created on:{{ $course->created_at }} </div>
-                <div>{{ $course->description }}</div>
-                <div>{{ $course->level->name }}</div>
+
+        <div class="w-full flex mb-2 h-52 bg-white p-2">
+            <div class="w-3/12 bg-gray-100 m-2 rounded">
+                <img src="../../storage/app/public/images/B2UmDMIfPQ8RkCEH3Fi00kbtrcEnA6apwMNTbGqk.jpg" alt="img">
+            </div>
+            <div class="relative w-full">
+                <span class="px-2 bg-gray-100 rounded">{{ $course->category->name }}</span>
+                <div class="text-3xl">{{ $course->title }}</div>
+                <div class="font-thin text-gray-500">Created by:<span class="font-black text-black mr-2 ml-1">{{ $course->users }}</span> Created on:<span class="font-black text-black ml-1">{{ $course->created_at }}</span></div>
+                <div class="font-thin text-gray-500">{{ $course->description }}</div>
+                <div class=" absolute bottom-0"><span class="mr-2">{{ $course->level->name }}</span><span>0 Enrolled</span></div>
+                <span class="absolute top-2 right-12 px-2 bg-green-100 border-2 border-green-700 text-green-700 text-sm rounded">Published</span>
+
+                <!-- dropdown for actions -->
+                <div x-data="{ show:false}" @click.away="show = false" class="absolute top-2 right-2">
+                    <button @click="show = !show">
+                        <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15 15" fill="currentColor">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M3.625 7.5C3.625 8.12132 3.12132 8.625 2.5 8.625C1.87868 8.625 1.375 8.12132 1.375 7.5C1.375 6.87868 1.87868 6.375 2.5 6.375C3.12132 6.375 3.625 6.87868 3.625 7.5ZM8.625 7.5C8.625 8.12132 8.12132 8.625 7.5 8.625C6.87868 8.625 6.375 8.12132 6.375 7.5C6.375 6.87868 6.87868 6.375 7.5 6.375C8.12132 6.375 8.625 6.87868 8.625 7.5ZM12.5 8.625C13.1213 8.625 13.625 8.12132 13.625 7.5C13.625 6.87868 13.1213 6.375 12.5 6.375C11.8787 6.375 11.375 6.87868 11.375 7.5C11.375 8.12132 11.8787 8.625 12.5 8.625Z" fill="currentColor"></path>
+                        </svg></button>
+                    <div x-show="show" class="absolute border-2 border-black-600 w-50">
+                        <a class="bg-gray-100 hover:bg-gray-400 block text-left px-3 leading-7" href="{{ route('courses.destroy',$course) }}">{{ __('Delete') }}</a>
+                        <a class="bg-gray-100 hover:bg-gray-400 block text-left px-3 leading-7" href="{{ route('courses.edit',$course)}}">{{__('Edit')}}</a>
+                        <a class="bg-gray-100 hover:bg-gray-400 block text-left px-3 leading-7" href="">{{__('Reset Password')}}</a>
+                    </div>
+                </div>
             </div>
         </div>
         @endforeach
-        <!-- Table to list users -->
-        <table class="text-center ml-20 w-11/12 shadow-md">
-            <thead class="uppercase">
-                <tr class="bg-blue-100 p-10">
-                    <?php $number = 1 ?>
-                    <th class="py-5">{{__('S.no')}}</th>
-                    <th>{{__('Title')}}</th>
-                    <th>{{__('Description')}}</th>
-                    <th>{{__('Duration')}}</th>
-                    <th>{{__('certificate')}}</th>
-                    <th>{{__('action')}}</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($courses as $course)
-                <tr class="border border-b-2 border-black-700">
-                    <td class="p-5">{{ $number++ }}</td>
-                    <td>{{ $course->title }}</td>
-                    <td>{{ $course->description }}</td>
-                    <td>{{ $course->duration }}</td>
-                    <td>{{ $course->certificate }}</td>
-                    <td>
-                        <div x-data="{ show:false}" @click.away="show = false">
-                            <button @click="show = !show">
-                                <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor">
-                                    <path d="M144,192a16,16,0,1,1-16-16A16,16,0,0,1,144,192ZM128,80a16,16,0,1,0-16-16A16,16,0,0,0,128,80Zm0,32a16,16,0,1,0,16,16A16,16,0,0,0,128,112Z"></path>
-                                </svg></button>
-                            <div x-show="show" class="absolute border-2 border-black-600 w-50">
-                                <a class="bg-gray-100 hover:bg-gray-400 block text-left px-3 leading-7" href="{{ route('courses.destroy',$course) }}">{{ __('Delete') }}</a>
-                                <a class="bg-gray-100 hover:bg-gray-400 block text-left px-3 leading-7" href="{{ route('courses.edit',$course)}}">{{__('Edit')}}</a>
-                                <a class="bg-gray-100 hover:bg-gray-400 block text-left px-3 leading-7" href="">{{__('Reset Password')}}</a>
-                            </div>
-                        </div>
-                </tr>
-                </td>
-                @endforeach
-            </tbody>
-        </table>
-
     </div>
 
 </x-app-layout>

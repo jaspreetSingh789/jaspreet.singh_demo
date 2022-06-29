@@ -1,14 +1,14 @@
 <x-app-layout>
-    <section class="flex-auto bg-gray-200">
+    <section class="flex-auto m-5">
 
         <!-- links -->
-        <div class="pt-5 ml-10">
+        <div class="pt-5">
             <a class=" text-blue-800 font-bold text-xl" href="{{ route('users.index') }}">Courses</a><strong class="px-2 font-bold text-xl ">></strong><span class="font-bold text-xl">Create Course</span>
         </div>
 
         <!-- form to create users -->
-        <main class="main w-11/12 ml-10 mt-5 border border-gray-50 p-6 rounded-xl bg-white">
-            <form method="post" action="{{ route('courses.store') }}" class="mt-5">
+        <main class="w-full mt-5 border border-gray-50 p-6 bg-white relative">
+            <form method="post" action="{{ route('courses.store') }}" enctype="multipart/form-data" class="mt-5">
                 @csrf
                 <div class="inputs-container mb-6">
 
@@ -47,9 +47,20 @@
                     @enderror
 
                     <input type="checkbox" name="certificate" id="" value="1">
-                    <label class="mb-2 text-xs uppercase font-bold text-gray-700" for="level">Certificate
+                    <label class="mb-2 text-xs uppercase font-bold text-gray-700" for="certificate">Certificate
                         <font class="text-red-500 pl-2">*</font>
                     </label>
+                    @error('certificate')
+                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                    @enderror
+
+                    <label class="mb-2 text-xs uppercase font-bold text-gray-700 absolute right-2 top-1/2" for="image">Upload course cover Image
+                        <font class="text-red-500 pl-2">*</font>
+                    </label>
+                    <input class="absolute right-2 top-1/2" type="file" name="image">
+                    @error('image')
+                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                    @enderror
 
                 </div>
                 <div class="mb-6">
