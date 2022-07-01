@@ -4,7 +4,7 @@
         <!-- links -->
         <div class="flex justify-between mb-5">
             <div>
-                <a class="text-blue-800 font-bold text-xl" href="{{ route('courses.index') }}">Courses</a><strong class="px-2 font-bold text-xl ">></strong><span class="font-bold text-xl">Update Course</span>
+                <a class="text-blue-800 font-bold text-xl" href="{{ route('courses.index') }}">Courses</a><strong class="px-2 font-bold text-xl ">></strong><a href="{{ route('courses.show',$course) }}" class="font-bold text-xl">{{ $course->title }}</a><strong class=" px-2 font-bold text-xl ">></strong><span class=" font-bold text-xl">Update Course</span>
             </div>
             <a class="px-4 py-2 bg-blue-500 rounded text-white shadow-md" href="{{ route('courses.show',$course) }}">{{__('Go to Course Content')}}</a>
         </div>

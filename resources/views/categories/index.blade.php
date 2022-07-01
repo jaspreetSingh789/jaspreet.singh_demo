@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div class="w-3/4 m-5">
+    <div class="w-4/5 m-5">
 
         <!-- button to create category -->
         <div class="flex justify-between mb-5">
@@ -12,12 +12,12 @@
             <!-- search -->
             <div>
                 <form action="" method="get">
-                    <input class="w-80 rounded" name="search" type="text" value="{{ request('search') }}" placeholder="Search by Name or Email">
+                    <input class="w-80 rounded" name="search" type="text" value="{{ request('search') }}" placeholder="Search by Name">
                 </form>
             </div>
             <!-- sory by -->
             <div x-data="{ show:false}" @click.away="show = false" class="ml-5">
-                <button @click="show = !show" class="border-2 px-5 py-2 w-52">
+                <button @click="show = !show" class="border-2 px-5 py-2 w-52 bg-white">
                     @if(request('date_filter') == 'DESC')
                     Oldest Created Date
                     @elseif(request('date_filter') == 'A-Z')
@@ -47,10 +47,8 @@
         <table class="text-center w-full shadow-md">
             <thead class="uppercase">
                 <tr class="bg-blue-100 p-10">
-                    <?php $number = 1 ?>
                     <?php $courses = 0 ?>
-                    <th class="p-5">{{__('S.no')}}</th>
-                    <th>{{__('NAME')}}</th>
+                    <th class="p-5">{{__('NAME')}}</th>
                     <th>{{__('CREATED BY')}}</th>
                     <th>{{__('COURSES')}}</th>
                     <th>{{__('CREATED DATE')}}</th>
@@ -63,8 +61,7 @@
 
                 @foreach($categories as $category)
                 <tr class="border border-b-1 border-black-700">
-                    <td class="py-5">{{ $number++ }}</td>
-                    <td>{{ $category->name }}</td>
+                    <td class="p-5">{{ $category->name }}</td>
                     <td>{{ $category->user_id }}</td>
                     <td>{{ $courses }}</td>
                     <td>{{ $category->created_at }}</td>

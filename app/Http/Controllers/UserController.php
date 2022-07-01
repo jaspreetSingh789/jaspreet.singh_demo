@@ -16,8 +16,13 @@ class UserController extends Controller
     // Collects users from users table and returns to view that shows lists of those users
     public function index()
     {
+        if (request(['user_type', 'date_filter', 'search'])) {
+            $users = User::filter(request(['user_type', 'date_filter', 'search']))->paginate(5);
+        } else {
+            $users = User::orderBy('created_at', 'DESC')->paginate(5);
+        }
         return view('users.index', [
-            'users' => User::filter(request(['user_type', 'date_filter', 'search']))->paginate(5)
+            'users' => $users
         ]);
     }
 

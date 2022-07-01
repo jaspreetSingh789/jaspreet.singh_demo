@@ -8,7 +8,7 @@
 
         <!-- form to create users -->
         <main class="w-full mt-5 border border-gray-50 p-6 bg-white relative">
-            <form method="post" action="{{ route('units.store') }}" class="mt-5">
+            <form method="post" action="{{ route('units.store',$course) }}" class="mt-5">
                 @csrf
                 <div class="inputs-container mb-6">
 

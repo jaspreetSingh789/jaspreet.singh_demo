@@ -36,6 +36,7 @@ class User extends Authenticatable
 
     protected $guarded = [];
 
+    // constants
     const ACTIVE = 1;
     const INACTIVE = 0;
 

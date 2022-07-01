@@ -1,8 +1,8 @@
 <x-app-layout>
 
-    <section class="flex-auto h-screen">
+    <section class="flex-auto h-screen m-5">
 
-        <div class="mt-20 flex justify-between mx-20 my-5">
+        <div class="flex justify-between mb-5">
             <!-- links -->
             <div>
                 <a class=" text-blue-800 font-bold text-xl" href="{{ route('users.index',$user) }}">Users</a><strong class="px-2 font-bold text-xl ">></strong><span class="font-bold text-xl">user->first_name</span>
@@ -15,16 +15,16 @@
                     <form action="{{ route('users.teams.store', $user) }}" method="post">
                         @csrf
                         @foreach($trainers as $trainer)
-                        <input class="py-4 inline-block" type="checkbox" name="trainerIds[]" value="{{ $trainer->id }}">
+                        <input type="checkbox" name="trainerIds[]" value="{{ $trainer->id }}">
                         <label class="bg-gray-100 w-10/12 inline-block hover:bg-gray-400 text-left px-3 py-1" for="trainerIds"> {{ $trainer->id.' '.$trainer->first_name }}</label><br>
                         @endforeach
-                        <button class="bg-gray-100 w-full hover:bg-gray-400 text-left px-3 py-1" type="submit">Assign</button>
+                        <button class="w-full hover:bg-gray-400 text-left px-3 py-1" type="submit">Assign</button>
                     </form>
                 </div>
             </div>
         </div>
 
-        <div class="w-11/12 ml-10">
+        <div class="">
 
             <!-- tabs -->
             <x-tabs :trainer=$user />
@@ -35,9 +35,10 @@
                     <tr class="bg-blue-100 p-10">
                         <th class="py-5">{{__('User Name')}}</th>
                         <th>{{__('id')}}</th>
-                        <th>{{__('Email')}}</th>
+                        <th>{{__('E-mail')}}</th>
                         <th>{{__('User Type')}}</th>
-                        <th>{{__('action')}}</th>
+                        <th>{{__('Status')}}</th>
+                        <th>{{__('Action')}}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -47,10 +48,11 @@
                         <td>{{ $assignedtrainer->id }}</td>
                         <td>{{ $assignedtrainer->email }}</td>
                         <td>{{ $assignedtrainer->role->name }}</td>
+                        <td><span class="px-2 bg-green-200 rounded-xl">{{ $user->status == 1 ? 'Active' : 'Inactive'}}</span></td>
                         <td>
                             <form action="{{ route('users.teams.destroy',$user) }}" method="post">
                                 @csrf
-                                <button type="submit" name="trainerId" value="{{ $assignedtrainer->id }}">{{ __('unassign') }}</button>
+                                <button class="px-2 bg-gray-900 text-white rounded-xl" type="submit" name="trainerId" value="{{ $assignedtrainer->id }}">{{ __('unassign') }}</button>
                             </form>
                         </td>
                     </tr>

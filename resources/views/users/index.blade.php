@@ -7,14 +7,16 @@
         </div>
         <!-- filters -->
         <div class="flex justify-between my-5">
+            <!-- search -->
             <div>
                 <form action="" method="get">
-                    <input class="w-80 rounded" name="search" type="text" value="{{ request('search') }}" placeholder="Search by Name or Email">
+                    <input class="w-80 rounded" name="search" type="text" value="{{ request('search') }} " placeholder="Search by Name or Email">
                 </form>
             </div>
+            <!-- filter user type  -->
             <div class="flex">
                 <div x-data="{ show:false}" @click.away="show = false">
-                    <button @click="show = !show" class="border-2 px-5 py-2 w-40">
+                    <button @click="show = !show" class="border-2 px-5 py-2 w-40 bg-white">
                         @if(request('user_type') == '2')
                         Sub Admins
                         @elseif(request('user_type') == '3')
@@ -38,9 +40,10 @@
                     </div>
                 </div>
 
+                <!-- filter sort-by -->
                 <div x-data="{ show:false}" @click.away="show = false" class="ml-5">
-                    <button @click="show = !show" class="border-2 px-5 py-2 w-52">
-                        @if(request('date_filter') == 'DESC')
+                    <button @click="show = !show" class="border-2 px-5 py-2 w-52 bg-white">
+                        @if(request('date_filter') == 'ASC')
                         Oldest Created Date
                         @elseif(request('date_filter') == 'A-Z')
                         Name A TO Z
@@ -55,8 +58,9 @@
                             @if(request('user_type'))
                             <input type="hidden" name="user_type" value="{{ request('user_type') }}">
                             @endif
-                            <button class="bg-gray-100 w-full hover:bg-gray-400 text-left px-3 py-2" type="submit" name="date_filter" value="ASC">Latest Created Date</button>
-                            <button class="bg-gray-100 w-full hover:bg-gray-400 text-left px-3 py-2" type="submit" name="date_filter" value="DESC"> Oldest Created Date</button>
+                            <a href="{{ route('users.index') }}" class="bg-gray-100 w-full hover:bg-gray-400 text-left px-3 py-2">Latest Created Date</a>
+                            <!-- <button class="bg-gray-100 w-full hover:bg-gray-400 text-left px-3 py-2" type="submit" name="date_filter" value="ASC">Latest Created Date</button> -->
+                            <button class="bg-gray-100 w-full hover:bg-gray-400 text-left px-3 py-2" type="submit" name="date_filter" value="ASC">Oldest Created Date</button>
                             <button class="bg-gray-100 w-full hover:bg-gray-400 text-left px-3 py-2" type="submit" name="date_filter" value="A-Z">Name A to Z</button>
                             <button class="bg-gray-100 w-full hover:bg-gray-400 text-left px-3 py-2" type="submit" name="date_filter" value="Z-A">Name Z to A</button>
                         </form>
@@ -69,9 +73,11 @@
             <thead class="uppercase">
                 <tr class="bg-blue-100 p-10">
                     <th class="py-5">{{__('User Name')}}</th>
-                    <th>{{__('User type')}}</th>
+                    <th>{{__('Type Of User')}}</th>
+                    <th>{{__('Courses')}}</th>
+                    <th>{{__('Created Date')}}</th>
                     <th>{{__('Status')}}</th>
-                    <th>{{__('action')}}</th>
+                    <th>{{__('Action')}}</th>
                 </tr>
             </thead>
             <tbody>
@@ -81,8 +87,11 @@
                         <div>{{ $user->full_name }}</div>
                         <div class="text-xs text-gray-700">{{ $user->email }}</div>
                     </td>
-                    <td>{{ $user->status == 1 ? 'Active' : 'Inactive'}}</td>
                     <td>{{ $user->role->name }}</td>
+                    <td>{{ 0 }}</td>
+                    <td>{{ $user->created_at }}</td>
+                    <td><span class="px-2 bg-green-200 rounded-xl">{{ $user->status == 1 ? 'Active' : 'Inactive'}}</span></td>
+
                     <td>
                         <div x-data="{ show:false}" @click.away="show = false">
                             <button @click="show = !show">

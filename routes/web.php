@@ -96,8 +96,8 @@ Route::middleware(['auth'])->group(function () {
     });
 
     Route::controller(UnitController::class)->group(function () {
-        Route::get('/units/create', 'create')->name('units.create');
-        Route::post('/units/store', 'store')->name('units.store');
+        Route::get('/units/{course}/create', 'create')->name('units.create');
+        Route::post('/units/{course}/store', 'store')->name('units.store');
         Route::get('/units/{unit}edit', 'edit')->name('units.edit');
         Route::post('/units/{unit}/update', 'update')->name('units.update');
         Route::get('/unit/{unit}/destroy', 'destroy')->name('units.destroy');

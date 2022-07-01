@@ -8,12 +8,12 @@ use Illuminate\Support\Facades\Auth;
 
 class CategoryController extends Controller
 {
-    // Collects categories and return view to list categories 
+    // Collects categories and return view to list categories
     public function index()
     {
         return view('categories.index', [
             'categories' => Category::where('user_id', Auth::id())
-                ->filter(request(['sort_by', 'search']))->paginate(3)
+                ->filter(request(['sort_by', 'search']))->paginate()
         ]);
     }
 
@@ -55,7 +55,7 @@ class CategoryController extends Controller
         }
     }
 
-    // return a view with a editable form of the selected category 
+    // return a view with a editable form of the selected category
     public function edit(Category $category)
     {
         $this->authorize('edit', $category);
@@ -80,7 +80,7 @@ class CategoryController extends Controller
             ->with('success', 'category updated successfully');
     }
 
-    // Deletes the seleted categry 
+    // Deletes the seleted categry
     public function delete(Category $category)
     {
         $this->authorize('delete', $category);

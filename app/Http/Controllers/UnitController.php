@@ -10,7 +10,6 @@ class UnitController extends Controller
 {
     public function create(Course $course)
     {
-
         return view('units.create', [
             'course' => $course
         ]);
@@ -18,13 +17,14 @@ class UnitController extends Controller
 
     public function store(Request $request, Course $course)
     {
-
         $attributes =  $request->validate([
             'title' => ['required', 'min:3', 'max:50'],
             'description' => ['required', 'min:5', 'max:255']
         ]);
 
-        Unit::create($attributes);
+        $unit = Unit::create($attributes);
+
+        $course->units()->attach($unit->id);
 
         return back()->with('success', 'unit created successfully.');
     }

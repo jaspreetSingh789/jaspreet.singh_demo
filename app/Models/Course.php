@@ -11,7 +11,26 @@ class Course extends Model
 {
     use HasFactory, SoftDeletes;
     use Sluggable;
-    protected $fillable = ['title', 'description', 'certificate', 'slug', 'user_id', 'category_id', 'level_id'];
+
+    protected $fillable = [
+        'title',
+        'description',
+        'certificate',
+        'user_id',
+        'category_id',
+        'level_id'
+    ];
+
+    public function sluggable(): array
+    {
+        return [
+            'slug' => [
+                'source' => 'title'
+            ]
+        ];
+    }
+
+    /** Relationships */
 
     public function category()
     {
@@ -23,6 +42,11 @@ class Course extends Model
         return $this->belongsToMany(User::class, 'course_user', 'course_id', 'user_id');
     }
 
+    public function units()
+    {
+        return $this->belongsToMany(Unit::class, 'course_unit', 'course_id', 'unit_id');
+    }
+
     public function level()
     {
         return $this->belongsTo(Level::class);
@@ -30,21 +54,10 @@ class Course extends Model
 
     public function image()
     {
-
         return $this->hasOne(Image::class);
     }
 
-    public function sluggable(): array
-    {
-        return [
-            'slug' => [
-                'source' => 'title'
-            ]
-        ];
-    }
-
-
-    // scopes
+    /* Scope's */
     public function scopeFilter($query, array $filters)
     {
         $query->when($filters['category'] ?? false, function ($query, $category_id) {
@@ -72,4 +85,6 @@ class Course extends Model
                 ->orwhere('description', 'like', '%' . $search . '%');
         });
     }
+
+    /** Attributes */
 }

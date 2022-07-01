@@ -22,11 +22,11 @@
     <script src="{{ asset('js/app.js') }}" defer></script>
 </head>
 
-<body class="font-sans antialiased h-full">
+<body class="font-sans antialiased">
     @include('layouts.navigation')
 
     <!-- Page Content -->
-    <main class="flex h-full bg-gray-100">
+    <main class="flex bg-gray-100">
         @include('layouts.sidebar')
         {{ $slot }}
     </main>

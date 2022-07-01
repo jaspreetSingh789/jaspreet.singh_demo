@@ -18,7 +18,6 @@ class UserTeamController extends Controller
 {
     public function index(User $user)
     {
-        // dd($user->trainers()->get());
         $this->authorize(('view'), $user);
         $trainers = User::active()->Trainer()
             ->whereDoesnthave('assignedUsers', function ($query) use ($user) {

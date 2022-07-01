@@ -3,7 +3,7 @@
 
         <!-- links -->
         <div class="pt-5">
-            <a class=" text-blue-800 font-bold text-xl" href="{{ route('users.index') }}">Courses</a><strong class="px-2 font-bold text-xl ">></strong><span class="font-bold text-xl">Create Course</span>
+            <a class=" text-blue-800 font-bold text-xl" href="{{ route('courses.index') }}">Courses</a><strong class="px-2 font-bold text-xl ">></strong><span class="font-bold text-xl">Create Course</span>
         </div>
 
         <!-- form to create users -->
@@ -19,7 +19,7 @@
                     @enderror
 
                     <label class="mb-2 text-xs uppercase block font-bold text-gray-700" for="description">Provide A Brief Description For What The Coursse Is About.<font class="text-red-500 pl-2">*</font></label>
-                    <textarea name="description" id="" cols="55" rows="5" placeholder="description"></textarea>
+                    <textarea name="description" id="" cols="55" rows="5" placeholder="description">{{ old('description') }}</textarea>
                     @error('description')
                     <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                     @enderror

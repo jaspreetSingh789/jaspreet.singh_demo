@@ -15,11 +15,19 @@ class CourseController extends Controller
 {
     public function index()
     {
-        return view('courses.index', [
-            'courses' => Course::filter(request(['category', 'level', 'search', 'sort_by']))->get(),
-            'levels' => Level::all(),
-            'categories' => Category::all()
-        ]);
+        if (request(['category', 'level', 'search', 'sort_by'])) {
+            return view('courses.index', [
+                'courses' => Course::filter(request(['category', 'level', 'search', 'sort_by']))->get(),
+                'levels' => Level::all(),
+                'categories' => Category::all()
+            ]);
+        } else {
+            return view('courses.index', [
+                'courses' => Course::orderBy('created_at', 'DESC')->get(),
+                'levels' => Level::all(),
+                'categories' => Category::all()
+            ]);
+        }
     }
 
     public function create()
@@ -34,7 +42,7 @@ class CourseController extends Controller
     {
         return view('courses.show', [
             'course' => $course,
-            'units' => Unit::all()
+            'units' => $course->units
         ]);
     }
 
@@ -54,7 +62,6 @@ class CourseController extends Controller
 
         $course =  Course::create($attributes);
 
-
         if (request()->file('image')) {
 
             $path = $request->file('image')->store('public/images');
@@ -70,7 +77,6 @@ class CourseController extends Controller
 
     public function edit(Course $course)
     {
-
         return view('courses.edit', [
             'course'  => $course,
             'categories' => Category::all(),

@@ -1,31 +1,31 @@
 <x-app-layout>
-    <section class="flex-auto">
+    <section class="flex-auto m-5">
 
         <!-- links -->
-        <div class="pt-10 pl-10 ml-16">
-            <a class=" text-blue-800 font-bold text-xl" href="{{ route('users.index') }}">Users</a><strong class="px-2 font-bold text-xl ">></strong><span class="font-bold text-xl">Create User</span>
+        <div class="">
+            <a class="text-blue-800 font-bold text-xl" href="{{ route('users.index') }}">Users</a><strong class="px-2 font-bold text-xl ">></strong><span class="font-bold text-xl">Create User</span>
         </div>
 
         <!-- form to create users -->
-        <main class="main w-3/5 ml-20 mt-10 border border-gray-200 p-6 bg-gray-50 rounded-xl">
+        <main class="main w-3/5 mt-5 border border-gray-200 p-6 bg-gray-50 rounded-xl">
             <form method="post" action="{{ route('users.store') }}" class="mt-5">
                 @csrf
                 <div class="inputs-container mb-6">
 
                     <label class="mb-2 text-xs uppercase block font-bold text-gray-700" for="first_name">First Name<font class="text-red-500 pl-2">*</font></label>
-                    <input class="border border-grey-400 p-2 w-3/4 mb-2 rounded-md" type="text" name="first_name" value="{{ old('first_name')}}" placeholder="first name">
+                    <input class="border border-grey-400 p-2 w-3/4 mb-5 rounded-md" type="text" name="first_name" value="{{ old('first_name')}}" placeholder="Enter First Name">
                     @error('first_name')
                     <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                     @enderror
 
                     <label class="mb-2 text-xs uppercase block font-bold text-gray-700" for="last_name">Last Name<font class="text-red-500 pl-2">*</font></label>
-                    <input class="border border-grey-400 p-2 w-3/4 mb-2 rounded-md" type="text" name="last_name" value="{{ old('last_name')}}" placeholder="last name">
+                    <input class="border border-grey-400 p-2 w-3/4 mb-5 rounded-md" type="text" name="last_name" value="{{ old('last_name')}}" placeholder="Enter Last Name">
                     @error('last_name')
                     <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                     @enderror
 
                     <label class="mb-2 text-xs uppercase block font-bold text-gray-700" for="email">Email<font class="text-red-500 pl-2">*</font></label>
-                    <input class="border border-grey-400 p-2 w-3/4 mb-2 rounded-md" type="email" name="email" value="{{ old('email')}}" placeholder="email">
+                    <input class="border border-grey-400 p-2 w-3/4 mb-5 rounded-md" type="email" name="email" value="{{ old('email')}}" placeholder="Enter Email Address">
                     @error('email')
                     <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                     @enderror

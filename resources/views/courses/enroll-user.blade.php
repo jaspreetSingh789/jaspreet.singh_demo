@@ -1,8 +1,8 @@
 <x-app-layout>
 
-    <section class="flex-auto h-screen">
+    <section class="flex-auto h-screen m-5">
 
-        <div class="mt-20 flex justify-between mx-20 my-5">
+        <div class="flex justify-between mb-5">
             <!-- links -->
             <div>
                 <a class=" text-blue-800 font-bold text-xl" href="">Courses</a><strong class="px-2 font-bold text-xl ">></strong><span class="font-bold text-xl">course name</span>
@@ -15,16 +15,16 @@
                     <form action="{{ route('courses.enroll.store',$course) }}" method="post">
                         @csrf
                         @foreach($unenrolledUsers as $unenrolledUser)
-                        <input class="py-4 inline-block" type="checkbox" name="unenrolledUsers[]" value="{{ $unenrolledUser->id }}">
-                        <label class="bg-gray-100 w-10/12 inline-block hover:bg-gray-400 text-left px-3 py-1" for="trainerIds">{{ $unenrolledUser->full_name }}</label><br>
+                        <input type="checkbox" name="unenrolledUsers[]" value="{{ $unenrolledUser->id }}">
+                        <label class="w-10/12 inline-block hover:bg-gray-400 text-left px-3 py-1" for="trainerIds">{{ $unenrolledUser->full_name }}</label><br>
                         @endforeach
-                        <button class="bg-gray-100 w-full hover:bg-gray-400 text-left px-3 py-1" type="submit">Enroll</button>
+                        <button class="bg-gray w-full hover:bg-gray-400 text-left px-3 py-1" type="submit">Enroll</button>
                     </form>
                 </div>
             </div>
         </div>
-        <div class="w-11/12 ml-10">
 
+        <div class="">
             <!-- tabs -->
             <x-courses-tabs :course=$course />
 
@@ -45,7 +45,7 @@
                         <td>
                             <form action="{{ route('courses.user.destroy',$course) }}" method="post">
                                 @csrf
-                                <button type="submit" name="enrolledUserId" value="{{ $enrolledUser->id }}">{{ __('Unenroll') }}</button>
+                                <button class="px-2 bg-gray-900 text-white rounded" type="submit" name="enrolledUserId" value="{{ $enrolledUser->id }}">{{ __('Unenroll') }}</button>
                             </form>
                         </td>
                     </tr>
