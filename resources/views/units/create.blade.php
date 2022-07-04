@@ -3,7 +3,7 @@
 
         <!-- links -->
         <div class="pt-5">
-            <a class=" text-blue-800 font-bold text-xl" href="">Courses</a><strong class="px-2 font-bold text-xl ">></strong><span class="font-bold text-xl">Create Unit</span>
+            <a class=" text-blue-800 font-bold text-xl" href="{{ route('courses.index',) }}">Courses</a><strong class="px-2 font-bold text-xl ">></strong><a href="{{ route('courses.show',$course) }}" class="font-bold text-xl">{{ $course->title }}</a><strong class="px-2 font-bold text-xl ">></strong><span class="font-bold text-xl">Create Unit</span>
         </div>
 
         <!-- form to create users -->
@@ -29,7 +29,7 @@
                     <button name="action" value="create" type="submit" class=" bg-gray-500 text-white rounded px-4 py-2 hover:bg-gray-400 ">
                         Add Unit
                     </button>
-                    <a class=" bg-blue-100 rounded ml-5 px-4 py-2 hover:bg-blue-300 hover:text-white border-blue-300 " href="">Cancel</a>
+                    <a class=" bg-blue-100 rounded ml-5 px-4 py-2 hover:bg-blue-300 hover:text-white border-blue-300 " href="{{ route('courses.show',$course) }}">Cancel</a>
                 </div>
             </form>
         </main>

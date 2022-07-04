@@ -23,7 +23,8 @@ class CourseController extends Controller
             ]);
         } else {
             return view('courses.index', [
-                'courses' => Course::orderBy('created_at', 'DESC')->get(),
+                'courses' => Course::where('user_id', Auth::id())
+                    ->get(),
                 'levels' => Level::all(),
                 'categories' => Category::all()
             ]);
@@ -77,6 +78,7 @@ class CourseController extends Controller
 
     public function edit(Course $course)
     {
+        $this->authorize('edit', $course);
         return view('courses.edit', [
             'course'  => $course,
             'categories' => Category::all(),
@@ -86,6 +88,7 @@ class CourseController extends Controller
 
     public function update(Request $request, Course $course)
     {
+        $this->authorize('update', $course);
         $attributes = $request->validate([
             'title' => ['required', 'min:3', 'max:50'],
             'description' => ['required', 'min:5', 'max:255'],
@@ -101,6 +104,7 @@ class CourseController extends Controller
 
     public function destroy(Course $course)
     {
+        $this->authorize('delete', $course);
         $course->delete();
 
         return redirect()->route('courses.index')->with('success', 'course deleted successfully');

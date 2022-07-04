@@ -109,6 +109,11 @@ class User extends Authenticatable
         return $this->belongsToMany(Course::class, 'course_user', 'user_id', 'course_id');
     }
 
+    public function trainerCourses()
+    {
+        return $this->belongsToMany(Course::class, 'team_course', 'user_id', 'course_id');
+    }
+
     // Scopes
     public function scopeUsersList($query)
     {

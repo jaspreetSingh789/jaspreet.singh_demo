@@ -79,29 +79,78 @@
             </div>
         </div>
 
-        <div class="m-5 text-3xl text-black">Course Content</div>
+        <div class="m-5 text-2xl text-black">Course Content</div>
 
+        <!-- units -->
         @foreach($units as $unit)
         <div class="bg-white my-5 p-5 relative">
-            <div class="border-b-2">{{ $unit->title }}</div>
-            <div class=" ">
+            <div class="border-b-2 py-3">{{ $unit->title }}</div>
+            <div class="my-3">
                 {{ $unit->description }}
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste facere voluptates a optio excepturi dolorem consequuntur eos? Quos tempora dolorum ut, ex ipsum ipsam. Vero cumque unde eum harum vitae voluptates tempore asperiores praesentium sit sed facere, fugit neque et laborum. Impedit repellat deserunt doloremque nesciunt nemo temporibus accusantium facilis.
             </div>
-            <div class="absolute top-2 right-6">
-                <a href="{{ route('units.edit',$unit) }}">
-                    <svg class="w-6 h-6 inline" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <!-- Lessons -->
+            <div>
+                <div class="bg-gray-300 mx-3 my-3 p-2 flex justify-between">
+                    <span>Lessons</span>
+                    <span>Duration:40s</span>
+                </div>
+                <div class="mx-3">
+                    <div class="flex justify-between m-2">
+                        <div class="bg-gray-100 p-2 rounded-full">
+                            <svg class="w-4 h-4 text-yellow-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polygon points="23 7 16 12 23 17 23 7"></polygon>
+                                <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
+                            </svg>
+                        </div>
+                        <span class="inline-block w-full mx-1">
+                            <p class="text-xm">safasdf</p>
+                        </span>
+                        <span>13s</span>
+                    </div>
+                    <div class="flex justify-between m-2">
+                        <div class="bg-gray-100 p-2 rounded-full">
+                            <svg class="w-4 h-4 text-green-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor">
+                                <path d="M252,128a83.4,83.4,0,0,1-24.6,59.4,12.1,12.1,0,0,1-17,0,12,12,0,0,1,0-17,59.9,59.9,0,0,0,0-84.8,12,12,0,0,1,17-17A83.4,83.4,0,0,1,252,128ZM164,32V224a12,12,0,0,1-6.7,10.8A12.4,12.4,0,0,1,152,236a12.7,12.7,0,0,1-7.4-2.5L75.9,180H32a20.1,20.1,0,0,1-20-20V96A20.1,20.1,0,0,1,32,76H75.9l68.7-53.5a12.2,12.2,0,0,1,12.7-1.3A12,12,0,0,1,164,32ZM36,156H68V100H36ZM140,56.5,92,93.9v68.2l48,37.4Zm59.1,40.4a12,12,0,0,0-17,17,19.8,19.8,0,0,1,0,28.2,12,12,0,0,0,0,17,11.8,11.8,0,0,0,8.5,3.5,11.6,11.6,0,0,0,8.5-3.5,43.9,43.9,0,0,0,0-62.2Z"></path>
+                            </svg>
+                        </div>
+                        <span>27s</span>
+                    </div>
+                    <div class="flex justify-between m-2">
+                        <div class="bg-gray-100 p-2 rounded-full">
+                            <svg class="w-4 h-4 text-blue-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15 15" fill="none">
+                                <path d="M2.5 6.5V6H2v.5h.5zm4 0V6H6v.5h.5zm0 4H6v.5h.5v-.5zm7-7h.5v-.207l-.146-.147-.354.354zm-3-3l.354-.354L10.707 0H10.5v.5zM2.5 7h1V6h-1v1zm.5 4V8.5H2V11h1zm0-2.5v-2H2v2h1zm.5-.5h-1v1h1V8zm.5-.5a.5.5 0 01-.5.5v1A1.5 1.5 0 005 7.5H4zM3.5 7a.5.5 0 01.5.5h1A1.5 1.5 0 003.5 6v1zM6 6.5v4h1v-4H6zm.5 4.5h1v-1h-1v1zM9 9.5v-2H8v2h1zM7.5 6h-1v1h1V6zM9 7.5A1.5 1.5 0 007.5 6v1a.5.5 0 01.5.5h1zM7.5 11A1.5 1.5 0 009 9.5H8a.5.5 0 01-.5.5v1zM10 6v5h1V6h-1zm.5 1H13V6h-2.5v1zm0 2H12V8h-1.5v1zM2 5V1.5H1V5h1zm11-1.5V5h1V3.5h-1zM2.5 1h8V0h-8v1zm7.646-.146l3 3 .708-.708-3-3-.708.708zM2 1.5a.5.5 0 01.5-.5V0A1.5 1.5 0 001 1.5h1zM1 12v1.5h1V12H1zm1.5 3h10v-1h-10v1zM14 13.5V12h-1v1.5h1zM12.5 15a1.5 1.5 0 001.5-1.5h-1a.5.5 0 01-.5.5v1zM1 13.5A1.5 1.5 0 002.5 15v-1a.5.5 0 01-.5-.5H1z" fill="currentColor"></path>
+                            </svg>
+                        </div>
+                        <span></span>
+                    </div>
+                    <div class="flex justify-between m-2">
+                        <div class="bg-gray-100 p-2 rounded-full">
+                            <svg class="w-4 h-4 text-blue-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
+                                <path d="M7 12.25C7 11.8358 7.33579 11.5 7.75 11.5C8.16421 11.5 8.5 11.8358 8.5 12.25C8.5 12.6642 8.16421 13 7.75 13C7.33579 13 7 12.6642 7 12.25ZM7.75 14.5C7.33579 14.5 7 14.8358 7 15.25C7 15.6642 7.33579 16 7.75 16C8.16421 16 8.5 15.6642 8.5 15.25C8.5 14.8358 8.16421 14.5 7.75 14.5ZM7 18.25C7 17.8358 7.33579 17.5 7.75 17.5C8.16421 17.5 8.5 17.8358 8.5 18.25C8.5 18.6642 8.16421 19 7.75 19C7.33579 19 7 18.6642 7 18.25ZM10.75 11.5C10.3358 11.5 10 11.8358 10 12.25C10 12.6642 10.3358 13 10.75 13H16.25C16.6642 13 17 12.6642 17 12.25C17 11.8358 16.6642 11.5 16.25 11.5H10.75ZM10 15.25C10 14.8358 10.3358 14.5 10.75 14.5H16.25C16.6642 14.5 17 14.8358 17 15.25C17 15.6642 16.6642 16 16.25 16H10.75C10.3358 16 10 15.6642 10 15.25ZM10.75 17.5C10.3358 17.5 10 17.8358 10 18.25C10 18.6642 10.3358 19 10.75 19H16.25C16.6642 19 17 18.6642 17 18.25C17 17.8358 16.6642 17.5 16.25 17.5H10.75ZM19.414 8.414L13.585 2.586C13.57 2.57105 13.5531 2.55808 13.5363 2.54519C13.5238 2.53567 13.5115 2.5262 13.5 2.516C13.429 2.452 13.359 2.389 13.281 2.336C13.2557 2.31894 13.2281 2.30548 13.2005 2.29207C13.1845 2.28426 13.1685 2.27647 13.153 2.268C13.1363 2.25859 13.1197 2.24897 13.103 2.23933C13.0488 2.20797 12.9944 2.17648 12.937 2.152C12.74 2.07 12.528 2.029 12.313 2.014C12.2933 2.01274 12.2738 2.01008 12.2542 2.00741C12.2271 2.00371 12.1999 2 12.172 2H6C4.896 2 4 2.896 4 4V20C4 21.104 4.896 22 6 22H18C19.104 22 20 21.104 20 20V9.828C20 9.298 19.789 8.789 19.414 8.414ZM18.5 20C18.5 20.275 18.276 20.5 18 20.5H6C5.724 20.5 5.5 20.275 5.5 20V4C5.5 3.725 5.724 3.5 6 3.5H12V8C12 9.104 12.896 10 14 10H18.5V20ZM13.5 4.621L17.378 8.5H14C13.724 8.5 13.5 8.275 13.5 8V4.621Z" fill="currentColor"></path>
+                            </svg>
+                        </div>
+                        <span>0 questions</span>
+                    </div>
+                </div>
+            </div>
+            <!-- buttons edit and delete units -->
+            <div class="absolute top-6 right-6 ">
+                <a href="{{ route('units.edit',[$course,$unit]) }}" class="px-3 py-1 border border-green-400 text-sm  text-green-400">
+                    <svg class=" w-4 h-4 inline" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
                         <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
                     </svg>
+                    edit section
                 </a>
-                <a href="{{ route('units.destroy',$unit) }}">
-                    <svg class="w-6 h-6 inline ml-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <a href="{{ route('units.destroy', [$course, $unit]) }}" class="ml-2 px-3 py-1 border border-red-400 text-sm  text-red-400">
+                    <svg class=" w-4 h-4 inline ml-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M7 4a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v2h4a1 1 0 1 1 0 2h-1.069l-.867 12.142A2 2 0 0 1 17.069 22H6.93a2 2 0 0 1-1.995-1.858L4.07 8H3a1 1 0 0 1 0-2h4V4zm2 2h6V4H9v2zM6.074 8l.857 12H17.07l.857-12H6.074zM10 10a1 1 0 0 1 1 1v6a1 1 0 1 1-2 0v-6a1 1 0 0 1 1-1zm4 0a1 1 0 0 1 1 1v6a1 1 0 1 1-2 0v-6a1 1 0 0 1 1-1z" fill="currentColor"></path>
                     </svg>
+                    delete
                 </a>
             </div>
         </div>
         @endforeach
+
     </section>
 </x-app-layout>

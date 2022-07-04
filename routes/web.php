@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CategoryStatusController;
+use App\Http\Controllers\CourseAssignController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EnrollUserController;
@@ -95,12 +96,18 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/courses/{course}/destroy', 'destroy')->name('courses.user.destroy');
     });
 
+    Route::controller(CourseAssignController::class)->group(function () {
+        Route::get('/courses/{course}/assign', 'index')->name('courses.assign.index');
+        Route::post('/courses/{course}/assign/store', 'store')->name('courses.assign.store');
+        Route::post('/courses/{course}/assign/destroy', 'destroy')->name('courses.assign.destroy');
+    });
+
     Route::controller(UnitController::class)->group(function () {
         Route::get('/units/{course}/create', 'create')->name('units.create');
         Route::post('/units/{course}/store', 'store')->name('units.store');
-        Route::get('/units/{unit}edit', 'edit')->name('units.edit');
+        Route::get('/units/{course}/{unit}/edit', 'edit')->name('units.edit');
         Route::post('/units/{unit}/update', 'update')->name('units.update');
-        Route::get('/unit/{unit}/destroy', 'destroy')->name('units.destroy');
+        Route::get('/units/{course}/{unit}/destroy', 'destroy')->name('units.destroy');
     });
 });
 

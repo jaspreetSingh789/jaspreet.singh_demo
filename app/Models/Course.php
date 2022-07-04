@@ -42,6 +42,11 @@ class Course extends Model
         return $this->belongsToMany(User::class, 'course_user', 'course_id', 'user_id');
     }
 
+    public function assignedTrainers()
+    {
+        return $this->belongsToMany(User::class, 'team_course', 'course_id', 'user_id');
+    }
+
     public function units()
     {
         return $this->belongsToMany(Unit::class, 'course_unit', 'course_id', 'unit_id');

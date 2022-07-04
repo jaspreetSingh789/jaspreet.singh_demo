@@ -89,7 +89,7 @@
 
         <div class="w-full flex mb-2 h-52 bg-white p-2">
             <div class="w-3/12 bg-gray-100 m-2 rounded">
-                <img src="../../storage/app/public/images/B2UmDMIfPQ8RkCEH3Fi00kbtrcEnA6apwMNTbGqk.jpg" alt="img">
+                <img src="{{ url('storage/app/'.$course->image->image_path )}}" alt="img">
             </div>
             <div class="relative w-full">
                 <span class="px-2 bg-gray-100 rounded">{{ $course->category->name }}</span>

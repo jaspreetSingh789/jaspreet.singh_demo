@@ -1,6 +1,7 @@
  <!-- sidebar -->
  <nav class="w-1/6 bg-sky shadow-md flex flex-row pt-10 min-h-screen items-stretch ">
      <ul class="w-full text-white">
+         @can('trainer')
          <li class="hover:bg-white hover:text-sky  {{ Route::is('dashboard') ? 'bg-white text-black' : ''}}">
              <a class="text-2xl font-bold w-full inline-block p-3" href="{{ route('dashboard') }}">
                  <svg class="w-6 h-6 inline" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15 15" fill="currentColor">
@@ -9,6 +10,8 @@
                  Dashboard
              </a>
          </li>
+         @endcan
+         @can('trainer')
          <li class="hover:bg-white hover:text-sky  {{ Route::is('users.index') ? 'bg-white text-black' : ''}}">
              <a class="text-2xl font-bold w-full inline-block p-3" href="{{route('users.index')}}">
                  <svg class="w-6 h-6 inline " xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
@@ -17,6 +20,8 @@
                  Users
              </a>
          </li>
+         @endcan
+         @can('subadmin')
          <li class="hover:bg-white hover:text-sky {{ Route::is('categories.index') ? 'bg-white text-black' : ''}} ">
              <a class="text-2xl font-bold w-full inline-block p-3" href="{{ route('categories.index') }}">
                  <svg class="w-6 h-6 inline" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="currentColor">
@@ -33,6 +38,8 @@
                  Categories
              </a>
          </li>
+         @endcan
+
          <li class="hover:bg-white hover:text-sky {{ Route::is('courses.index') ? 'bg-white text-black' : ''}}">
              <a class="text-2xl font-bold w-full inline-block p-3 " href="{{ route('courses.index') }}">
                  <svg class="w-6 h-6 inline" xmlns="http://www.w3.org/2000/svg" role="img" viewBox="0 0 24 24" fill="currentColor">

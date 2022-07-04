@@ -29,14 +29,15 @@ class UnitController extends Controller
         return back()->with('success', 'unit created successfully.');
     }
 
-    public function edit(Unit $unit)
+    public function edit(Course $course, Unit $unit)
     {
         return view('units.edit', [
-            'unit' => $unit
+            'unit' => $unit,
+            'course' => $course
         ]);
     }
 
-    public function update(Request $request, Unit $unit)
+    public function update(Request $request, Unit $unit, Course $course)
     {
         $attributes =  $request->validate([
             'title' => ['required', 'min:3', 'max:50'],
@@ -48,7 +49,7 @@ class UnitController extends Controller
         return back()->with('success', 'unit updated successfully.');
     }
 
-    public function destroy(Unit $unit)
+    public function destroy(Unit $unit, Course $course)
     {
         $unit->delete();
 
