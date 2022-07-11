@@ -151,7 +151,10 @@ class User extends Authenticatable
             return $query->where('role_id', '>', Auth::user()->role_id);
         } else {
             return $query->where('role_id', '>', Auth::user()->role_id)
-                ->where('created_by', Auth::id());
+                ->where('created_by', Auth::id())
+                ->orWhereHas('trainers', function ($query) {
+                    return $query->where('team_id', Auth::id());
+                });
         }
     }
 
@@ -173,5 +176,11 @@ class User extends Authenticatable
     public function scopeActive($query)
     {
         $query->where('status', User::ACTIVE);
+    }
+
+    public function scopeEnrolledUsers($query)
+    {
+        $query->where('role_id', Role::EMPLOYEE)
+            ->Orwhere('role_id', Role::TRAINER);
     }
 }

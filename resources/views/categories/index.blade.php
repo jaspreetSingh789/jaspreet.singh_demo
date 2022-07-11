@@ -3,8 +3,8 @@
 
         <!-- button to create category -->
         <div class="flex justify-between mb-5">
-            <span class="text-blue-800 uppercase text-3xl font-black">{{__('Categories')}}</span>
-            <a class="px-3 py-2 bg-blue-500 rounded text-white shadow-md" href="{{ route('categories.create')}}">{{__('Create Category')}}</a>
+            <span class="text-blue-800 uppercase text-3xl font-black">{{ __('Categories') }}</span>
+            <a class="px-3 py-2 bg-blue-500 rounded text-white shadow-md" href="{{ route('categories.create')}}">{{ __('Create Category') }}</a>
         </div>
 
         <!-- filters -->
@@ -19,13 +19,13 @@
             <div x-data="{ show:false}" @click.away="show = false" class="ml-5">
                 <button @click="show = !show" class="border-2 px-5 py-2 w-52 bg-white">
                     @if(request('date_filter') == 'DESC')
-                    Oldest Created Date
+                    {{ __('Oldest Created Date') }}
                     @elseif(request('date_filter') == 'A-Z')
-                    Name A TO Z
+                    {{ __('Name A TO Z') }}
                     @elseif(request('date_filter') == 'Z-A')
-                    Name Z TO A
+                    {{ __('Name Z TO A') }}
                     @else
-                    Latest Created Date
+                    {{ __('Latest Created Date') }}
                     @endif
                 </button>
                 <div x-show="show" class="absolute border-2 border-black-600 w-52">
@@ -33,10 +33,10 @@
                         @if(request('user_type'))
                         <input type="hidden" name="user_type" value="{{ request('user_type') }}">
                         @endif
-                        <button class="bg-gray-100 w-full hover:bg-gray-400 text-left px-3 py-2" type="submit" name="sort_by" value="ASC">Latest Created Date</button>
-                        <button class="bg-gray-100 w-full hover:bg-gray-400 text-left px-3 py-2" type="submit" name="sort_by" value="DESC"> Oldest Created Date</button>
-                        <button class="bg-gray-100 w-full hover:bg-gray-400 text-left px-3 py-2" type="submit" name="sort_by" value="A-Z">Name A to Z</button>
-                        <button class="bg-gray-100 w-full hover:bg-gray-400 text-left px-3 py-2" type="submit" name="sort_by" value="Z-A">Name Z to A</button>
+                        <button class="bg-gray-100 w-full hover:bg-gray-400 text-left px-3 py-2" type="submit" name="sort_by" value="ASC">{{ __('Latest Created Date') }}</button>
+                        <button class="bg-gray-100 w-full hover:bg-gray-400 text-left px-3 py-2" type="submit" name="sort_by" value="DESC">{{ __('Oldest Created Date') }}</button>
+                        <button class="bg-gray-100 w-full hover:bg-gray-400 text-left px-3 py-2" type="submit" name="sort_by" value="A-Z">{{ __('Name A to Z') }}</button>
+                        <button class="bg-gray-100 w-full hover:bg-gray-400 text-left px-3 py-2" type="submit" name="sort_by" value="Z-A">{{ __('Name Z to A') }} </button>
                     </form>
                 </div>
             </div>
@@ -83,8 +83,8 @@
                 @endforeach
                 @else
                 <tr>
-                    <td class="p-5">
-                        <div>No data found</div>
+                    <td class="p-5" colspan="6">
+                        <div>{{ __('No data found') }}</div>
                     </td>
                 </tr>
                 @endif

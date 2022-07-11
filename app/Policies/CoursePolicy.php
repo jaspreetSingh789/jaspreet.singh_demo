@@ -5,6 +5,7 @@ namespace App\Policies;
 use App\Models\Course;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Support\Facades\Auth;
 
 class CoursePolicy
 {
@@ -30,9 +31,8 @@ class CoursePolicy
      */
     public function view(User $user, Course $course)
     {
-        if ($user->can('admin') || $course->user_id == $user->id) {
+        if ($user->can('admin') || $course->user_id == $user->id)
             return true;
-        }
     }
 
     /**
@@ -43,21 +43,19 @@ class CoursePolicy
      */
     public function create(User $user)
     {
-        //
     }
 
     /**
-     * Determine whether the user can update the model.
+     * Determine whether the user can edit the model.
      *
      * @param  \App\Models\User  $user
      * @param  \App\Models\Course  $course
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, Course $course)
+    public function store(User $user, Course $course)
     {
-        if ($user->can('admin') || $course->user_id == $user->id) {
+        if ($user->can('admin') || $course->user_id == $user->id)
             return true;
-        }
     }
 
     /**
@@ -69,9 +67,21 @@ class CoursePolicy
      */
     public function edit(User $user, Course $course)
     {
-        if ($user->can('admin') || $course->user_id == $user->id) {
+        if ($user->can('admin') || $course->user_id == $user->id)
             return true;
-        }
+    }
+
+    /**
+     * Determine whether the user can update the model.
+     *
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Course  $course
+     * @return \Illuminate\Auth\Access\Response|bool
+     */
+    public function update(User $user, Course $course)
+    {
+        if ($user->can('admin') || $course->user_id == $user->id)
+            return true;
     }
 
     /**
@@ -83,9 +93,8 @@ class CoursePolicy
      */
     public function delete(User $user, Course $course)
     {
-        if ($user->can('admin') || $course->user_id == $user->id) {
+        if ($user->can('admin') || $course->user_id == $user->id)
             return true;
-        }
     }
 
     /**

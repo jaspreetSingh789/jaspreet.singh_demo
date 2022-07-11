@@ -7,7 +7,15 @@
     <a class="pl-20 text-black" href="{{ route('teams.users.index',$user) }}">Employees</a>
     @endif
 
+    @if($user->role_id == 3)
+    <a class="pl-20 text-black" href="{{ route('teams.courses.index',$trainer) }}">Manage Courses</a>
+    @endif
+
     @if($user->role_id == 4)
     <a class="pl-20 text-black" href="{{ route('users.teams.index',$user) }}">Trainers</a>
+    @endif
+
+    @if($user->role_id == 3 || $user->role_id == 4)
+    <a class="pl-20 text-black" href="{{ route('users.courses.index',$user) }}">Courses</a>
     @endif
 </div>

@@ -5,7 +5,9 @@
             <div>
                 <a class="text-blue-800 font-bold text-xl" href="{{ route('courses.index') }}">Courses</a><strong class="px-2 font-bold text-xl ">></strong><span class="font-bold text-xl">{{ $course->title }}</span>
             </div>
-            <a class="px-4 py-2 bg-blue-500 rounded text-white shadow-md" href="{{ route('units.create',$course) }}">{{__('Add Unit')}}</a>
+            @can('trainer')
+            <a class="px-4 py-2 bg-blue-500 rounded text-white shadow-md" href="{{ route('courses.units.create',$course) }}">{{__('Add Unit')}}</a>
+            @endcan
         </div>
 
         <!-- course -->
@@ -15,7 +17,9 @@
                 <div class="text-3xl text-black text-gray-500">{{ $course->title }}</div>
                 <div class="text-gray-400">{{ $course->description }}</div>
             </div>
+            @can('trainer')
             <a href="{{ route('courses.edit',$course) }}" class="absolute top-2 right-2 px-4 py-1 bg-gray-300 text-blue-500 text-sm">Edit basic info</a>
+            @endcan
         </div>
         <div class="w-full bg-white flex h-32 p-4">
             <div class="w-1/5">
@@ -135,14 +139,14 @@
             </div>
             <!-- buttons edit and delete units -->
             <div class="absolute top-6 right-6 ">
-                <a href="{{ route('units.edit',[$course,$unit]) }}" class="px-3 py-1 border border-green-400 text-sm  text-green-400">
+                <a href="{{ route('courses.units.edit',[$course,$unit]) }}" class="px-3 py-1 border border-green-400 text-sm  text-green-400">
                     <svg class=" w-4 h-4 inline" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
                         <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
                     </svg>
                     edit section
                 </a>
-                <a href="{{ route('units.destroy', [$course, $unit]) }}" class="ml-2 px-3 py-1 border border-red-400 text-sm  text-red-400">
+                <a href="{{ route('courses.units.destroy', [$course, $unit]) }}" class="ml-2 px-3 py-1 border border-red-400 text-sm  text-red-400">
                     <svg class=" w-4 h-4 inline ml-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M7 4a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v2h4a1 1 0 1 1 0 2h-1.069l-.867 12.142A2 2 0 0 1 17.069 22H6.93a2 2 0 0 1-1.995-1.858L4.07 8H3a1 1 0 0 1 0-2h4V4zm2 2h6V4H9v2zM6.074 8l.857 12H17.07l.857-12H6.074zM10 10a1 1 0 0 1 1 1v6a1 1 0 1 1-2 0v-6a1 1 0 0 1 1-1zm4 0a1 1 0 0 1 1 1v6a1 1 0 1 1-2 0v-6a1 1 0 0 1 1-1z" fill="currentColor"></path>
                     </svg>

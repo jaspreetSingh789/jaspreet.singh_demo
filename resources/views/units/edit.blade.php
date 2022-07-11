@@ -3,22 +3,19 @@
 
         <!-- links -->
         <div class="pt-5">
-            <a class=" text-blue-800 font-bold text-xl" href="{{ route('courses.show',$course) }}">Units</a><strong class="px-2 font-bold text-xl ">></strong><span class="font-bold text-xl">Update Unit</span>
+            <a class=" text-blue-800 font-bold text-xl" href="{{ route('courses.index',) }}">Courses</a><strong class="px-2 font-bold text-xl ">></strong><a href="{{ route('courses.show',$course) }}" class="font-bold text-xl">{{ $course->title }}</a><strong class="px-2 font-bold text-xl ">></strong><span class="font-bold text-xl">Edit Unit</span>
         </div>
 
-        <!-- form to create users -->
+        <!-- form to create units -->
         <main class="w-full mt-5 border border-gray-50 p-6 bg-white relative">
-            <form method="post" action="{{ route('units.update',$unit) }}" class="mt-5">
+            <form method="post" action="{{ route('courses.units.update',$unit) }}" class="mt-5">
                 @csrf
                 <div class="inputs-container mb-6 relative">
 
-                    <label class="mb-2 text-xs uppercase block font-bold text-gray-700" for="title">Name of the Unit<font class="text-red-500 pl-2">*</font></label>
+                    <label class="mb-2 text-xs uppercase block font-bold text-gray-700 required" for="title">Name of the Unit</label>
                     <input class="border border-grey-400 p-2 w-1/2 mb-2 rounded-md" type="text" name="title" value="{{ $unit->title }}" placeholder="title">
-                    @error('title')
-                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                    @enderror
 
-                    <label class="mb-2 text-xs uppercase block font-bold text-gray-700" for="description">Add description to the unit<font class="text-red-500 pl-2">*</font></label>
+                    <label class="mb-2 text-xs uppercase block font-bold text-gray-700 required" for="description">Add description to the unit</label>
                     <textarea name="description" id="" cols="55" rows="5" placeholder="description">{{ $unit->description }}
                     </textarea>
                     @error('description')
@@ -53,7 +50,7 @@
                         </span>
 
                         <span class="border-2 inline-block rounded-xl w-40 h-28 p-3 m-3 text-center">
-                            <a href="">
+                            <a href="{{ route('courses.units.tests.create',[$course,$unit]) }}">
                                 <svg class="w-16 h-16 ml-8 text-blue-400" xmlns="http://www.w3.org/2000/svg" fill="currentColor" stroke="none" viewBox="0 0 24 24">
                                     <path d="M19.903 8.586a.997.997 0 0 0-.196-.293l-6-6a.997.997 0 0 0-.293-.196c-.03-.014-.062-.022-.094-.033a.991.991 0 0 0-.259-.051C13.04 2.011 13.021 2 13 2H6c-1.103 0-2 .897-2 2v16c0 1.103.897 2 2 2h12c1.103 0 2-.897 2-2V9c0-.021-.011-.04-.013-.062a.952.952 0 0 0-.051-.259c-.01-.032-.019-.063-.033-.093zM16.586 8H14V5.414L16.586 8zM6 20V4h6v5a1 1 0 0 0 1 1h5l.002 10H6z"></path>
                                     <path d="M8 12h8v2H8zm0 4h8v2H8zm0-8h2v2H8z"></path>
@@ -73,6 +70,7 @@
         <div class="mt-5">
             <span>Lessons</span>
 
+            <!-- video -->
             <div class="relative bg-white shadow-md h-16 mb-3 p-3">
                 <div class="inline-block w-10">
                     <svg class="w-8 h-8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor">
@@ -106,6 +104,7 @@
                 </span>
             </div>
 
+            <!-- audio -->
             <div class="relative bg-white shadow-md h-16 mb-3 p-3">
                 <div class="inline-block w-10">
                     <svg class="w-8 h-8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor">
@@ -138,6 +137,8 @@
                 </span>
             </div>
 
+            <!-- document -->
+            @foreach($lessons as $lesson)
             <div class="relative bg-white shadow-md h-16 mb-3 p-3">
                 <div class="inline-block w-10">
                     <svg class="w-8 h-8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor">
@@ -150,25 +151,26 @@
                     </svg>
                 </div>
                 <div class="inline-block">
-                    <p class="text-sm">sdgdgsd</p>
-                    <p class="text-xs">duration 03</p>
+                    <p class="text-sm">{{ $lesson->name }}</p>
+                    <p class="text-xs">{{ $lesson->duration }}</p>
                 </div>
 
                 <!-- delete and edit lessons -->
                 <span class="absolute top-4 right-3">
-                    <a href="" class="text-green-400">
+                    <a href="{{ route('courses.units.tests.edit',[$course,$unit,$lesson,$lesson->lessonable]) }}" class="text-green-400">
                         <svg class=" w-6 h-6 inline" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
                             <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
                         </svg>
                     </a>
-                    <a href="" class="text-red-400">
+                    <a href="{{ route('courses.units.tests.destroy',[$course,$unit,$lesson,$lesson->lessonable]) }}" class="text-red-400">
                         <svg class=" w-6 h-6 inline ml-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M7 4a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v2h4a1 1 0 1 1 0 2h-1.069l-.867 12.142A2 2 0 0 1 17.069 22H6.93a2 2 0 0 1-1.995-1.858L4.07 8H3a1 1 0 0 1 0-2h4V4zm2 2h6V4H9v2zM6.074 8l.857 12H17.07l.857-12H6.074zM10 10a1 1 0 0 1 1 1v6a1 1 0 1 1-2 0v-6a1 1 0 0 1 1-1zm4 0a1 1 0 0 1 1 1v6a1 1 0 1 1-2 0v-6a1 1 0 0 1 1-1z" fill="currentColor"></path>
                         </svg>
                     </a>
                 </span>
             </div>
+            @endforeach
 
         </div>
     </section>

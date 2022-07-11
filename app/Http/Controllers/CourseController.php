@@ -9,34 +9,22 @@ use App\Models\Level;
 use App\Models\Unit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use PHPUnit\Framework\Constraint\Count;
 
 class CourseController extends Controller
 {
     public function index()
     {
-        if (request(['category', 'level', 'search', 'sort_by'])) {
-            return view('courses.index', [
-                'courses' => Course::filter(request(['category', 'level', 'search', 'sort_by']))->get(),
-                'levels' => Level::all(),
-                'categories' => Category::all()
-            ]);
-        } else {
-            return view('courses.index', [
-                'courses' => Course::where('user_id', Auth::id())
-                    ->get(),
-                'levels' => Level::all(),
-                'categories' => Category::all()
-            ]);
-        }
+        return view('courses.index', [
+            'courses' => Course::assignCourse()->filter(request(['category', 'level', 'search', 'sort_by']))
+                ->get(),
+            'levels' => Level::all(),
+            'categories' => Category::all()
+        ]);
     }
 
     public function create()
     {
-        return view('courses.create', [
-            'categories' => Category::all(),
-            'levels' => Level::all(),
-        ]);
+        return view('courses.create');
     }
 
     public function show(Course $course)
@@ -73,22 +61,26 @@ class CourseController extends Controller
             ]);
         }
 
-        return redirect()->route('courses.create')->with('success', 'Course created successfully');
+        if ($request->input('action') === 'save') {
+            return redirect()->route('courses.edit', $course)
+                ->with('success', __('Course created successfully'));
+        }
+        return redirect()->route('courses.create')
+            ->with('success', __('Course created successfully'));
     }
 
     public function edit(Course $course)
     {
         $this->authorize('edit', $course);
         return view('courses.edit', [
-            'course'  => $course,
-            'categories' => Category::all(),
-            'levels' => Level::all(),
+            'course'  => $course
         ]);
     }
 
     public function update(Request $request, Course $course)
     {
-        $this->authorize('update', $course);
+        // $this->authorize('update', $course);
+
         $attributes = $request->validate([
             'title' => ['required', 'min:3', 'max:50'],
             'description' => ['required', 'min:5', 'max:255'],
@@ -99,7 +91,7 @@ class CourseController extends Controller
 
         $course->update($attributes);
 
-        return redirect()->route('courses.index')->with('success', 'course updated successfully');
+        return redirect()->route('courses.index')->with('success', __('course updated successfully'));
     }
 
     public function destroy(Course $course)
@@ -107,6 +99,6 @@ class CourseController extends Controller
         $this->authorize('delete', $course);
         $course->delete();
 
-        return redirect()->route('courses.index')->with('success', 'course deleted successfully');
+        return redirect()->route('courses.index')->with('success', __('course deleted successfully'));
     }
 }

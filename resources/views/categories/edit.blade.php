@@ -12,11 +12,9 @@
                 @csrf
                 <div class="inputs-container mb-6">
 
-                    <label class="mb-2 text-xs uppercase block font-bold text-gray-700" for="name">Name</label>
+                    <label class="mb-2 text-xs uppercase block font-bold text-gray-700 required" for="name">Name</label>
                     <input class="border border-grey-400 p-2 w-1/2 mb-2" type="text" name="name" value="{{ $category->name }}" id="name">
-                    @error('name')
-                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                    @enderror
+                    <x-error field='name' />
 
                 </div>
                 <div class="mb-6">

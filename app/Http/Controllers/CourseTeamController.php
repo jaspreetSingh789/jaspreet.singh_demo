@@ -4,28 +4,26 @@ namespace App\Http\Controllers;
 
 use App\Models\Course;
 use App\Models\Role;
-use App\Models\Status;
 use App\Models\User;
+use App\Notifications\CourseAssignedNotification;
+use App\Notifications\CourseUnassignedNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
-class CourseAssignController extends Controller
+class CourseTeamController extends Controller
 {
     public function index(Course $course)
     {
-        // assigned trainers
-        $assignedTrainers = $course->assignedTrainers()->get();
-
         //unassigned trainers
         $unassignedTrainers = User::whereDoesnthave('trainerCourses', function ($query) use ($course) {
             $query->where('course_id', $course->id);
         })->trainer()->active()->get();
 
-
         return view('courses.course-assign', [
-            'assignedTrainers' => $assignedTrainers,
+            'assignedTrainers' =>   $course->assignedTrainers()->get(),
             'unassignedTrainers' => $unassignedTrainers,
             'course' => $course
         ]);
@@ -33,9 +31,9 @@ class CourseAssignController extends Controller
 
     public function store(Request $request, Course $course)
     {
-        $this->authorize('edit', $course);
+        $this->authorize('store', $course);
         $validator = Validator::make($request->all(), [
-            'unassignedTrainerIds' => [
+            'userIds' => [
                 'required',
                 'min:1',
                 Rule::exists('users', 'id')->where(function ($query) {
@@ -45,23 +43,23 @@ class CourseAssignController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return back()->with('error', 'please select at least one user!');
+            return back()->with('error', __('please select at least one user!'));
         }
 
         $validated = $validator->validated();
-        $selectedUsers  = User::VisibleTo()->findMany($validated['unassignedTrainerIds']);
+        $selectedUsers  = User::VisibleTo()->findMany($validated['userIds']);
 
         $course->assignedTrainers()->attach($selectedUsers);
 
-        return back()->with('success', 'course assigned successfully.');
+        Notification::send($selectedUsers, new CourseAssignedNotification(Auth::user(), $course));
+        return back()->with('success', __('course assigned successfully.'));
     }
 
     public function destroy(Request $request, Course $course)
     {
-
         $this->authorize('delete', $course);
         $validator = Validator::make($request->all(), [
-            'assignedTrainerId' => [
+            'userId' => [
                 'required',
                 'min:1',
                 Rule::exists('users', 'id')->where(function ($query) {
@@ -71,15 +69,16 @@ class CourseAssignController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return back()->with('error', 'please select at least one user!');
+            return back()->with('error', __('please select at least one user!'));
         }
 
         $validated = $validator->validated();
 
-        $user = User::VisibleTo()->find($validated['assignedTrainerId']);
+        $user = User::VisibleTo()->find($validated['userId']);
 
-        $course->assignedTrainers()->detach($validated['assignedTrainerId']);
+        $course->assignedTrainers()->detach($validated['userId']);
 
-        return back()->with('success', 'trainer unassigned successfully.');
+        Notification::send($user, new CourseUnassignedNotification(Auth::user(), $course));
+        return back()->with('success', __('trainer unassigned successfully.'));
     }
 }

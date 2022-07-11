@@ -26,14 +26,23 @@ class UnitController extends Controller
 
         $course->units()->attach($unit->id);
 
-        return back()->with('success', 'unit created successfully.');
+        switch ($request->action) {
+            case 'create':
+                return redirect()->route('courses.show', $course)
+                    ->with('success', __('unit created successfully.'));
+                break;
+            case 'create_another':
+                return back()->with('success', __('unit created successfully.'));
+                break;
+        }
     }
 
     public function edit(Course $course, Unit $unit)
     {
         return view('units.edit', [
             'unit' => $unit,
-            'course' => $course
+            'course' => $course,
+            'lessons' => $unit->lessons()->get()
         ]);
     }
 
@@ -46,13 +55,13 @@ class UnitController extends Controller
 
         $unit->update($attributes);
 
-        return back()->with('success', 'unit updated successfully.');
+        return back()->with('success', __('unit updated successfully.'));
     }
 
     public function destroy(Unit $unit, Course $course)
     {
         $unit->delete();
 
-        return back()->with('success', 'unit deleted successfully.');
+        return back()->with('success', __('unit deleted successfully.'));
     }
 }

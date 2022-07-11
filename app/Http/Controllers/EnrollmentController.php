@@ -14,44 +14,41 @@ use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
-class EnrollUserController extends Controller
+class EnrollmentController extends Controller
 {
     public function index(Course $course)
     {
-        // enrolled users
-        $enrolledUsers = $course->enrolledUsers()->get();
-
         // unenrolled users
         $unenrolledUsers = User::whereDoesnthave('courses', function ($query) use ($course) {
             $query->where('course_id', $course->id);
-        })->employee()->active()->get();
+        })->enrolledUsers()->active()->get();
 
         return view('courses.enroll-user', [
             'course' => $course,
-            'enrolledUsers' => $enrolledUsers,
-            'unenrolledUsers' => $unenrolledUsers
+            'enrolledUsers' => $course->enrolledUsers()->get(),
+            'unenrolledUsers' => $unenrolledUsers,
         ]);
     }
 
     public function store(Request $request, Course $course)
     {
-        // $this->authorize('edit', $course);
+        $this->authorize('store', $course);
         $validator = Validator::make($request->all(), [
-            'unenrolledUsers' => [
+            'userIds' => [
                 'required',
                 'min:1',
                 Rule::exists('users', 'id')->where(function ($query) {
-                    return $query->where('role_id', Role::EMPLOYEE);
+                    return $query->where('role_id', Role::EMPLOYEE)->orWhere('role_id', Role::TRAINER);
                 }),
             ],
         ]);
 
         if ($validator->fails()) {
-            return back()->with('error', 'please select at least one user!');
+            return back()->with('error', __('please select at least one user!'));
         }
 
         $validated = $validator->validated();
-        $selectedUsers  = User::VisibleTo()->findMany($validated['unenrolledUsers']);
+        $selectedUsers  = User::VisibleTo()->findMany($validated['userIds']);
 
         $course->enrolledUsers()->attach($selectedUsers, [
             'assigned_by' => Auth::id(),
@@ -59,33 +56,33 @@ class EnrollUserController extends Controller
         ]);
 
         Notification::send($selectedUsers, new UserEnrollNotification(Auth::user(), $course));
-        return back()->with('success', 'users enrolled successfully.');
+        return back()->with('success', __('users enrolled successfully.'));
     }
 
     public function destroy(Request $request, Course $course)
     {
-        // $this->authorize('delete', $course);
+        $this->authorize('delete', $course);
         $validator = Validator::make($request->all(), [
-            'enrolledUserId' => [
+            'userId' => [
                 'required',
                 'min:1',
                 Rule::exists('users', 'id')->where(function ($query) {
-                    return $query->where('role_id', Role::EMPLOYEE);
+                    return $query->where('role_id', Role::EMPLOYEE)->orWhere('role_id', Role::TRAINER);
                 }),
             ],
         ]);
 
         if ($validator->fails()) {
-            return back()->with('error', 'please select at least one user!');
+            return back()->with('error', __('please select at least one user!'));
         }
 
         $validated = $validator->validated();
 
-        $user = User::VisibleTo()->find($validated['enrolledUserId']);
+        $user = User::VisibleTo()->find($validated['userId']);
 
-        $course->enrolledUsers()->detach($validated['enrolledUserId']);
+        $course->enrolledUsers()->detach($validated['userId']);
 
         Notification::send($user, new UserUnenrollNotification(Auth::user(), $course));
-        return back()->with('success', 'user unenrolled successfully.');
+        return back()->with('success', __('user unenrolled successfully.'));
     }
 }

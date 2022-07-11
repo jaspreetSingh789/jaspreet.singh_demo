@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Auth;
 
 class Course extends Model
 {
@@ -43,6 +44,16 @@ class Course extends Model
     }
 
     public function assignedTrainers()
+    {
+        return $this->belongsToMany(User::class, 'team_course', 'course_id', 'user_id');
+    }
+
+    public function enrolledCourses()
+    {
+        return $this->belongsToMany(User::class, 'course_user', 'course_id', 'user_id');
+    }
+
+    public function assignedCourses()
     {
         return $this->belongsToMany(User::class, 'team_course', 'course_id', 'user_id');
     }
@@ -89,6 +100,16 @@ class Course extends Model
             $query->where('title', 'like', '%' . $search . '%')
                 ->orwhere('description', 'like', '%' . $search . '%');
         });
+    }
+
+    public function scopeAssignCourse($query)
+    {
+        $query->where('user_id', Auth::id())
+            ->orWhereHas('assignedTrainers', function ($query) {
+                return $query->where('user_id', Auth::id());
+            })->orWhereHas('enrolledUsers', function ($query) {
+                return $query->where('user_id', Auth::id());
+            });
     }
 
     /** Attributes */

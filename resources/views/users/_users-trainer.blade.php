@@ -41,6 +41,8 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @if($assingedUsers->count())
+
                     @foreach($assingedUsers as $user)
                     <tr class="border border-b-2 border-black-700">
                         <td class="p-5">{{ $user->first_name }}</td>
@@ -56,6 +58,13 @@
                         </td>
                     </tr>
                     @endforeach
+                    @else
+                    <tr>
+                        <td class="p-5" colspan="6">
+                            <div>No data found</div>
+                        </td>
+                    </tr>
+                    @endif
                 </tbody>
             </table>
         </div>

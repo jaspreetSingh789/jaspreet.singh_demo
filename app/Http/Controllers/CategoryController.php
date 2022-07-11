@@ -31,28 +31,25 @@ class CategoryController extends Controller
         if ($category) {
             $category->restore();
             return redirect()->route('categories.index')
-                ->with('success', 'Category restored successfully');
+                ->with('success', __('Category restored successfully'));
         }
 
         $request->validate([
             'name' => 'required',
         ]);
 
-        Category::create([
+        $category = Category::create([
             'name' => $request->name,
             'user_id' => Auth::id()
         ]);
 
-        switch ($request->action) {
-            case 'create':
-                return redirect()->route('categories.index')
-                    ->with('success', 'Category added successfully');
-                break;
-            case 'create_another':
-                return redirect()->route('categories.create')
-                    ->with('success', 'Category added successfully');
-                break;
+        if ($request->input('action') === 'save') {
+            return redirect()->route('categories.edit', $category)
+                ->with('success', __('Category added successfully'));
         }
+
+        return redirect()->route('categories.create')
+            ->with('success', __('Category added successfully'));
     }
 
     // return a view with a editable form of the selected category
@@ -77,7 +74,7 @@ class CategoryController extends Controller
         $category->update($attribute);
 
         return redirect()->route('categories.index')
-            ->with('success', 'category updated successfully');
+            ->with('success', __('category updated successfully'));
     }
 
     // Deletes the seleted categry
@@ -88,6 +85,6 @@ class CategoryController extends Controller
         $category->delete();
 
         return redirect()->route('categories.index')
-            ->with('success', 'category deleted successfully');
+            ->with('success', __('category deleted successfully'));
     }
 }

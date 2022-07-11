@@ -44,6 +44,19 @@ class UserPolicy
     }
 
     /**
+     * Determine whether the user can store the model.
+     *
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\User  $model
+     * @return \Illuminate\Auth\Access\Response|bool
+     */
+    public function store(User $user, User $model)
+    {
+        if ($user->can('admin') || $model->created_by == $user->id)
+            return true;
+    }
+
+    /**
      * Determine whether the user can update the model.
      *
      * @param  \App\Models\User  $user

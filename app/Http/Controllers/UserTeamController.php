@@ -45,7 +45,7 @@ class UserTeamController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return back()->with('success', 'please select at least one trainer!');
+            return back()->with('success', __('please select at least one trainer!'));
         }
 
         $validated = $validator->validated();
@@ -55,7 +55,7 @@ class UserTeamController extends Controller
         Notification::send($assignees, new AssignedTeamUserNotification(Auth::user(), $user));
         Notification::send($user, new AssignedToTeamNotification(Auth::user(), $assignees));
 
-        return back()->with('success', 'trainer assign successfully');
+        return back()->with('success', __('trainer assign successfully'));
     }
 
     public function destroy(Request $request, User $user)
@@ -73,7 +73,7 @@ class UserTeamController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return back()->with('error', 'please select a valid trainer !');
+            return back()->with('error', __('please select a valid trainer !'));
         }
         $validated = $validator->validated();
 
@@ -84,6 +84,6 @@ class UserTeamController extends Controller
         Notification::send($assignee, new UnAssignedTeamUserNotification(Auth::user(), $user));
         Notification::send($user, new UnAssignedFromTeamNotification(Auth::user(), $assignee));
 
-        return back()->with('success', 'trainer unassign successfully');
+        return back()->with('success', __('trainer unassign successfully'));
     }
 }

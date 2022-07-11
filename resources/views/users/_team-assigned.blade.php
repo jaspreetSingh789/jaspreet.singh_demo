@@ -42,6 +42,8 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @if($assignedtrainers->count())
+
                     @foreach($assignedtrainers as $assignedtrainer)
                     <tr class="border border-b-2 border-black-700">
                         <td class="p-5">{{ $assignedtrainer->first_name }}</td>
@@ -57,6 +59,13 @@
                         </td>
                     </tr>
                     @endforeach
+                    @else
+                    <tr>
+                        <td class="p-5" colspan="6">
+                            <div>No data found</div>
+                        </td>
+                    </tr>
+                    @endif
                 </tbody>
             </table>
         </div>

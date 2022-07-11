@@ -43,13 +43,13 @@
                 <!-- level filter -->
                 <div x-data="{ show:false}" @click.away="show = false" class="ml-5">
                     <button @click="show = !show" class="border-2 px-5 py-2 w-40 bg-white">
-                        {{ __('Level')}}</button>
+                        Level</button>
                     <div x-show="show" class="absolute border-2 border-black-600 w-40 z-10 overflow-y-scroll h-64">
                         <form action="" method="get">
                             @if(request('date_filter'))
                             <input type="hidden" name="date_filter" value="">
                             @endif
-                            <a href="{{ route('courses.index') }}" class="bg-gray-100 w-full hover:bg-gray-400 text-left px-3 py-2 block">{{ __('All Levels') }}</a>
+                            <a href="{{ route('courses.index') }}" class="bg-gray-100 w-full hover:bg-gray-400 text-left px-3 py-2 block">All Levels</a>
                             @foreach($levels as $level)
                             <button class="bg-gray-100 w-full hover:bg-gray-400 text-left px-3 py-2" type="submit" name="level" value="{{ $level->id }}">{{ $level->name }}</button>
                             @endforeach
@@ -76,11 +76,11 @@
                         @if(request('user_type'))
                         <input type="hidden" name="user_type" value="{{ request('user_type') }}">
                         @endif
-                        <a href="{{ route('courses.index') }}" class="bg-gray-100 w-full hover:bg-gray-400 text-left px-3 py-2 block">{{ __('Latest Created Date') }}</a>
+                        <a href="{{ route('courses.index') }}" class="bg-gray-100 w-full hover:bg-gray-400 text-left px-3 py-2 block">Latest Created Date</a>
                         <!-- <button class="bg-gray-100 w-full hover:bg-gray-400 text-left px-3 py-2" type="submit" name="sort_by" value="ASC">Latest Created Date</button> -->
-                        <button class="bg-gray-100 w-full hover:bg-gray-400 text-left px-3 py-2" type="submit" name="sort_by" value="ASC">{{ __('Oldest Created Date') }}</button>
-                        <button class="bg-gray-100 w-full hover:bg-gray-400 text-left px-3 py-2" type="submit" name="sort_by" value="A-Z">{{ __('Name A to Z') }}</button>
-                        <button class="bg-gray-100 w-full hover:bg-gray-400 text-left px-3 py-2" type="submit" name="sort_by" value="Z-A">{{ __('Name Z to A') }}</button>
+                        <button class="bg-gray-100 w-full hover:bg-gray-400 text-left px-3 py-2" type="submit" name="sort_by" value="ASC"> Oldest Created Date</button>
+                        <button class="bg-gray-100 w-full hover:bg-gray-400 text-left px-3 py-2" type="submit" name="sort_by" value="A-Z">Name A to Z</button>
+                        <button class="bg-gray-100 w-full hover:bg-gray-400 text-left px-3 py-2" type="submit" name="sort_by" value="Z-A">Name Z to A</button>
                     </form>
                 </div>
             </div>
@@ -97,7 +97,7 @@
             </div>
             <div class="relative w-full">
                 <span class="px-2 bg-gray-100 rounded">{{ $course->category->name }}</span>
-                <div class="text-3xl"><a href="{{ route('courses.edit',$course) }}">{{ $course->title }}</a></div>
+                <div class="text-3xl"><a href="{{ route('courses.show',$course) }}">{{ $course->title }}</a></div>
                 <div class="font-thin text-gray-500">Created by:<span class="font-black text-black mr-2 ml-1">{{ $course->users }}</span> Created on:<span class="font-black text-black ml-1">{{ $course->created_at }}</span></div>
                 <div class="font-thin text-gray-500">{{ $course->description }}</div>
                 <div class=" absolute bottom-0"><span class="mr-2">{{ $course->level->name }}</span><span>0 Enrolled</span></div>
@@ -120,7 +120,7 @@
         </div>
         @endforeach
         @else
-        <div>{{ __('No data found') }}</div>
+        <div>No data found</div>
         @endif
     </div>
 

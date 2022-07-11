@@ -11,4 +11,9 @@ class Unit extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = ['title', 'description'];
+
+    public function lessons()
+    {
+        return $this->hasMany(Lesson::class);
+    }
 }

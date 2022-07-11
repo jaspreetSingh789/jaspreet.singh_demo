@@ -16,13 +16,8 @@ class UserController extends Controller
     // Collects users from users table and returns to view that shows lists of those users
     public function index()
     {
-        if (request(['user_type', 'date_filter', 'search'])) {
-            $users = User::filter(request(['user_type', 'date_filter', 'search']))->paginate(5);
-        } else {
-            $users = User::orderBy('created_at', 'DESC')->paginate(5);
-        }
         return view('users.index', [
-            'users' => $users
+            'users' => User::visibleTo()->filter(request(['user_type', 'date_filter', 'search']))->paginate(5)
         ]);
     }
 
@@ -37,7 +32,7 @@ class UserController extends Controller
     // Collects the data from request, validate it and returns back
     public function store(Request $request)
     {
-        // Restores the user if the email sent from request already exits in table 
+        // Restores the user if the email sent from request already exits in table
         $user = User::where('email', $request->email)->withTrashed()->first();
         if ($user) {
             if (!$user->deleted_at) {
@@ -77,15 +72,15 @@ class UserController extends Controller
             'role_id' => 'required|in:' . $ids
         ]);
 
-        // adding created by id of auth user to attributes 
+        // adding created by id of auth user to attributes
         $attributes += [
             'created_by' => Auth::id(),
         ];
 
-        // If every is validated user will be created 
+        // If every is validated user will be created
         $user = User::create($attributes);
 
-        // To create team 
+        // To create team
         if ($user->role_id != Role::SUB_ADMIN) {
             Team::create([
                 'team_id' => Auth::id(),
@@ -97,44 +92,39 @@ class UserController extends Controller
         Notification::send($user, new MyWelcomeNotification(Auth::user()));
 
         //   Return page according to the button which was clicked during submitting request
-        switch ($request->action) {
-            case 'create':
-                return redirect()->route('users.index')
-                    ->with('success', __('User stored sucessfully'));
-                break;
-            case 'create_another':
-                return redirect()->route('users.create')
-                    ->with('success', 'Users stored successfully');
-                break;
+
+        if ($request->input('action') === 'save') {
+            return redirect()->route('users.edit', $user)
+                ->with('success', __('User added successfully'));
         }
+        return redirect()->route('users.create')
+            ->with('success', __('Users stored successfully'));
     }
 
-    //returns a editable form of user to update 
+    //returns a editable form of user to update
     public function edit(User $user)
     {
-        if (Gate::allows('admin') || $this->authorize('update', $user)) {
-            return view('users._personal-information', [
-                'user' => $user,
-                'roles' => Role::get()
-            ]);
-        }
+        $this->authorize('update', $user);
+        return view('users._personal-information', [
+            'user' => $user,
+            'roles' => Role::get()
+        ]);
     }
 
     //To update the existing user's details
     public function update(User $user)
     {
-        if (Gate::allows('admin') || $this->authorize('update', $user)) {
-            $attributes =  request()->validate([
-                'first_name' => 'required|max:255',
-                'last_name' => 'required|max:255',
-                'role_id' => 'required',
-            ]);
+        $this->authorize('update', $user);
+        $attributes =  request()->validate([
+            'first_name' => 'required|max:255',
+            'last_name' => 'required|max:255',
+            'role_id' => 'required',
+        ]);
 
-            $attributes['created_by'] = Auth::id();
+        $attributes['created_by'] = Auth::id();
 
-            $user->update($attributes);
-            return redirect()->route('users.index')->with('success', __('User updated sucessfully'));
-        }
+        $user->update($attributes);
+        return redirect()->route('users.index')->with('success', __('User updated sucessfully'));
     }
 
     // To delete user and returns to users listing page

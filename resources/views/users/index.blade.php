@@ -81,6 +81,8 @@
                 </tr>
             </thead>
             <tbody>
+                @if($users->count())
+
                 @foreach($users as $user)
                 <tr class="border border-b-2 border-black-700">
                     <td class="py-5">
@@ -108,6 +110,13 @@
                 </tr>
                 </td>
                 @endforeach
+                @else
+                <tr>
+                    <td class="p-5" colspan="6">
+                        <div>No data found</div>
+                    </td>
+                </tr>
+                @endif
             </tbody>
         </table>
         <div class="fixed right-10 bottom-5"> {{ $users->links() }}</div>

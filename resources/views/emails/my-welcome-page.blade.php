@@ -17,15 +17,12 @@
                 @csrf
                 <label class="mb-2 text-xs uppercase block font-bold text-gray-700" for="password">Password</label>
                 <input class="border border-grey-400 p-2 w-full mb-2" type="password" name="password">
-                @error('password')
-                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                @enderror
+                <x-error field='password' />
 
                 <label class="mb-2 text-xs uppercase block font-bold text-gray-700" for="confirm_password">Confirm Password</label>
                 <input class="border border-grey-400 p-2 w-full mb-2" type="password" name="confirm_password">
-                @error('confirm_password')
-                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                @enderror
+                <x-error field='confirm_password' />
+
 
                 <button type="submit" class=" bg-blue-400 text-white rounded px-4 py-2 hover:bg-blue-500 ">Send</button>
             </form>
