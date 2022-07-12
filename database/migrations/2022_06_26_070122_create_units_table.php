@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('units', function (Blueprint $table) {
             $table->id();
             $table->string('title');
+            $table->string('slug');
             $table->text('description');
             $table->integer('duration')->nullable();
             $table->integer('lessons_count')->default(0);

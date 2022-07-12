@@ -18,7 +18,7 @@ class UnitController extends Controller
     public function store(Request $request, Course $course)
     {
         $attributes =  $request->validate([
-            'title' => ['required', 'min:3', 'max:50'],
+            'title' => ['required', 'min:3', 'max:255'],
             'description' => ['required', 'min:5', 'max:255']
         ]);
 
@@ -26,19 +26,17 @@ class UnitController extends Controller
 
         $course->units()->attach($unit->id);
 
-        switch ($request->action) {
-            case 'create':
-                return redirect()->route('courses.show', $course)
-                    ->with('success', __('unit created successfully.'));
-                break;
-            case 'create_another':
-                return back()->with('success', __('unit created successfully.'));
-                break;
+        if ($request->input('action') == 'save') {
+            return redirect()->route('courses.units.edit', [$course, $unit])
+                ->with('success', __('unit created successfully.'));
         }
+        return back()->with('success', __('unit created successfully.'));
     }
 
     public function edit(Course $course, Unit $unit)
     {
+        $this->authorize('edit', $course);
+
         return view('units.edit', [
             'unit' => $unit,
             'course' => $course,
@@ -46,20 +44,24 @@ class UnitController extends Controller
         ]);
     }
 
-    public function update(Request $request, Unit $unit, Course $course)
+    public function update(Request $request, Course $course, Unit $unit)
     {
+        $this->authorize('update', $course);
+
         $attributes =  $request->validate([
-            'title' => ['required', 'min:3', 'max:50'],
+            'title' => ['required', 'min:3', 'max:255'],
             'description' => ['required', 'min:5', 'max:255']
         ]);
 
         $unit->update($attributes);
 
-        return back()->with('success', __('unit updated successfully.'));
+        return redirect()->route('courses.show', $course)->with('success', __('unit updated successfully.'));
     }
 
-    public function destroy(Unit $unit, Course $course)
+    public function destroy(Course $course, Unit $unit)
     {
+        $this->authorize('delete', $course);
+
         $unit->delete();
 
         return back()->with('success', __('unit deleted successfully.'));

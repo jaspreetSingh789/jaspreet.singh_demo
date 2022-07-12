@@ -1,21 +1,35 @@
 <x-app-layout>
     <section class="flex-auto m-5">
 
-        <!-- links -->
+        <!-- Breadcrumb -->
         <div class="pt-5">
-            <a class=" text-blue-800 font-bold text-xl" href="{{ route('courses.index',) }}">Courses</a><strong class="px-2 font-bold text-xl ">></strong><a href="{{ route('courses.show',$course) }}" class="font-bold text-xl">{{ $course->title }}</a><strong class="px-2 font-bold text-xl ">></strong><span class="font-bold text-xl">Edit Unit</span>
+            <a class=" text-blue-800 font-bold text-xl" href="{{ route('courses.index') }}">
+                {{ __('Courses') }}
+            </a>
+            <strong class="px-2 font-bold text-xl ">></strong>
+            <a href="{{ route('courses.show', $course) }}" class="font-bold text-xl">
+                {{ $course->title }}
+            </a>
+            <strong class="px-2 font-bold text-xl ">></strong>
+            <span class="font-bold text-xl">
+                {{ __('Edit Unit') }}
+            </span>
         </div>
 
-        <!-- form to create units -->
+        <!-- form to edit units -->
         <main class="w-full mt-5 border border-gray-50 p-6 bg-white relative">
-            <form method="post" action="{{ route('courses.units.update',$unit) }}" class="mt-5">
+            <form method="post" action="{{ route('courses.units.update',[ $course, $unit]) }}" class="mt-5">
                 @csrf
                 <div class="inputs-container mb-6 relative">
 
-                    <label class="mb-2 text-xs uppercase block font-bold text-gray-700 required" for="title">Name of the Unit</label>
+                    <label class="mb-2 text-xs uppercase block font-bold text-gray-700 required" for="title">
+                        {{ __('Name of the Unit') }}
+                    </label>
                     <input class="border border-grey-400 p-2 w-1/2 mb-2 rounded-md" type="text" name="title" value="{{ $unit->title }}" placeholder="title">
 
-                    <label class="mb-2 text-xs uppercase block font-bold text-gray-700 required" for="description">Add description to the unit</label>
+                    <label class="mb-2 text-xs uppercase block font-bold text-gray-700 required" for="description">
+                        {{ __('Add description to the unit') }}
+                    </label>
                     <textarea name="description" id="" cols="55" rows="5" placeholder="description">{{ $unit->description }}
                     </textarea>
                     @error('description')
@@ -57,18 +71,23 @@
                                 </svg>+add test</a>
                         </span>
                     </div>
+
                 </div>
                 <div class="mb-6">
                     <button name="action" value="create" type="submit" class=" bg-gray-500 text-white rounded px-4 py-2 hover:bg-gray-400 ">
-                        Update Unit
+                        {{ __('Update Unit') }}
                     </button>
-                    <a class=" bg-blue-300 rounded ml-5 px-4 py-2 hover:bg-blue-200 hover:text-white border-blue-300 text-white" href="{{ route('courses.show',$course) }}">Cancel</a>
+                    <a class=" bg-blue-300 rounded ml-5 px-4 py-2 hover:bg-blue-200 hover:text-white border-blue-300 text-white" href="{{ route('courses.show',$course) }}">
+                        {{ __('Cancel') }}
+                    </a>
                 </div>
             </form>
         </main>
 
+        <!-- Lessons Listing -->
+
         <div class="mt-5">
-            <span>Lessons</span>
+            <span>{{ __('Lessons') }}</span>
 
             <!-- video -->
             <div class="relative bg-white shadow-md h-16 mb-3 p-3">
@@ -157,13 +176,13 @@
 
                 <!-- delete and edit lessons -->
                 <span class="absolute top-4 right-3">
-                    <a href="{{ route('courses.units.tests.edit',[$course,$unit,$lesson,$lesson->lessonable]) }}" class="text-green-400">
+                    <a href="{{ route('courses.tests.edit', [$course, $lesson]) }}" class="text-green-400">
                         <svg class=" w-6 h-6 inline" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
                             <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
                         </svg>
                     </a>
-                    <a href="{{ route('courses.units.tests.destroy',[$course,$unit,$lesson,$lesson->lessonable]) }}" class="text-red-400">
+                    <a href="{{ route('courses.tests.destroy', [$course, $lesson]) }}" class="text-red-400">
                         <svg class=" w-6 h-6 inline ml-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M7 4a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v2h4a1 1 0 1 1 0 2h-1.069l-.867 12.142A2 2 0 0 1 17.069 22H6.93a2 2 0 0 1-1.995-1.858L4.07 8H3a1 1 0 0 1 0-2h4V4zm2 2h6V4H9v2zM6.074 8l.857 12H17.07l.857-12H6.074zM10 10a1 1 0 0 1 1 1v6a1 1 0 1 1-2 0v-6a1 1 0 0 1 1-1zm4 0a1 1 0 0 1 1 1v6a1 1 0 1 1-2 0v-6a1 1 0 0 1 1-1z" fill="currentColor"></path>
                         </svg>

@@ -79,7 +79,7 @@ class CourseController extends Controller
 
     public function update(Request $request, Course $course)
     {
-        // $this->authorize('update', $course);
+        $this->authorize('update', $course);
 
         $attributes = $request->validate([
             'title' => ['required', 'min:3', 'max:50'],

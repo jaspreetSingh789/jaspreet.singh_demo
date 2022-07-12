@@ -2,7 +2,11 @@
     <section class="flex-auto m-5">
         <!-- links -->
         <div class="pt-5">
-            <a class=" text-blue-800 font-bold text-xl" href="{{ route('courses.show',$course) }}">Courses</a><strong class="px-2 font-bold text-xl ">></strong><a href="{{ route('courses.units.tests.edit',[$course,$unit,$test]) }}" class="font-bold text-xl">{{ $test->name }}</a><strong class="px-2 font-bold text-xl ">></strong><span class="font-bold text-xl">Add Question</span>
+            <a class=" text-blue-800 font-bold text-xl" href="{{ route('courses.show',$course) }}">
+                Courses
+            </a><strong class="px-2 font-bold text-xl ">></strong>
+            <a href="{{ route('courses.units.tests.edit',[$course,$unit,$test]) }}" class="font-bold text-xl"> {{ $test->name }}
+            </a><strong class="px-2 font-bold text-xl ">></strong><span class="font-bold text-xl">Add Question</span>
         </div>
 
         <!-- form to create users -->

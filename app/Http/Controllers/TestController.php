@@ -21,7 +21,7 @@ class TestController extends Controller
     public function store(Request $request, Course $course, Unit $unit)
     {
         $attributes = $request->validate([
-            'name' => 'required',
+            'name' => 'required', 'min:3', 'max:255',
             'pass_percentage' => 'required', 'min:0', 'max:100',
             'duration' => 'required', 'numeric', 'min:0'
         ]);
@@ -37,26 +37,28 @@ class TestController extends Controller
         $lesson->save();
 
         if ($request->input('action') === 'save') {
-            return redirect()->route('courses.units.tests.edit', [$course, $unit, $test])->with('success', 'test created');
+            return redirect()->route('courses.units.tests.edit', [$course, $unit, $test])->with('success', 'test created successfully');
         }
 
         return back()->with('success', __('test created successfully'));
     }
 
-    public function edit(Course $course, Unit $unit, Test $test)
+    public function edit(Course $course, Test $test)
     {
         return view('tests.edit', [
             'course' => $course,
-            'unit' => $unit,
+            'lesson' => $test->lesson->load('unit'),
             'test' => $test,
             'questions' => $test->questions()->get()
         ]);
+
+        // {{ route('courses.tests.questions.create',[$course,$unit,$test]) 
     }
 
     public function update(Request $request, Course $course, Unit $unit, Lesson $lesson, Test $test)
     {
         $attributes = $request->validate([
-            'name' => 'required',
+            'name' => 'required', 'min:1', 'max:30',
             'pass_percentage' => 'required', 'min:0', 'max:100', 'numeric',
             'duration' => 'required', 'numeric', 'min:0'
         ]);

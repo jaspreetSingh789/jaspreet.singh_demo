@@ -21,6 +21,13 @@ class QuestionController extends Controller
 
     public function store(Request $request, Course $course, Test $test)
     {
+        // dd($request->all());
+        // $request->validate([
+        //     'name' => 'required',
+        //     'answer' => 'required',
+        //     'is_answer' => 'required'
+        // ]);
+
         if ($request->input('is_answer') == 'answer1') {
             $is_answer = [1, 0];
         } elseif ($request->input('is_answer') == 'answer2') {
@@ -41,10 +48,10 @@ class QuestionController extends Controller
             ]);
         }
         if ($request->input('action') === 'save') {
-            return redirect()->route('courses.tests.questions.edit', [$course, $test, $question])->with('success', 'question created');
+            return redirect()->route('courses.tests.questions.edit', [$course, $test, $question])->with('success', 'question created successfully');
         }
 
-        return back()->with('success', 'question created');
+        return back()->with('success', 'question created successfully');
     }
 
     public function edit(Course $course, Test $test, Question $question)
@@ -80,7 +87,7 @@ class QuestionController extends Controller
             ]);
         }
 
-        return back()->with('success', 'question updated');
+        return back()->with('success', 'question updated successfully');
     }
 
     public function destroy(Course $course, Test $test, Question $question)
@@ -90,6 +97,6 @@ class QuestionController extends Controller
         $question->questionOptions()->delete();
         $question->delete();
 
-        return back()->with('success', 'question deleted');
+        return back()->with('success', 'question deleted successfully');
     }
 }
