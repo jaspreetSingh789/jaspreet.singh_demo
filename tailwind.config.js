@@ -11,6 +11,7 @@ module.exports = {
         extend: {
             colors: {
                 'sky': '#1e3a8a',
+                'sky-800': '#075985'
             },
             fontFamily: {
                 sans: ['Nunito', ...defaultTheme.fontFamily.sans],

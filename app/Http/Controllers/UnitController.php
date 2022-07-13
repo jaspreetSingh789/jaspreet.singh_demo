@@ -19,7 +19,7 @@ class UnitController extends Controller
     {
         $attributes =  $request->validate([
             'title' => ['required', 'min:3', 'max:255'],
-            'description' => ['required', 'min:5', 'max:255']
+            'description' => ['required', 'min:5']
         ]);
 
         $unit = Unit::create($attributes);
@@ -50,12 +50,12 @@ class UnitController extends Controller
 
         $attributes =  $request->validate([
             'title' => ['required', 'min:3', 'max:255'],
-            'description' => ['required', 'min:5', 'max:255']
+            'description' => ['required', 'min:5']
         ]);
 
         $unit->update($attributes);
 
-        return redirect()->route('courses.show', $course)->with('success', __('unit updated successfully.'));
+        return back()->with('success', __('unit updated successfully.'));
     }
 
     public function destroy(Course $course, Unit $unit)

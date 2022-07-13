@@ -3,6 +3,7 @@
 namespace App\Policies;
 
 use App\Models\Course;
+use App\Models\Unit;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Support\Facades\Auth;
@@ -67,8 +68,12 @@ class CoursePolicy
      */
     public function edit(User $user, Course $course)
     {
-        if ($user->can('admin') || $course->user_id == $user->id)
+        if ($user->can('admin') || $course->user_id == $user->id) {
             return true;
+        }
+        // if (in_array($unit->id, $course->units->pluck('id')->toArray()) && ($user->can('admin') || $course->user_id == $user->id)) {
+        //     return true;
+        // }
     }
 
     /**
@@ -80,8 +85,12 @@ class CoursePolicy
      */
     public function update(User $user, Course $course)
     {
-        if ($user->can('admin') || $course->user_id == $user->id)
+        if ($user->can('admin') || $course->user_id == $user->id) {
             return true;
+        }
+        // if (in_array($unit->id, $course->units->pluck('id')->toArray()) && ($user->can('admin') || $course->user_id == $user->id)) {
+        //     return true;
+        // }
     }
 
     /**

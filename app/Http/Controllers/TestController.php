@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\TestRequest;
 use App\Models\Course;
 use App\Models\Lesson;
 use App\Models\Test;
@@ -18,18 +19,15 @@ class TestController extends Controller
         ]);
     }
 
-    public function store(Request $request, Course $course, Unit $unit)
+    public function store(TestRequest $request, Course $course, Unit $unit)
     {
-        $attributes = $request->validate([
-            'name' => 'required', 'min:3', 'max:255',
-            'pass_percentage' => 'required', 'min:0', 'max:100',
-            'duration' => 'required', 'numeric', 'min:0'
-        ]);
+        $attributes = $request->validated();
 
         $test = Test::create($attributes);
         $lesson = Lesson::make([
             'name' => $test->name,
-            'unit_id' => $unit->id
+            'unit_id' => $unit->id,
+            'duration' => $test->duration
         ]);
 
         $lesson->lessonable()->associate($test);
@@ -37,7 +35,8 @@ class TestController extends Controller
         $lesson->save();
 
         if ($request->input('action') === 'save') {
-            return redirect()->route('courses.units.tests.edit', [$course, $unit, $test])->with('success', 'test created successfully');
+            return redirect()->route('courses.tests.edit', [$course, $test])
+                ->with('success', 'test created successfully');
         }
 
         return back()->with('success', __('test created successfully'));
@@ -45,27 +44,30 @@ class TestController extends Controller
 
     public function edit(Course $course, Test $test)
     {
+        $this->authorize('edit', $course);
+
         return view('tests.edit', [
             'course' => $course,
             'lesson' => $test->lesson->load('unit'),
             'test' => $test,
             'questions' => $test->questions()->get()
         ]);
-
-        // {{ route('courses.tests.questions.create',[$course,$unit,$test]) 
     }
 
     public function update(Request $request, Course $course, Unit $unit, Lesson $lesson, Test $test)
     {
+        $this->authorize('update', $course);
+
         $attributes = $request->validate([
-            'name' => 'required', 'min:1', 'max:30',
-            'pass_percentage' => 'required', 'min:0', 'max:100', 'numeric',
-            'duration' => 'required', 'numeric', 'min:0'
+            'name' => ['required', 'min:3', 'max:255'],
+            'pass_percentage' => ['required', 'min:0', 'max:100', 'numeric'],
+            'duration' => ['required', 'numeric', 'min:0']
         ]);
 
         $test->update($attributes);
 
         $test->lesson->name = $test->name;
+        $test->lesson->duration = $test->duration;
         $test->lesson->save();
 
         return back()->with('success', __('test updated successfully'));

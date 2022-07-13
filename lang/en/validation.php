@@ -154,6 +154,12 @@ return [
         ],
     ],
 
+    // 'custom' => [
+    //     'name' => [
+    //         'required' => 'please enter a valid test name',
+    //     ],
+    // ],x
+
     /*
     |--------------------------------------------------------------------------
     | Custom Validation Attributes

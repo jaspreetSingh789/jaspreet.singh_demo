@@ -8,6 +8,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EnrollmentController;
 use App\Http\Controllers\EnrollUserController;
 use App\Http\Controllers\LearnerController;
+use App\Http\Controllers\LessonController;
 use App\Http\Controllers\MyWelcomeController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\ResetPasswordController;
@@ -20,6 +21,7 @@ use App\Http\Controllers\UnitController;
 use App\Http\Controllers\UserEnrollmentController;
 use App\Http\Controllers\UserStatusController;
 use App\Http\Controllers\UserTeamController;
+use App\Http\Middleware\CheckUserType;
 use App\Models\Role;
 use Illuminate\Support\Facades\Auth;
 
@@ -39,27 +41,27 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+if (Auth::check()) {
+    if (Auth::user()->is_employee) {
+        dd(Auth::user());
+        return redirect()->route('mycourses.index');
+    }
+}
+
+
 Route::get('/users/{user}/status/update', [UserStatusController::class, 'update'])->name('users.status.update');
 
 Route::get('users/{user}/welcome', [MyWelcomeController::class, 'showWelcomePage'])->name('users.welcome')->middleware('guest');
 
 Route::post('users/{user}/savepassword', [MyWelcomeController::class, 'savePassword'])->name('users.savepassword')->middleware('guest');
 
-Route::middleware(['auth'])->group(function () {
 
-    if (Auth::check()) {
-        if (Auth::user()->is_employee) {
-            return redirect()->route('mycourses.index');
-        }
-    }
+
+Route::middleware(['auth'])->group(function () {
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('users/{user}/resetpassword', [ResetPasswordController::class, 'resetPassword'])->name('users.resetpassword');
     Route::post('users/{user}/saveresetpassword', [ResetPasswordController::class, 'saveResetPassword'])->name('users.saveresetpassword');
-
-    Route::controller(LearnerController::class)->group(function () {
-        Route::get('/mycourses', 'index')->name('mycourses.index');
-    });
 
     Route::controller(UserController::class)->group(function () {
         Route::get('/users', 'index')->name('users.index');
@@ -68,6 +70,10 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/users/{user:slug}/edit', 'edit')->name('users.edit');
         Route::post('/users/{user:slug}/update', 'update')->name('users.update');
         Route::get('/users/{user:slug}/delete', 'delete')->name('users.delete');
+    });
+
+    Route::controller(LearnerController::class)->group(function () {
+        Route::get('/mycourses', 'index')->name('mycourses.index');
     });
 
     Route::controller(CategoryController::class)->group(function () {
@@ -139,10 +145,14 @@ Route::middleware(['auth'])->group(function () {
     });
 
     Route::controller(TestController::class)->group(function () {
-        Route::get('/courses/{course:slug}/units/{unit}/tests/create', 'create')->name('courses.units.tests.create');
+        Route::get('/courses/{course:slug}/units/{unit:slug}/tests/create', 'create')->name('courses.units.tests.create');
         Route::post('/courses/{course}/units/{unit}/tests/store', 'store')->name('courses.units.tests.store');
         Route::get('/courses/{course:slug}/tests/{test}/edit', 'edit')->name('courses.tests.edit');
         Route::post('/courses/{course}/tests/{test}/update', 'update')->name('courses.tests.update');
+    });
+
+    Route::controller(LessonController::class)->group(function () {
+        Route::get('/courses/{course:slug}/lessons/{lesson}/destroy', 'destroy')->name('courses.lessons.destroy');
     });
 
     Route::controller(QuestionController::class)->group(function () {
