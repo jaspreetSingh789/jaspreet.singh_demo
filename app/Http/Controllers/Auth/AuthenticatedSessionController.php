@@ -32,12 +32,6 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        if (Auth::check()) {
-            if (Auth::user()->role_id == 4) {
-                return redirect()->route('mycourses.index');
-            }
-        }
-
         return redirect()->intended(RouteServiceProvider::HOME);
     }
 

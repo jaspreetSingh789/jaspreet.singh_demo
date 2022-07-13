@@ -61,8 +61,7 @@ class QuestionController extends Controller
 
         return view('questions.edit', [
             'course' => $course,
-            'unit' => $test->lesson->load('unit')->unit,
-            'test' => $test,
+            'test' => $test->load('lesson.unit'),
             'question' => $question,
             'questionOption' => $question->questionOptions()->get()
         ]);

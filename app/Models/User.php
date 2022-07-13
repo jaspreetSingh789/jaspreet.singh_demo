@@ -81,6 +81,11 @@ class User extends Authenticatable
         return $this->first_name . ' ' . $this->last_name;
     }
 
+    public function getIsEmployeeAttribute()
+    {
+        return $this->attributes['role_id'] == Role::EMPLOYEE;
+    }
+
     // Relationships
     public function role()
     {

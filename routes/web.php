@@ -38,15 +38,18 @@ use Illuminate\Support\Facades\Auth;
 
 
 Route::get('/', function () {
-    return view('welcome');
+    if (Auth::check()) {
+        if (Auth::user()->is_employee) {
+            return redirect()->route('my-courses.index');
+        }
+
+        return redirect()->route('dashboard');
+    }
+
+    return redirect()->route('login');
 });
 
-if (Auth::check()) {
-    if (Auth::user()->is_employee) {
-        dd(Auth::user());
-        return redirect()->route('mycourses.index');
-    }
-}
+
 
 
 Route::get('/users/{user}/status/update', [UserStatusController::class, 'update'])->name('users.status.update');
@@ -73,7 +76,7 @@ Route::middleware(['auth'])->group(function () {
     });
 
     Route::controller(LearnerController::class)->group(function () {
-        Route::get('/mycourses', 'index')->name('mycourses.index');
+        Route::get('/my-courses', 'index')->name('my-courses.index');
     });
 
     Route::controller(CategoryController::class)->group(function () {
