@@ -10,7 +10,7 @@
 
             <!-- dropdown to add trainer -->
             <div x-data="{ show:false}" @click.away="show = false">
-                <button @click="show = !show" class="px-5 py-2 bg-gray-500 text-white rounded w-40">{{ __('Assign') }}</button>
+                <button @click="show = !show" class="px-5 py-2 bg-gray-500 text-white rounded w-40">{{ __('Add Trainer') }}</button>
                 <div x-show=" show" class="absolute bg-gray-200 w-40">
                     <form action="{{ route('courses.assign.store',$course) }}" method="post">
                         @csrf
@@ -33,8 +33,9 @@
                 <thead class="uppercase">
                     <tr class="bg-blue-100 p-10">
                         <th class="py-5">{{ __('User Name') }}</th>
-                        <th>{{ __('id') }}</th>
-                        <th>{{ __('action') }}</th>
+                        <th>{{__('E-mail')}}</th>
+                        <th>{{__('Status')}}</th>
+                        <th>{{__('')}}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -43,7 +44,8 @@
                     @foreach($assignedTrainers as $assignedTrainer)
                     <tr class="border border-b-2 border-black-700">
                         <td class="p-5">{{ $assignedTrainer->full_name }}</td>
-                        <td> {{ $assignedTrainer->id }} </td>
+                        <td> {{ $assignedTrainer->email }} </td>
+                        <td> {{ $assignedTrainer->status == 1 ? 'Active' : 'Inactive' }} </td>
                         <td>
                             <form action="{{ route('courses.assign.destroy',$course) }}" method="post">
                                 @csrf

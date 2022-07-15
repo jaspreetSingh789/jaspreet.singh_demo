@@ -89,73 +89,6 @@
         <div class="mt-5">
             <span>{{ __('Lessons') }}</span>
 
-            <!-- video -->
-            <div class="relative bg-white shadow-md h-16 mb-3 p-3">
-                <div class="inline-block w-10">
-                    <svg class="w-8 h-8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor">
-                        <path d="M104,60A12,12,0,1,1,92,48,12,12,0,0,1,104,60Zm60,12a12,12,0,1,0-12-12A12,12,0,0,0,164,72ZM92,116a12,12,0,1,0,12,12A12,12,0,0,0,92,116Zm72,0a12,12,0,1,0,12,12A12,12,0,0,0,164,116ZM92,184a12,12,0,1,0,12,12A12,12,0,0,0,92,184Zm72,0a12,12,0,1,0,12,12A12,12,0,0,0,164,184Z"></path>
-                    </svg>
-                </div>
-                <div class="inline-block bg-gray-100 rounded p-2 mr-3">
-                    <svg class="w-6 h-6 text-yellow-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <polygon points="23 7 16 12 23 17 23 7"></polygon>
-                        <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
-                    </svg>
-                </div>
-                <div class="inline-block">
-                    <p class="text-sm">sdgdgsd</p>
-                    <p class="text-xs">duration 03</p>
-                </div>
-
-                <!-- delete and edit lessons -->
-                <span class="absolute top-4 right-3">
-                    <a href="" class="text-green-400">
-                        <svg class=" w-6 h-6 inline" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-                            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-                        </svg>
-                    </a>
-                    <a href="" class="text-red-400">
-                        <svg class=" w-6 h-6 inline ml-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M7 4a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v2h4a1 1 0 1 1 0 2h-1.069l-.867 12.142A2 2 0 0 1 17.069 22H6.93a2 2 0 0 1-1.995-1.858L4.07 8H3a1 1 0 0 1 0-2h4V4zm2 2h6V4H9v2zM6.074 8l.857 12H17.07l.857-12H6.074zM10 10a1 1 0 0 1 1 1v6a1 1 0 1 1-2 0v-6a1 1 0 0 1 1-1zm4 0a1 1 0 0 1 1 1v6a1 1 0 1 1-2 0v-6a1 1 0 0 1 1-1z" fill="currentColor"></path>
-                        </svg>
-                    </a>
-                </span>
-            </div>
-
-            <!-- audio -->
-            <div class="relative bg-white shadow-md h-16 mb-3 p-3">
-                <div class="inline-block w-10">
-                    <svg class="w-8 h-8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor">
-                        <path d="M104,60A12,12,0,1,1,92,48,12,12,0,0,1,104,60Zm60,12a12,12,0,1,0-12-12A12,12,0,0,0,164,72ZM92,116a12,12,0,1,0,12,12A12,12,0,0,0,92,116Zm72,0a12,12,0,1,0,12,12A12,12,0,0,0,164,116ZM92,184a12,12,0,1,0,12,12A12,12,0,0,0,92,184Zm72,0a12,12,0,1,0,12,12A12,12,0,0,0,164,184Z"></path>
-                    </svg>
-                </div>
-                <div class="inline-block bg-gray-100 rounded p-2 mr-3">
-                    <svg class="w-6 h-6 text-green-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor">
-                        <path d="M252,128a83.4,83.4,0,0,1-24.6,59.4,12.1,12.1,0,0,1-17,0,12,12,0,0,1,0-17,59.9,59.9,0,0,0,0-84.8,12,12,0,0,1,17-17A83.4,83.4,0,0,1,252,128ZM164,32V224a12,12,0,0,1-6.7,10.8A12.4,12.4,0,0,1,152,236a12.7,12.7,0,0,1-7.4-2.5L75.9,180H32a20.1,20.1,0,0,1-20-20V96A20.1,20.1,0,0,1,32,76H75.9l68.7-53.5a12.2,12.2,0,0,1,12.7-1.3A12,12,0,0,1,164,32ZM36,156H68V100H36ZM140,56.5,92,93.9v68.2l48,37.4Zm59.1,40.4a12,12,0,0,0-17,17,19.8,19.8,0,0,1,0,28.2,12,12,0,0,0,0,17,11.8,11.8,0,0,0,8.5,3.5,11.6,11.6,0,0,0,8.5-3.5,43.9,43.9,0,0,0,0-62.2Z"></path>
-                    </svg>
-                </div>
-                <div class="inline-block">
-                    <p class="text-sm">sdgdgsd</p>
-                    <p class="text-xs">duration 03</p>
-                </div>
-
-                <!-- delete and edit lessons -->
-                <span class="absolute top-4 right-3">
-                    <a href="" class="text-green-400">
-                        <svg class=" w-6 h-6 inline" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-                            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-                        </svg>
-                    </a>
-                    <a href="" class="text-red-400">
-                        <svg class=" w-6 h-6 inline ml-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M7 4a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v2h4a1 1 0 1 1 0 2h-1.069l-.867 12.142A2 2 0 0 1 17.069 22H6.93a2 2 0 0 1-1.995-1.858L4.07 8H3a1 1 0 0 1 0-2h4V4zm2 2h6V4H9v2zM6.074 8l.857 12H17.07l.857-12H6.074zM10 10a1 1 0 0 1 1 1v6a1 1 0 1 1-2 0v-6a1 1 0 0 1 1-1zm4 0a1 1 0 0 1 1 1v6a1 1 0 1 1-2 0v-6a1 1 0 0 1 1-1z" fill="currentColor"></path>
-                        </svg>
-                    </a>
-                </span>
-            </div>
-
             <!-- document -->
             @foreach($lessons as $lesson)
             <div class="relative bg-white shadow-md h-16 mb-3 p-3">
@@ -165,8 +98,11 @@
                     </svg>
                 </div>
                 <div class="inline-block bg-gray-100 rounded p-2 mr-3">
-                    <svg class="w-6 h-6 text-blue-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15 15" fill="none">
-                        <path d="M2.5 6.5V6H2v.5h.5zm4 0V6H6v.5h.5zm0 4H6v.5h.5v-.5zm7-7h.5v-.207l-.146-.147-.354.354zm-3-3l.354-.354L10.707 0H10.5v.5zM2.5 7h1V6h-1v1zm.5 4V8.5H2V11h1zm0-2.5v-2H2v2h1zm.5-.5h-1v1h1V8zm.5-.5a.5.5 0 01-.5.5v1A1.5 1.5 0 005 7.5H4zM3.5 7a.5.5 0 01.5.5h1A1.5 1.5 0 003.5 6v1zM6 6.5v4h1v-4H6zm.5 4.5h1v-1h-1v1zM9 9.5v-2H8v2h1zM7.5 6h-1v1h1V6zM9 7.5A1.5 1.5 0 007.5 6v1a.5.5 0 01.5.5h1zM7.5 11A1.5 1.5 0 009 9.5H8a.5.5 0 01-.5.5v1zM10 6v5h1V6h-1zm.5 1H13V6h-2.5v1zm0 2H12V8h-1.5v1zM2 5V1.5H1V5h1zm11-1.5V5h1V3.5h-1zM2.5 1h8V0h-8v1zm7.646-.146l3 3 .708-.708-3-3-.708.708zM2 1.5a.5.5 0 01.5-.5V0A1.5 1.5 0 001 1.5h1zM1 12v1.5h1V12H1zm1.5 3h10v-1h-10v1zM14 13.5V12h-1v1.5h1zM12.5 15a1.5 1.5 0 001.5-1.5h-1a.5.5 0 01-.5.5v1zM1 13.5A1.5 1.5 0 002.5 15v-1a.5.5 0 01-.5-.5H1z" fill="currentColor"></path>
+                    <svg class="w-6 h-6 bg-blue-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M4 4V20C4 21.1046 4.89543 22 6 22L18 22C19.1046 22 20 21.1046 20 20V8.34162C20 7.8034 19.7831 7.28789 19.3982 6.91161L14.9579 2.56999C14.5842 2.20459 14.0824 2 13.5597 2L6 2C4.89543 2 4 2.89543 4 4Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                        <path d="M9 13H15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                        <path d="M9 17H12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                        <path d="M14 2V6C14 7.10457 14.8954 8 16 8H20" stroke="currentColor" stroke-width="2" stroke-linejoin="round"></path>
                     </svg>
                 </div>
                 <div class="inline-block">

@@ -119,6 +119,14 @@ class User extends Authenticatable
         return $this->belongsToMany(Course::class, 'team_course', 'user_id', 'course_id');
     }
 
+    public function enrollments()
+    {
+        return $this->belongsToMany(Course::class)
+            ->withPivot('id', 'status', 'completed_percentage')
+            ->using(CourseUser::class)
+            ->withTimestamps();
+    }
+
     // Scopes
     public function scopeUsersList($query)
     {

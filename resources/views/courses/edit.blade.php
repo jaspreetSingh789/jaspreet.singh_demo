@@ -19,7 +19,7 @@
 
         <!-- form to create users -->
         <main class="main border border-gray-50 p-6 bg-white">
-            <form method="post" action="{{ route('courses.update',$course) }}" class="mt-5">
+            <form method="post" action="{{ route('courses.update',$course) }}" enctype="multipart/form-data" class="mt-5">
                 @csrf
                 <div class="inputs-container mb-6">
 
@@ -51,6 +51,11 @@
                     <input type="checkbox" name="certificate" id="" value="1">
                     <label class="mb-2 text-xs uppercase font-bold text-gray-700 required" for="level">{{ __('Certificate') }}
                     </label>
+
+                    <label class="mb-2 text-xs uppercase font-bold text-gray-700 absolute right-2 top-1/2 required" for="image">{{ __('Upload course cover Image') }}
+                    </label>
+                    <input class="absolute right-2 top-1/2" type="file" name="image">
+                    <x-error field='image' />
 
                 </div>
                 <div class="mb-6">

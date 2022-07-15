@@ -30,6 +30,10 @@ class TestController extends Controller
             'duration' => $test->duration
         ]);
 
+        $unit->update([
+            'duration' => $unit->duration + $lesson->duration,
+        ]);
+
         $lesson->lessonable()->associate($test);
 
         $lesson->save();

@@ -19,7 +19,8 @@ class Course extends Model
         'certificate',
         'user_id',
         'category_id',
-        'level_id'
+        'level_id',
+        'status_id'
     ];
 
     public function sluggable(): array
@@ -40,7 +41,8 @@ class Course extends Model
 
     public function enrolledUsers()
     {
-        return $this->belongsToMany(User::class, 'course_user', 'course_id', 'user_id');
+        return $this->belongsToMany(User::class, 'course_user', 'course_id', 'user_id')
+            ->withTimestamps();
     }
 
     public function assignedTrainers()
@@ -51,6 +53,14 @@ class Course extends Model
     public function enrolledCourses()
     {
         return $this->belongsToMany(User::class, 'course_user', 'course_id', 'user_id');
+    }
+
+    public function enrollments()
+    {
+        return $this->belongsToMany(User::class)
+            ->withPivot('status', 'completed_percentage')
+            ->using(CourseUser::class)
+            ->withTimestamps();
     }
 
     public function assignedCourses()
@@ -71,6 +81,12 @@ class Course extends Model
     public function image()
     {
         return $this->hasOne(Image::class);
+    }
+
+    public function status()
+    {
+
+        return $this->belongsTo(Status::class);
     }
 
     /* Scope's */
@@ -110,6 +126,17 @@ class Course extends Model
             })->orWhereHas('enrolledUsers', function ($query) {
                 return $query->where('user_id', Auth::id());
             });
+    }
+
+    public function scopeLessonsCount($query)
+    {
+        // dd($this->units());
+        return $query->$this->units->sum('lessons_count');
+    }
+
+    public function scopePublished($query)
+    {
+        return $query->where('status_id', Status::PUBLISHED);
     }
 
     /** Attributes */

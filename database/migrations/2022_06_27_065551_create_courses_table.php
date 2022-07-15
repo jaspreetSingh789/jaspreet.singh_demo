@@ -22,6 +22,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained();
             $table->foreignId('category_id')->constrained();
             $table->foreignId('level_id')->constrained();
+            $table->foreignId('status_id')->constrained();
             $table->softDeletes();
             $table->timestamps();
         });

@@ -20,7 +20,7 @@ class Unit extends Model
         ];
     }
 
-    protected $fillable = ['title', 'description'];
+    protected $fillable = ['title', 'description', 'duration'];
 
     public function lessons()
     {

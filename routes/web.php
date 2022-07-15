@@ -42,14 +42,11 @@ Route::get('/', function () {
         if (Auth::user()->is_employee) {
             return redirect()->route('my-courses.index');
         }
-
         return redirect()->route('dashboard');
     }
 
     return redirect()->route('login');
 });
-
-
 
 
 Route::get('/users/{user}/status/update', [UserStatusController::class, 'update'])->name('users.status.update');
@@ -77,6 +74,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::controller(LearnerController::class)->group(function () {
         Route::get('/my-courses', 'index')->name('my-courses.index');
+        Route::get('/my-courses/{course:slug}/show', 'show')->name('my-courses.show');
     });
 
     Route::controller(CategoryController::class)->group(function () {
@@ -125,6 +123,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/courses/{course:slug}/edit', 'edit')->name('courses.edit');
         Route::post('/courses/{course}/update', 'update')->name('courses.update');
         Route::get('/courses/{course}/destroy', 'destroy')->name('courses.destroy');
+        Route::post('/courses/{course}/status', 'status')->name('courses.status');
     });
 
     Route::controller(EnrollmentController::class)->group(function () {

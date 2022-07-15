@@ -31,11 +31,11 @@ class CategoryController extends Controller
         if ($category) {
             $category->restore();
             return redirect()->route('categories.index')
-                ->with('success', __('Category restored successfully'));
+                ->with('success', __('category restored successfully'));
         }
 
         $request->validate([
-            'name' => 'required',
+            'name' => ['required', 'min:3'],
         ]);
 
         $category = Category::create([
@@ -45,11 +45,11 @@ class CategoryController extends Controller
 
         if ($request->input('action') === 'save') {
             return redirect()->route('categories.edit', $category)
-                ->with('success', __('Category added successfully'));
+                ->with('success', __('category added successfully'));
         }
 
         return redirect()->route('categories.create')
-            ->with('success', __('Category added successfully'));
+            ->with('success', __('category added successfully'));
     }
 
     // return a view with a editable form of the selected category
@@ -68,7 +68,7 @@ class CategoryController extends Controller
         $this->authorize('update', $category);
 
         $attribute = $request->validate([
-            'name' => 'required',
+            'name' => ['required', 'min:3'],
         ]);
 
         $category->update($attribute);

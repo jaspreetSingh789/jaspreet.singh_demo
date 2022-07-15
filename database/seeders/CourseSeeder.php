@@ -22,6 +22,7 @@ class CourseSeeder extends Seeder
             'user_id' => 1,
             'category_id' => 1,
             'level_id' => 1,
+            'status_id' => 1,
             'certificate' => 0,
         ]);
 
@@ -32,6 +33,7 @@ class CourseSeeder extends Seeder
             'user_id' => 1,
             'category_id' => 1,
             'level_id' => 1,
+            'status_id' => 1,
             'certificate' => 0,
         ]);
 
@@ -42,6 +44,7 @@ class CourseSeeder extends Seeder
             'user_id' => 1,
             'category_id' => 1,
             'level_id' => 1,
+            'status_id' => 1,
             'certificate' => 0,
         ]);
 
@@ -52,6 +55,7 @@ class CourseSeeder extends Seeder
             'user_id' => 1,
             'category_id' => 1,
             'level_id' => 1,
+            'status_id' => 1,
             'certificate' => 0,
         ]);
     }

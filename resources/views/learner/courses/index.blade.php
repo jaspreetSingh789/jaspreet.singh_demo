@@ -2,7 +2,7 @@
     <!-- button to create course  -->
     <div class="w-4/5 bg-gray-100 m-5">
         <div class="mb-8">
-            <span class="text-blue-800 text-3xl font-black">{{__('My Courses')}}</span>
+            <span class="text-3xl font-black">{{__('My Courses')}}</span>
         </div>
 
         <!-- tabs -->
@@ -57,39 +57,32 @@
         @foreach($courses as $course)
         <div class="w-full flex mb-2 h-52 bg-white p-2">
             <div class="w-3/12 bg-gray-100 m-2 rounded">
-                <img src="{{ url('storage/app/'.$course->image)}}" alt="img">
+                <img class="w-full h-full" src="{{ asset('/storage/'.$course->image->image_path) }}" alt="img">
             </div>
             <div class="relative w-full">
                 <span class="px-2 bg-gray-100 rounded">
                     {{ $course->category->name }}
                 </span>
                 <div class="text-3xl">
-                    <a href="{{ route('courses.show',$course) }}">
+                    <a href="{{ route('my-courses.show', $course) }}">
                         {{ $course->title }}
                     </a>
                 </div>
                 <div class="font-thin text-gray-500">
-                    Created by:
-                    <span class="font-black text-black mr-2 ml-1">
-                        {{ $course->users }}
-                    </span>
-                    Created on:
-                    <span class="font-black text-black ml-1">
-                        {{ $course->created_at }}
-                    </span>
+                    {{ $course->pivot->completed_percentage }} {{ __('% Completed')}}
                 </div>
                 <div class="font-thin text-gray-500">
                     {{ $course->description }}
                 </div>
                 <div class=" absolute bottom-0">
                     <span class="mr-2">{{ $course->level->name }}</span>
-                    <span>00m 0s</span>
-                    <span>2 Lessons</span>
+                    <span>{{ $course->units->sum('duration') }}</span>
+                    <span>{{ $course->units->sum('lessons_count') }} {{ __('Lessons') }}</span>
                 </div>
                 <span class="absolute top-2 right-2 px-2 text-sm rounded text-sm">
                     Certification
                 </span>
-                <a class="absolute bottom-2 right-2 px-2 text-sm rounded text-sm border-2 border-blue-400 text-blue-400" href="#">
+                <a class="absolute bottom-2 right-2 px-2 text-sm rounded text-sm border-2 border-blue-400 text-blue-400" href="{{ route('my-courses.show', $course) }}">
                     {{ __('View') }}
                 </a>
 

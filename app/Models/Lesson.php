@@ -41,4 +41,9 @@ class Lesson extends Model
     {
         return $this->belongsTo(Unit::class);
     }
+
+    public function test()
+    {
+        return $this->hasOne(Test::class, 'id', 'lessonable_id');
+    }
 }

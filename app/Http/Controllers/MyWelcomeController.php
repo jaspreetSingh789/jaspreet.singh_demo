@@ -22,6 +22,6 @@ class MyWelcomeController extends Controller
         ]);
         $user->update($attributes);
 
-        return redirect()->route('login')->with('success', __('Sign up successful'));
+        return redirect()->route('login')->with('success', __('sign up successful'));
     }
 }

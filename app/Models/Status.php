@@ -10,5 +10,6 @@ class Status extends Model
 {
     use HasFactory, SoftDeletes;
 
-    const DRAFT = 'draft';
+    const DRAFT = 2;
+    const PUBLISHED = 1;
 }

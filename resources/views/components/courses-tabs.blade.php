@@ -5,6 +5,7 @@
 
     <a class="pl-20" href="{{ route('courses.assign.index',$course) }}">Trainers</a>
 
+    @if($course->status->name == 'published')
     <a class="pl-20" href="{{ route('courses.enroll.index',$course) }}">Users</a>
-
+    @endif
 </div>

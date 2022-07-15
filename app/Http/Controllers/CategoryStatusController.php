@@ -22,6 +22,6 @@ class CategoryStatusController extends Controller
         $category->update($attribute);
 
         return redirect()->route('categories.index')
-            ->with('success', __('Category status updated successfully.'));
+            ->with('success', __('category status updated successfully.'));
     }
 }

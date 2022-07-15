@@ -10,7 +10,7 @@
 
             <!-- dropdown to add trainer -->
             <div x-data="{ show:false}" @click.away="show = false">
-                <button @click="show = !show" class="px-5 py-2 bg-gray-500 text-white rounded w-40">{{ __('Enroll') }}</button>
+                <button @click="show = !show" class="px-5 py-2 bg-gray-500 text-white rounded w-40">{{ __('Add Users') }}</button>
                 <div x-show=" show" class="absolute bg-gray-200 w-40">
                     <form action="{{ route('courses.enroll.store',$course) }}" method="post">
                         @csrf
@@ -48,9 +48,11 @@
             <table class="text-center w-full shadow-md">
                 <thead class="uppercase">
                     <tr class="bg-blue-100 p-10">
-                        <th class="py-5">{{__('User Name')}}</th>
-                        <th>{{__('id')}}</th>
-                        <th>{{__('action')}}</th>
+                        <th class="py-5">{{__('Name')}}</th>
+                        <th>{{__('Enrollment Date')}}</th>
+                        <th>{{__('Course Progress')}}</th>
+                        <th>{{__('Status')}}</th>
+                        <th>{{__('')}}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -59,7 +61,9 @@
                     @foreach($enrolledUsers as $enrolledUser)
                     <tr class="border border-b-2 border-black-700">
                         <td class="p-5">{{ $enrolledUser->full_name }}</td>
+                        <td> {{ $enrolledUser->id }}</td>
                         <td> {{ $enrolledUser->id }} </td>
+                        <td> {{ $enrolledUser->status == 1 ? 'Active' : 'Inactive' }} </td>
                         <td>
                             <form action="{{ route('courses.user.destroy',$course) }}" method="post">
                                 @csrf

@@ -14,8 +14,10 @@
                     <form action="{{ route('users.courses.store',$user) }}" method="post">
                         @csrf
                         @foreach($unenrolledCourses as $unenrolledCourse)
+                        @if($unenrolledCourse->status->name == 'published')
                         <input type="checkbox" name="courseIds[]" value="{{ $unenrolledCourse->id }}" id="course">
                         <label class="w-10/12 inline-block hover:bg-gray-400 text-left px-3 py-1" for="course">{{ $unenrolledCourse->title }}</label><br>
+                        @endif
                         @endforeach
 
                         <button class="bg-gray-100 w-full hover:bg-gray-400 text-left px-3 py-1" type="submit">Add</button>
